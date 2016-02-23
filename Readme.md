@@ -2,17 +2,13 @@
 
 <p>An easy to use view pager library for iOS in Swift based on UIPageViewController and Scroll View along with multiple customization options and tap as well as swipe gesture for changing between pages.</p>
 
-<h2 id="installation">Installation</h2>
 
-<hr>
+
+<h2 id="installation">Installation</h2>
 
 <p>Just add ViewPagerController.swift and ViewPagerOptions.swift file to your project.Both files are present inside ViewPager-Swift directory.</p>
 
-
-
 <h2 id="how-to-use">How to use</h2>
-
-<hr>
 
 <ol>
 <li>Customize your View Pager with the help of ViewPagerOptions class</li>
@@ -87,11 +83,7 @@
   <em>optional func didMoveToViewControllerAtIndex(index:Int)</em></p>
 </blockquote>
 
-
-
 <h2 id="customization">Customization</h2>
-
-<hr>
 
 <p>You can perform lots of customization. If you want to look under the hoods, all the <strong>public variables</strong> inside ViewPagerOptions.swift file is customizable.</p>
 
@@ -192,8 +184,6 @@ Height for tab, Default is 50</p>
 <blockquote>
   <p>viewPagerTransitionStyle:UIPageViewControllerTransitionStyle?</p>
 </blockquote>
-
-
 
 <h2 id="license">License</h2>
 
