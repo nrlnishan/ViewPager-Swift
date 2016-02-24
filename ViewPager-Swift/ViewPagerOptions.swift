@@ -17,36 +17,34 @@ protocol ViewPagerOptionsDataSource
 
 class ViewPagerOptions
 {
-    var dataSource:ViewPagerOptionsDataSource?
+    var dataSource:ViewPagerOptionsDataSource!
     
     //MARK: Booleans 
     
-    var isTabViewHighlightAvailable:Bool?
-    var isTabIndicatorViewAvailable:Bool?
-    var isEachTabEvenlyDistributed: Bool?
-    var fitAllTabsInView:Bool?
+    var isTabViewHighlightAvailable:Bool!
+    var isTabIndicatorViewAvailable:Bool!
+    var isEachTabEvenlyDistributed: Bool!
+    var fitAllTabsInView:Bool!
     
     //MARK: Tab View Properties
     
-    var tabViewHeight:CGFloat?
+    var tabViewHeight:CGFloat!
     var tabViewWidth:CGFloat?
-    var tabViewBackgroundColor:UIColor?
-    var tabViewHighlightColor:UIColor?
-    var tabViewTextColor:UIColor?
-    var tabViewTextHighlightColor:UIColor?
-    var tabLabelPaddingLeft:CGFloat?
-    var tabLabelPaddingRight:CGFloat?
+    var tabViewBackgroundColor:UIColor!
+    var tabViewHighlightColor:UIColor!
+    var tabViewTextColor:UIColor!
+    var tabViewTextHighlightColor:UIColor!
+    var tabLabelPaddingLeft:CGFloat!
+    var tabLabelPaddingRight:CGFloat!
     
     
     //MARK: Tab Indicator Properties
     
-    var tabIndicatorViewHeight:CGFloat?
-    var tabIndicatorViewBackgroundColor:UIColor?
+    var tabIndicatorViewHeight:CGFloat!
+    var tabIndicatorViewBackgroundColor:UIColor!
     
     //MARK: View Pager Properties
-    private var viewPagerHeight:CGFloat?
-    private var viewPagerWidth: CGFloat?
-    var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle?
+    var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle!
     
     
     //MARK: View Pager Internal Methods
@@ -95,7 +93,7 @@ class ViewPagerOptions
     func setExtraDefaults()
     {
         //width of tabView is automatically width of view pager
-        tabViewWidth = dataSource!.viewWidth()
+        tabViewWidth = dataSource.viewWidth()
     }
     
     /*

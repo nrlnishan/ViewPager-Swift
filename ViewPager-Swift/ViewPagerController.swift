@@ -33,9 +33,9 @@ import UIKit
 
 class ViewPagerController: UIViewController {
     
-    var dataSource : ViewPagerControllerDataSource?
+    var dataSource : ViewPagerControllerDataSource!
     var delegate : ViewPagerControllerDelegate?
-    var options: ViewPagerOptions?
+    var options: ViewPagerOptions!
    
     private var pageViewController: UIPageViewController?
     private var tabView:UIScrollView?
@@ -51,13 +51,13 @@ class ViewPagerController: UIViewController {
         super.viewDidLoad()
         
         //Setting up View Pager Options
-        options!.dataSource = self
-        options!.setExtraDefaults()
+        options.dataSource = self
+        options.setExtraDefaults()
         
         //Creating Tab View
-        tabView = UIScrollView(frame: CGRect(x: 0, y: 0, width: options!.tabViewWidth!, height: options!.tabViewHeight!))
+        tabView = UIScrollView(frame: CGRect(x: 0, y: 0, width: options.tabViewWidth!, height: options.tabViewHeight))
         
-        tabView!.backgroundColor = options!.tabViewBackgroundColor
+        tabView!.backgroundColor = options.tabViewBackgroundColor
         tabView!.scrollEnabled = true
         tabView!.pagingEnabled = true
         tabView!.showsHorizontalScrollIndicator = false
@@ -86,10 +86,10 @@ class ViewPagerController: UIViewController {
     private func setupPageTitle()
     {
         let titles = dataSource!.pageTitles()
-        let labelHeight = options!.tabViewHeight!
+        let labelHeight = options.tabViewHeight
         
         
-        if options!.fitAllTabsInView!
+        if options.fitAllTabsInView!
         {
             let viewWidth = self.view.bounds.width
             let eachLabelWidth = viewWidth / CGFloat(titles.count)
@@ -98,7 +98,7 @@ class ViewPagerController: UIViewController {
             for eachTitle in titles
             {
                 let label = UILabel()
-                label.textColor = options!.tabViewTextColor!
+                label.textColor = options.tabViewTextColor
                 label.text = eachTitle
                 label.textAlignment = .Center
                 label.frame = CGRectMake(totalWidth, 0, eachLabelWidth, labelHeight)
@@ -112,17 +112,17 @@ class ViewPagerController: UIViewController {
         else
         {
         
-        let leftPadding = options!.tabLabelPaddingLeft!
-        let rightPadding = options!.tabLabelPaddingRight!
+        let leftPadding = options.tabLabelPaddingLeft
+        let rightPadding = options.tabLabelPaddingRight
         
-        let isEvenlyDistributed = options!.isEachTabEvenlyDistributed!
+        let isEvenlyDistributed = options.isEachTabEvenlyDistributed!
         
         var totalWidth:CGFloat = 0.0
         
         for eachTitle in titles
         {
             let label = UILabel()
-            label.textColor = options!.tabViewTextColor
+            label.textColor = options.tabViewTextColor
             label.text = eachTitle
             var labelWidth = label.intrinsicContentSize().width
             labelWidth += leftPadding + rightPadding
@@ -184,11 +184,11 @@ class ViewPagerController: UIViewController {
     
     private func createPageViewController()
     {
-        pageViewController = UIPageViewController(transitionStyle: options!.viewPagerTransitionStyle!, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
+        pageViewController = UIPageViewController(transitionStyle: options.viewPagerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
         pageViewController!.dataSource = self
         pageViewController!.delegate = self
         
-        pageViewController!.view.frame = CGRectMake(0, options!.tabViewHeight!, options!.getViewPagerWidth(), options!.getViewPagerHeight())
+        pageViewController!.view.frame = CGRectMake(0, options.tabViewHeight, options.getViewPagerWidth(), options.getViewPagerHeight())
         
         if dataSource!.numberOfPages() > 0
         {
@@ -232,21 +232,21 @@ class ViewPagerController: UIViewController {
             tabIndicatorView?.removeFromSuperview()
         }
         
-        if options!.isTabViewHighlightAvailable!
+        if options.isTabViewHighlightAvailable!
         {
-            titleLabelArr[previousIndex].backgroundColor = options!.tabViewBackgroundColor!
-            titleLabelArr[currentIndex].backgroundColor = options!.tabViewHighlightColor!
+            titleLabelArr[previousIndex].backgroundColor = options.tabViewBackgroundColor
+            titleLabelArr[currentIndex].backgroundColor = options.tabViewHighlightColor
         }
         
-        titleLabelArr[previousIndex].textColor = options!.tabViewTextColor!
-        titleLabelArr[currentIndex].textColor = options!.tabViewTextHighlightColor!
+        titleLabelArr[previousIndex].textColor = options.tabViewTextColor
+        titleLabelArr[currentIndex].textColor = options.tabViewTextHighlightColor
         currentPageIndex = currentIndex
         
         var width = CGFloat(0)
-        let height = options!.tabIndicatorViewHeight!
+        let height = options.tabIndicatorViewHeight
         
         //If tabs are evenly distributed
-        if options!.isEachTabEvenlyDistributed!
+        if options.isEachTabEvenlyDistributed!
         {
             width = getMaximumWidth(titleLabelWidthArr)
             
@@ -256,12 +256,12 @@ class ViewPagerController: UIViewController {
             width = titleLabelWidthArr[currentIndex]
         }
         
-        let yPosition = options!.tabViewHeight! - options!.tabIndicatorViewHeight!
+        let yPosition = options.tabViewHeight - options.tabIndicatorViewHeight
         var xPosition = CGFloat(0)
         
         for var i = 0; i < currentIndex; i++
         {
-            if !options!.isEachTabEvenlyDistributed!
+            if !options.isEachTabEvenlyDistributed!
             {
                 xPosition += titleLabelWidthArr[i]
             }
@@ -272,12 +272,12 @@ class ViewPagerController: UIViewController {
             
         }
         
-        if options!.isTabIndicatorViewAvailable!
+        if options.isTabIndicatorViewAvailable!
         {
             tabIndicatorView = UIView()
-            tabIndicatorView?.backgroundColor = options!.tabIndicatorViewBackgroundColor
+            tabIndicatorView?.backgroundColor = options.tabIndicatorViewBackgroundColor
             tabIndicatorView!.frame = CGRectMake(xPosition, yPosition, width, height)
-            tabIndicatorView!.backgroundColor = options!.tabIndicatorViewBackgroundColor
+            tabIndicatorView!.backgroundColor = options.tabIndicatorViewBackgroundColor
             tabView!.addSubview(tabIndicatorView!)
         }
         

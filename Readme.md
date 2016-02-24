@@ -100,81 +100,81 @@
 <p>Whether to highlight tab for current page or not, Default is false</p>
 
 <blockquote>
-  <p>isTabViewHighlightAvailable:Bool?</p>
+  <p>isTabViewHighlightAvailable:Bool</p>
 </blockquote>
 
 <p>Whether to display tab indicator or not, Default is true</p>
 
 <blockquote>
-  <p>isTabIndicatorViewAvailable:Bool?</p>
+  <p>isTabIndicatorViewAvailable:Bool</p>
 </blockquote>
 
 <p>Whether to distribute tabs of even width, If set to true, each tabs width will be equal to largest tab. Default is false.</p>
 
 <blockquote>
-  <p>isEachTabEvenlyDistributed:Bool?</p>
+  <p>isEachTabEvenlyDistributed:Bool</p>
 </blockquote>
 
 <p>Whether to fit all tabs in Screen or not. If set to true, all tabs are squeezed to fit inside frame of view pager.Default is false</p>
 
 <blockquote>
-  <p>fitAllTabsInView:Bool?</p>
+  <p>fitAllTabsInView:Bool</p>
 </blockquote>
 
 <p><strong>Tab View and Tab Indicator</strong> <br>
 Height for tab, Default is 50</p>
 
 <blockquote>
-  <p>tabViewHeight:CGFloat?</p>
+  <p>tabViewHeight:CGFloat</p>
 </blockquote>
 
 <p>Width for whole tab View, Default is size of viewpager frame</p>
 
 <blockquote>
-  <p>tabViewWidth:CGFloat?</p>
+  <p>tabViewWidth:CGFloat</p>
 </blockquote>
 
 <p>Background Color for whole tab View</p>
 
 <blockquote>
-  <p>tabViewBackgroundColor:UIColor?</p>
+  <p>tabViewBackgroundColor:UIColor</p>
 </blockquote>
 
 <p>Background Color for current tab. Only displays if isTabViewHighlightAvailable is set to true</p>
 
 <blockquote>
-  <p>tabViewHighlightColor:UIColor?</p>
+  <p>tabViewHighlightColor:UIColor</p>
 </blockquote>
 
 <p>Color for each page title </p>
 
 <blockquote>
-  <p>tabViewTextColor:UIColor?</p>
+  <p>tabViewTextColor:UIColor</p>
 </blockquote>
 
 <p>Color for text for current tab</p>
 
 <blockquote>
-  <p>tabViewTextHighlightColor:UIColor?</p>
+  <p>tabViewTextHighlightColor:UIColor</p>
 </blockquote>
 
 <p>Padding for each tab, Default is 10</p>
 
 <blockquote>
-  <p>tabLabelPaddingLeft:CGFloat? <br>
-  tabLabelPaddingRight:CGFloat?</p>
+  <p>tabLabelPaddingLeft:CGFloat <br>
+  tabLabelPaddingRight:CGFloat</p>
 </blockquote>
 
 <p>Height of tab indicator, Default is 3</p>
 
 <blockquote>
-  <p>tabIndicatorViewHeight:CGFloat?</p>
+  <p>tabIndicatorViewHeight:CGFloat</p>
 </blockquote>
 
 <p>Background Color for tab Indicator</p>
 
 <blockquote>
-  <p>tabIndicatorViewBackgroundColor:UIColor?</p>
+  <p>tabIndicatorViewBackgroundColor:UIColor</p>
 </blockquote>
 
 <p><strong>View Pager</strong></p>
@@ -182,14 +182,14 @@ Height for tab, Default is 50</p>
 <p>Transition style for each page, Default is scroll</p>
 
 <blockquote>
-  <p>viewPagerTransitionStyle:UIPageViewControllerTransitionStyle?</p>
+  <p>viewPagerTransitionStyle:UIPageViewControllerTransitionStyle</p>
 </blockquote>
 
 <h2 id="license">License</h2>
 
 <p>The MIT License (MIT)</p>
 
-<p>Copyright (c) [2016] [nrlnishan]</p>
+<p>Copyright (c) 2016 nrlnishan</p>
 
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy <br>
 of this software and associated documentation files (the “Software”), to deal <br>
