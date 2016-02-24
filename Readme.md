@@ -47,7 +47,7 @@ self.addChildViewController(viewPager)
 self.view.addSubView(viewPager.view)
 viewPager.didMoveToParentViewController(self)
 ```
-That's it.  Conform to **ViewPagerControllerDataSource** and you are good to go. If you want you can conform to **ViewPagerDelegate** to receive additional feedbacks.
+That's it.  Conform to **ViewPagerControllerDataSource** and you are good to go. If you want you can conform to **ViewPagerControllerDelegate** to receive additional feedbacks.
 
 **DataSource**
 
