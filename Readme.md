@@ -6,6 +6,11 @@ An easy to use view pager library for iOS in Swift based on UIPageViewController
 
 Just add ViewPagerController.swift and ViewPagerOptions.swift file to your project.Both files are present inside ViewPager-Swift directory.
 
+##Screenshots
+
+![Screenshot-without-tab-view-highlighted](/Screenshots/Screenshot-1.png?raw=true)
+![Screenshot-with-tab-view-highlighted](/Screenshots/Screenshot-2.png?raw=true)
+
 ##How to use##
 
 1. Customize your View Pager with the help of ViewPagerOptions class
@@ -13,7 +18,7 @@ Just add ViewPagerController.swift and ViewPagerOptions.swift file to your proje
 3. That's it
 
 1.
- During its initialization, default options are set for view pager. So just this single line is enough if you want to use default configuration
+ During its initialization, default options are set for view pager. So just this single line is enough if you want to use default configuration.
 ```
 let myOptions= ViewPagerOptions()
 ```
