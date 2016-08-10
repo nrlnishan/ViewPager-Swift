@@ -23,12 +23,12 @@ class ViewPagerOptions
     var isTabViewHighlightAvailable:Bool!
     var isTabIndicatorViewAvailable:Bool!
     var isEachTabEvenlyDistributed: Bool!
-    var fitAllTabsInView:Bool!
+    var fitAllTabsInView:Bool!                              /* Overrides isEachTabEvenlyDistributed */
     
     //MARK: Tab View Properties
     
     var tabViewHeight:CGFloat!
-    var tabViewWidth:CGFloat?
+    var tabViewWidth:CGFloat!
     var tabViewBackgroundDefaultColor:UIColor!
     var tabViewBackgroundHighlightColor:UIColor!
     var tabViewTextDefaultColor:UIColor!
@@ -49,7 +49,6 @@ class ViewPagerOptions
     /**
      Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is used as reference for
      ViewPager width and height.
-     - parameter view: UIView in which ViewPager is to be added as sub view.
      */
     init(inView view:UIView)
     {

@@ -50,11 +50,6 @@ class ViewPagerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        //Setting up View Pager Options
-        //        options.dataSource = self
-        //        options.setExtraDefaults()
-        
         //Creating Tab View
         
         tabView = UIScrollView(frame: CGRect(x: 0, y: 0, width: options.tabViewWidth!, height: options.tabViewHeight))
@@ -78,21 +73,6 @@ class ViewPagerController: UIViewController {
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewDict))
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewDict))
-        
-        /*
-         upcomingDrawView.frame = topVC!.view.frame
-         
-         topVC!.view.addSubview(upcomingDrawView)
-         
-         topVC!.view.addConstraintFromFormat("H:|-0-[v0]-0-|", views: upcomingDrawView)
-         topVC!.view.addConstraintFromFormat("V:|-0-[v0]-0-|", views: upcomingDrawView)
-         */
-        
-        
-        
-        
-        
-        
         
         setupPageTitle()
         createPageViewController()
@@ -169,7 +149,6 @@ class ViewPagerController: UIViewController {
             if isEvenlyDistributed
             {
                 let labelWidth = titleLabelWidthArr.maxElement()!
-                //let labelWidth = getMaximumWidth(titleLabelWidthArr)
                 
                 
                 for i in 0 ..< titleLabelArr.count
@@ -186,23 +165,6 @@ class ViewPagerController: UIViewController {
         }
         
     }
-    
-    
-//    
-//    private func getMaximumWidth(widthData:[CGFloat]) -> CGFloat
-//    {
-//        var maxmData = widthData[0]
-//        
-//        for data in widthData
-//        {
-//            if data > maxmData
-//            {
-//                maxmData = data
-//            }
-//        }
-//        
-//        return maxmData
-//    }
     
     
     //MARK: PageViewController Setup
@@ -274,7 +236,6 @@ class ViewPagerController: UIViewController {
         if options.isEachTabEvenlyDistributed!
         {
             width = titleLabelWidthArr.maxElement()!
-            //width = getMaximumWidth(titleLabelWidthArr)
             
         }
         else
@@ -364,10 +325,6 @@ extension ViewPagerController: UIPageViewControllerDelegate
         delegate?.willMoveToViewControllerAtIndex?(pageIndex)
         
     }
-    
-    
-    
-    
     
 }
 

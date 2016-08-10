@@ -19,7 +19,6 @@ class MainViewController: UIViewController {
         edgesForExtendedLayout = UIRectEdge.None
         self.title = "Awesome View pager"
         
-        
         let options = ViewPagerOptions(inView: self.view)
         options.isEachTabEvenlyDistributed = true
         options.isTabViewHighlightAvailable = true
@@ -28,12 +27,10 @@ class MainViewController: UIViewController {
         viewPager.options = options
         viewPager.dataSource = self
         viewPager.delegate = self
-        //viewPager.view.frame = self.view.frame
         
         self.addChildViewController(viewPager)
         self.view.addSubview(viewPager.view)
-        viewPager.didMoveToParentViewController(self)
-        
+        viewPager.didMoveToParentViewController(self)        
    }
     
 }
