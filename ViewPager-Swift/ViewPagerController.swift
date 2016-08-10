@@ -36,7 +36,7 @@ class ViewPagerController: UIViewController {
     var dataSource : ViewPagerControllerDataSource!
     var delegate : ViewPagerControllerDelegate?
     var options: ViewPagerOptions!
-   
+    
     private var pageViewController: UIPageViewController?
     private var tabView:UIScrollView?
     private var tabIndicatorView:UIView?
@@ -50,25 +50,49 @@ class ViewPagerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         //Setting up View Pager Options
-        options.dataSource = self
-        options.setExtraDefaults()
+        //        options.dataSource = self
+        //        options.setExtraDefaults()
         
         //Creating Tab View
-        tabView = UIScrollView(frame: CGRect(x: 0, y: 0, width: options.tabViewWidth!, height: options.tabViewHeight))
         
-        tabView!.backgroundColor = options.tabViewBackgroundColor
+        tabView = UIScrollView(frame: CGRect(x: 0, y: 0, width: options.tabViewWidth!, height: options.tabViewHeight))
+        tabView!.backgroundColor = options.tabViewBackgroundDefaultColor
         tabView!.scrollEnabled = true
         tabView!.pagingEnabled = true
         tabView!.showsHorizontalScrollIndicator = false
         tabView!.showsVerticalScrollIndicator = false
         
-        let tabViewTapGesture = UITapGestureRecognizer(target: self, action: "tabViewTapped:")
+        let tabViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewPagerController.tabViewTapped(_:)))
         tabViewTapGesture.numberOfTapsRequired = 1
         tabViewTapGesture.numberOfTouchesRequired = 1
         tabView!.addGestureRecognizer(tabViewTapGesture)
         
+        
+        tabView?.translatesAutoresizingMaskIntoConstraints = false
+        
         self.view.addSubview(tabView!)
+        
+        let viewDict:[String:UIView] = ["v0":self.tabView!]
+        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewDict))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewDict))
+        
+        /*
+         upcomingDrawView.frame = topVC!.view.frame
+         
+         topVC!.view.addSubview(upcomingDrawView)
+         
+         topVC!.view.addConstraintFromFormat("H:|-0-[v0]-0-|", views: upcomingDrawView)
+         topVC!.view.addConstraintFromFormat("V:|-0-[v0]-0-|", views: upcomingDrawView)
+         */
+        
+        
+        
+        
+        
+        
         
         setupPageTitle()
         createPageViewController()
@@ -79,10 +103,10 @@ class ViewPagerController: UIViewController {
     //MARK: Tab View Setup
     
     /*
-    Calculates each label sizes, Checks for isEachTabEvenlyDistributed boolean value
-    If true, lays out each labels of equal width else lays out each label width left
-    and right padding
-    */
+     Calculates each label sizes, Checks for isEachTabEvenlyDistributed boolean value
+     If true, lays out each labels of equal width else lays out each label width left
+     and right padding
+     */
     private func setupPageTitle()
     {
         let titles = dataSource!.pageTitles()
@@ -98,7 +122,7 @@ class ViewPagerController: UIViewController {
             for eachTitle in titles
             {
                 let label = UILabel()
-                label.textColor = options.tabViewTextColor
+                label.textColor = options.tabViewTextDefaultColor
                 label.text = eachTitle
                 label.textAlignment = .Center
                 label.frame = CGRectMake(totalWidth, 0, eachLabelWidth, labelHeight)
@@ -111,73 +135,74 @@ class ViewPagerController: UIViewController {
         }
         else
         {
-        
-        let leftPadding = options.tabLabelPaddingLeft
-        let rightPadding = options.tabLabelPaddingRight
-        
-        let isEvenlyDistributed = options.isEachTabEvenlyDistributed!
-        
-        var totalWidth:CGFloat = 0.0
-        
-        for eachTitle in titles
-        {
-            let label = UILabel()
-            label.textColor = options.tabViewTextColor
-            label.text = eachTitle
-            var labelWidth = label.intrinsicContentSize().width
-            labelWidth += leftPadding + rightPadding
-            label.textAlignment = .Center
             
-            if !isEvenlyDistributed
+            let leftPadding = options.tabLabelPaddingLeft
+            let rightPadding = options.tabLabelPaddingRight
+            
+            let isEvenlyDistributed = options.isEachTabEvenlyDistributed!
+            
+            var totalWidth:CGFloat = 0.0
+            
+            for eachTitle in titles
             {
-                label.frame = CGRectMake(totalWidth, 0, labelWidth, labelHeight)
-                tabView!.addSubview(label)
+                let label = UILabel()
+                label.textColor = options.tabViewTextDefaultColor
+                label.text = eachTitle
+                var labelWidth = label.intrinsicContentSize().width
+                labelWidth += leftPadding + rightPadding
+                label.textAlignment = .Center
+                
+                if !isEvenlyDistributed
+                {
+                    label.frame = CGRectMake(totalWidth, 0, labelWidth, labelHeight)
+                    tabView!.addSubview(label)
+                    
+                }
+                
+                titleLabelWidthArr.append(labelWidth)
+                titleLabelArr.append(label)
+                totalWidth += labelWidth
                 
             }
             
-            titleLabelWidthArr.append(labelWidth)
-            titleLabelArr.append(label)
-            totalWidth += labelWidth
-            
-        }
-        
-        //In case tabs are evenly distributed
-        if isEvenlyDistributed
-        {
-            let labelWidth = getMaximumWidth(titleLabelWidthArr)
-            
-            
-            for var i = 0; i < titleLabelArr.count; i++
+            //In case tabs are evenly distributed
+            if isEvenlyDistributed
             {
-                titleLabelArr[i].frame = CGRectMake(CGFloat(i) * labelWidth, 0, labelWidth, labelHeight)
-                tabView!.addSubview(titleLabelArr[i])
+                let labelWidth = titleLabelWidthArr.maxElement()!
+                //let labelWidth = getMaximumWidth(titleLabelWidthArr)
                 
+                
+                for i in 0 ..< titleLabelArr.count
+                {
+                    titleLabelArr[i].frame = CGRectMake(CGFloat(i) * labelWidth, 0, labelWidth, labelHeight)
+                    tabView!.addSubview(titleLabelArr[i])
+                    
+                }
+                totalWidth = labelWidth * CGFloat(titleLabelArr.count)
             }
-            totalWidth = labelWidth * CGFloat(titleLabelArr.count)
-        }
-        
-        tabView!.contentSize = CGSize(width: totalWidth, height: labelHeight)
-        
+            
+            tabView!.contentSize = CGSize(width: totalWidth, height: labelHeight)
+            
         }
         
     }
     
     
-    
-    private func getMaximumWidth(widthData:[CGFloat]) -> CGFloat
-    {
-        var maxmData = widthData[0]
-        
-        for data in widthData
-        {
-            if data > maxmData
-            {
-                maxmData = data
-            }
-        }
-        
-        return maxmData
-    }
+//    
+//    private func getMaximumWidth(widthData:[CGFloat]) -> CGFloat
+//    {
+//        var maxmData = widthData[0]
+//        
+//        for data in widthData
+//        {
+//            if data > maxmData
+//            {
+//                maxmData = data
+//            }
+//        }
+//        
+//        return maxmData
+//    }
     
     
     //MARK: PageViewController Setup
@@ -200,13 +225,13 @@ class ViewPagerController: UIViewController {
             let firstController = getPageItemViewController(currentPageIndex)!
             let startingViewControllers = [firstController]
             pageViewController!.setViewControllers(startingViewControllers, direction: .Forward, animated: false, completion: nil)
-         }
+        }
         
         self.addChildViewController(pageViewController!)
         self.view.addSubview(pageViewController!.view)
         self.pageViewController!.didMoveToParentViewController(self)
         
-       setupPageIndicator(currentPageIndex, previousIndex: currentPageIndex)
+        setupPageIndicator(currentPageIndex, previousIndex: currentPageIndex)
         
     }
     
@@ -234,11 +259,11 @@ class ViewPagerController: UIViewController {
         
         if options.isTabViewHighlightAvailable!
         {
-            titleLabelArr[previousIndex].backgroundColor = options.tabViewBackgroundColor
-            titleLabelArr[currentIndex].backgroundColor = options.tabViewHighlightColor
+            titleLabelArr[previousIndex].backgroundColor = options.tabViewBackgroundDefaultColor
+            titleLabelArr[currentIndex].backgroundColor = options.tabViewBackgroundHighlightColor
         }
         
-        titleLabelArr[previousIndex].textColor = options.tabViewTextColor
+        titleLabelArr[previousIndex].textColor = options.tabViewTextDefaultColor
         titleLabelArr[currentIndex].textColor = options.tabViewTextHighlightColor
         currentPageIndex = currentIndex
         
@@ -248,7 +273,8 @@ class ViewPagerController: UIViewController {
         //If tabs are evenly distributed
         if options.isEachTabEvenlyDistributed!
         {
-            width = getMaximumWidth(titleLabelWidthArr)
+            width = titleLabelWidthArr.maxElement()!
+            //width = getMaximumWidth(titleLabelWidthArr)
             
         }
         else
@@ -259,7 +285,7 @@ class ViewPagerController: UIViewController {
         let yPosition = options.tabViewHeight - options.tabIndicatorViewHeight
         var xPosition = CGFloat(0)
         
-        for var i = 0; i < currentIndex; i++
+        for i in 0 ..< currentIndex
         {
             if !options.isEachTabEvenlyDistributed!
             {
@@ -291,13 +317,16 @@ class ViewPagerController: UIViewController {
         
         let labelViews = tabView!.subviews
         
-        for var i = 0; i < labelViews.count; i++
+        for i in 0 ..< labelViews.count
         {
             if CGRectContainsPoint(labelViews[i].frame, tapLocation)
             {
-                setupPageIndicator(i, previousIndex: currentPageIndex)
-                displayChoosenViewController(i)
-                break;
+                if i != currentPageIndex
+                {
+                    setupPageIndicator(i, previousIndex: currentPageIndex)
+                    displayChoosenViewController(i)
+                    break;
+                }
             }
         }
     }
@@ -366,19 +395,6 @@ extension ViewPagerController: UIPageViewControllerDataSource
         return nil
         
     }
-
-}
-
-
-extension ViewPagerController: ViewPagerOptionsDataSource
-{
-    func viewHeight() -> CGFloat
-    {
-        return self.view.bounds.size.height
-    }
     
-    func viewWidth() -> CGFloat
-    {
-        return self.view.bounds.size.width
-    }
 }
+

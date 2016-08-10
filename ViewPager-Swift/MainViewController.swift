@@ -11,7 +11,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    var titles = ["COFFEE","DONUT","PIZZA"]
+    var titles = ["COFFEE","DONUT","PIZZA","FISH AND CHIPS","FRENCH FRIES"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,16 +20,15 @@ class MainViewController: UIViewController {
         self.title = "Awesome View pager"
         
         
-        let options = ViewPagerOptions()
-        options.isTabViewHighlightAvailable = false
-        options.fitAllTabsInView = true
+        let options = ViewPagerOptions(inView: self.view)
+        options.isEachTabEvenlyDistributed = true
         options.isTabViewHighlightAvailable = true
         
         let viewPager = ViewPagerController()
         viewPager.options = options
         viewPager.dataSource = self
         viewPager.delegate = self
-        viewPager.view.frame = self.view.frame
+        //viewPager.view.frame = self.view.frame
         
         self.addChildViewController(viewPager)
         self.view.addSubview(viewPager.view)

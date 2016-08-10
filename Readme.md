@@ -20,7 +20,7 @@ Just add ViewPagerController.swift and ViewPagerOptions.swift file to your proje
 1.
  During its initialization, default options are set for view pager. So just this single line is enough if you want to use default configuration.
 ```
-let myOptions= ViewPagerOptions()
+let myOptions= ViewPagerOptions(inView: self.view)
 ```
 
 For further customization,
@@ -44,8 +44,6 @@ myOptions.tabViewBackgroundColor = UIColor.redColor()
 let viewPager = ViewPagerController()
 viewPager.options = myOptions
 viewPager.dataSource = self
-//and let its frame be
-viewPager.view.frame = self.view.frame
 
 //Now let me add this to my viewcontroller
 self.addChildViewController(viewPager)
@@ -128,15 +126,15 @@ tabViewWidth:CGFloat
 ```
 Background Color for whole tab View
 ```
-tabViewBackgroundColor:UIColor
+tabViewBackgroundDefaultColor:UIColor
 ```
 Background Color for current tab. Only displays if isTabViewHighlightAvailable is set to true
 ```
-tabViewHighlightColor:UIColor
+tabViewBackgroundHighlightColor:UIColor
 ```
 Color for each page title 
 ```
-tabViewTextColor:UIColor
+tabViewTextDefaultColor:UIColor
 ```
 Color for text for current tab
 ```
