@@ -14,7 +14,7 @@ Just add ViewPagerController.swift and ViewPagerOptions.swift file to your proje
 ##How to use##
 
 1. Customize your View Pager with the help of ViewPagerOptions class
-2. Pass that options to ViewPagerController and set its frame and datasource
+2. Pass that options to ViewPagerController and set its datasource
 3. That's it
 
 1.
@@ -76,6 +76,7 @@ optional func startViewPagerAtIndex()->Int
 ```
 
 **Delegate**
+
 Let's set delegate
 ```
 viewPager.delegate = self
