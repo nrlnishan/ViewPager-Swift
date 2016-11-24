@@ -284,8 +284,9 @@ class ViewPagerController: UIViewController {
             {
                 if i != currentPageIndex
                 {
+                    let prev = currentPageIndex
                     setupPageIndicator(i, previousIndex: currentPageIndex)
-                    displayChoosenViewController(i)
+                    displayChoosenViewController(i, forward: i > prev)
                     break;
                 }
             }
@@ -293,10 +294,10 @@ class ViewPagerController: UIViewController {
     }
     
     
-    private func displayChoosenViewController(index:Int)
+    fileprivate func displayChoosenViewController(_ index:Int, forward: Bool)
     {
         let chosenViewController = getPageItemViewController(index)!
-        pageViewController!.setViewControllers([chosenViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+        pageViewController!.setViewControllers([chosenViewController], direction: forward ? .forward : .reverse, animated: true, completion: nil)
         
     }
     
