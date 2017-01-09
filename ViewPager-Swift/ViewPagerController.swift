@@ -26,7 +26,7 @@ import UIKit
     func pageTitles() -> [String]
     
     //Index of page which is to be displayed at first
-    optional func startViewPagerAtIndex()->Int    
+    optional func startViewPagerAtIndex()->Int
     
 }
 
@@ -221,10 +221,9 @@ class ViewPagerController: UIViewController {
     private func setupPageIndicator(currentIndex:Int,previousIndex:Int)
     {
         print("Current Index: \(currentIndex)  Previous Index: \(previousIndex)")
-        if previousIndex != currentIndex
-        {
-            tabIndicatorView?.removeFromSuperview()
-        }
+        
+        
+        tabIndicatorView?.removeFromSuperview()
         
         if options.isTabViewHighlightAvailable!
         {
@@ -262,7 +261,7 @@ class ViewPagerController: UIViewController {
             else
             {
                 xPosition += width
-            }            
+            }
         }
         
         if options.isTabIndicatorViewAvailable!
