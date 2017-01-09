@@ -11,6 +11,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    //var titles = ["COFFEE", "DONUT"]
     var titles = ["COFFEE","DONUT","PIZZA","FISH AND CHIPS","FRENCH FRIES"]
     
     override func viewDidLoad() {

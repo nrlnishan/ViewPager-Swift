@@ -26,8 +26,7 @@ import UIKit
     func pageTitles() -> [String]
     
     //Index of page which is to be displayed at first
-    optional func startViewPagerAtIndex()->Int
-    
+    optional func startViewPagerAtIndex()->Int    
     
 }
 
@@ -38,7 +37,7 @@ class ViewPagerController: UIViewController {
     var options: ViewPagerOptions!
     
     private var pageViewController: UIPageViewController?
-    private var tabView:UIScrollView?
+    private var tabView:UIScrollView!
     private var tabIndicatorView:UIView?
     
     private var titleLabelArr = [UILabel]()
@@ -46,38 +45,41 @@ class ViewPagerController: UIViewController {
     
     var currentPageIndex = 0
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Creating Tab View
-        
+        setupTabView()
+        setupPageTitle()
+        createPageViewController()
+    }
+    
+    
+    private func setupTabView()
+    {
+        // Creating TabView
         tabView = UIScrollView(frame: CGRect(x: 0, y: 0, width: options.tabViewWidth!, height: options.tabViewHeight))
-        tabView!.backgroundColor = options.tabViewBackgroundDefaultColor
-        tabView!.scrollEnabled = true
-        tabView!.pagingEnabled = true
-        tabView!.showsHorizontalScrollIndicator = false
-        tabView!.showsVerticalScrollIndicator = false
+        tabView.backgroundColor = options.tabViewBackgroundDefaultColor
+        tabView.scrollEnabled = true
+        tabView.pagingEnabled = true
+        tabView.showsHorizontalScrollIndicator = false
+        tabView.showsVerticalScrollIndicator = false
         
+        // Adding tapGesture
         let tabViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewPagerController.tabViewTapped(_:)))
         tabViewTapGesture.numberOfTapsRequired = 1
         tabViewTapGesture.numberOfTouchesRequired = 1
-        tabView!.addGestureRecognizer(tabViewTapGesture)
+        tabView.addGestureRecognizer(tabViewTapGesture)
         
-        
-        tabView?.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.view.addSubview(tabView!)
+        // Setting up VFL for orientation change
+        tabView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(tabView)
         
         let viewDict:[String:UIView] = ["v0":self.tabView!]
-        
+        let metrics:[String:CGFloat] = ["tabViewHeight":options.tabViewHeight]
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewDict))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewDict))
-        
-        setupPageTitle()
-        createPageViewController()
-        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v0(tabViewHeight)]", options: NSLayoutFormatOptions(), metrics: metrics, views: viewDict))
     }
+    
     
     
     //MARK: Tab View Setup
@@ -197,7 +199,9 @@ class ViewPagerController: UIViewController {
         
     }
     
-    
+    /**
+     Returns ViewController for each page for given index.
+     */
     private func getPageItemViewController(index: Int) -> UIViewController?
     {
         if index < dataSource!.numberOfPages()
@@ -211,9 +215,12 @@ class ViewPagerController: UIViewController {
     }
     
     
+    /**
+     Sets up tab highlight as well as tab indicator if available
+     */
     private func setupPageIndicator(currentIndex:Int,previousIndex:Int)
     {
-        
+        print("Current Index: \(currentIndex)  Previous Index: \(previousIndex)")
         if previousIndex != currentIndex
         {
             tabIndicatorView?.removeFromSuperview()
@@ -255,8 +262,7 @@ class ViewPagerController: UIViewController {
             else
             {
                 xPosition += width
-            }
-            
+            }            
         }
         
         if options.isTabIndicatorViewAvailable!
@@ -280,30 +286,30 @@ class ViewPagerController: UIViewController {
         
         for i in 0 ..< labelViews.count
         {
-            if CGRectContainsPoint(labelViews[i].frame, tapLocation)
+            if CGRectContainsPoint(labelViews[i].frame, tapLocation) && i != currentPageIndex
             {
-                if i != currentPageIndex
-                {
-                    setupPageIndicator(i, previousIndex: currentPageIndex)
-                    displayChoosenViewController(i)
-                    break;
-                }
+                setupPageIndicator(i, previousIndex: currentPageIndex)
+                displayChoosenViewController(i)
+                break;
             }
         }
     }
     
-    
+    /**
+     Displays ViewController of provided index
+     */
     private func displayChoosenViewController(index:Int)
     {
         let chosenViewController = getPageItemViewController(index)!
         pageViewController!.setViewControllers([chosenViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        
     }
     
     
 }
 
-//MARK: PageViewController Delegates
+/*----------------------------------
+ MARK:- PageViewController Delegates
+ -----------------------------------*/
 
 extension ViewPagerController: UIPageViewControllerDelegate
 {
@@ -328,7 +334,9 @@ extension ViewPagerController: UIPageViewControllerDelegate
     
 }
 
-//MARK: PageViewController Datasource
+/*----------------------------------
+ MARK:- PageViewController Datasource
+ -----------------------------------*/
 
 extension ViewPagerController: UIPageViewControllerDataSource
 {
