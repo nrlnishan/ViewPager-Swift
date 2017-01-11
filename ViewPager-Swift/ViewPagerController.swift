@@ -30,15 +30,16 @@ class ViewPagerController:UIViewController {
     
     fileprivate var pageViewController:UIPageViewController!
     fileprivate var tabContainer:UIScrollView!
-    fileprivate var tabIndicator:UIView?
     
     fileprivate var tabsList = [ViewPagerTab]()
     fileprivate var tabsViewList = [ViewPagerTabView]()
+    fileprivate lazy var tabIndicator = UIView()
     
     var dataSource:ViewPagerControllerDataSource!
     var delegate:ViewPagerControllerDelegate?
     var options:ViewPagerOptions!
     
+    var isIndicatorAdded = false
     var currentPageIndex = 0
     
     override func viewDidLoad() {
@@ -48,6 +49,10 @@ class ViewPagerController:UIViewController {
         setupTabs()
         createPageViewController()
     }
+    
+    /*--------------------------
+     MARK:- ViewPagerTab setup
+     ---------------------------*/
     
     fileprivate func setupTabContainerView() {
         
@@ -73,6 +78,21 @@ class ViewPagerController:UIViewController {
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(tabContainerYPosition)-[v0(tabViewHeight)]", options: NSLayoutFormatOptions(), metrics: metrics, views: viewDict))
     }
     
+    func tabContainerTapped(_ recognizer:UITapGestureRecognizer) {
+        
+        let tapLocation = recognizer.location(in: self.tabContainer)
+        let tabViewTapped =  tabContainer.hitTest(tapLocation, with: nil)
+        
+        let tabViewIndex = tabViewTapped?.tag
+        
+        if tabViewIndex != currentPageIndex {
+            
+            setupCurrentPageIndicator(currentIndex: tabViewIndex ?? 0, previousIndex: currentPageIndex)
+            displayViewController(atIndex: tabViewIndex ?? 0)
+        }
+        
+    }
+    
     
     fileprivate func setupTabs() {
         
@@ -93,17 +113,16 @@ class ViewPagerController:UIViewController {
                 tabView.frame = CGRect(x: xPosition, y: 0, width: eachLabelWidth, height: options.tabViewHeight)
                 tabView.setup(tab: eachTab, options: options, condition: ViewPagerTabView.SetupCondition.fitAllTabs)
                 
+                tabView.tag = index
                 tabsViewList.append(tabView)
                 tabContainer.addSubview(tabView)
             }
             
-            print("LOG: fitAllTabsInView: TRUE")
-        }
-        else
-        {
+        } else {
+            
             var maxWidth:CGFloat = 0
             
-            for eachTab in tabsList {
+            for (index,eachTab) in tabsList.enumerated() {
                 
                 let tabView = ViewPagerTabView()
                 let dummyFrame = CGRect(x: totalWidth, y: 0, width: 0, height: options.tabViewHeight)
@@ -117,16 +136,14 @@ class ViewPagerController:UIViewController {
                     tabContainer.addSubview(tabView)
                 }
                 
+                tabView.tag = index
                 tabsViewList.append(tabView)
                 totalWidth += tabView.frame.width
                 maxWidth = getMaximumWidth(maxWidth: maxWidth, withWidth: tabView.frame.width)
             }
             
-            
             // Incase each tabs are evenly distributed, width is the maximum width among view tabs
             if options.isEachTabEvenlyDistributed! {
-                
-                print("LOG: isEachTabEvenlyDistributed: TRUE ")
                 
                 for (index,eachTabView) in tabsViewList.enumerated() {
                     
@@ -139,7 +156,56 @@ class ViewPagerController:UIViewController {
             
             tabContainer.contentSize = CGSize(width: totalWidth, height: options.tabViewHeight)
             
-        } // Else end here
+        }
+    }
+    
+    /**
+     * Sets up indicator for the page if enabled in ViewPagerOption. This method shows either tabIndicator
+     * or Highlights current tab or both.
+     */
+    func setupCurrentPageIndicator(currentIndex: Int, previousIndex: Int) {
+        
+        if options.isTabHighlightAvailable! {
+            
+            tabsViewList[previousIndex].removeHighlight(options: options)
+            tabsViewList[currentIndex].addHighlight(options: options)
+        }
+        
+        self.currentPageIndex = currentIndex
+        
+        if options.isTabIndicatorAvailable! {
+            
+            let indicatorWidth = tabsViewList[currentIndex].frame.width
+            let indicatorHeight = options.tabIndicatorViewHeight!
+            let xPosition:CGFloat = tabsViewList[currentPageIndex].frame.origin.x
+            let yPosition = options.tabViewHeight - options.tabIndicatorViewHeight
+            
+            tabIndicator.backgroundColor = options.tabIndicatorViewBackgroundColor
+            
+            let dummyFrame = CGRect(x: xPosition, y: yPosition, width: 0, height: indicatorHeight)
+            let tabIndicatorFrame = CGRect(x: xPosition, y: yPosition, width: indicatorWidth, height: indicatorHeight)
+            
+            displayTabIndicator(newFrame: tabIndicatorFrame, oldFrame:dummyFrame)
+        }
+        
+    }
+    
+    func displayTabIndicator(newFrame:CGRect, oldFrame:CGRect) {
+        
+        if !isIndicatorAdded {
+            
+            tabIndicator.frame = oldFrame
+            tabContainer.addSubview(tabIndicator)
+            isIndicatorAdded = true
+        }
+        
+        tabContainer.scrollRectToVisible(newFrame, animated: true)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            
+            self.tabIndicator.frame = newFrame
+            self.tabIndicator.layoutIfNeeded()
+        })
         
     }
     
@@ -151,16 +217,11 @@ class ViewPagerController:UIViewController {
     
     
     
-    func tabContainerTapped(_ recognizer:UITapGestureRecognizer) {
-        
-        
-    }
     
     
-    
-    /*-------------------------------
-     MARK:- PageViewController Setup
-     -------------------------------*/
+    /*--------------------------------
+     MARK:- PageViewController Helpers
+     --------------------------------*/
     
     fileprivate func createPageViewController() {
         
@@ -185,10 +246,12 @@ class ViewPagerController:UIViewController {
         self.view.addSubview(pageViewController.view)
         self.pageViewController.didMove(toParentViewController: self)
         
+        setupCurrentPageIndicator(currentIndex: currentPageIndex, previousIndex: currentPageIndex)
+        
     }
     
     /**
-     Returns UIViewController for page at provided index.
+     * Returns UIViewController for page at provided index.
      */
     fileprivate func getPageItemViewController(atIndex index:Int) -> UIViewController? {
         
@@ -202,6 +265,14 @@ class ViewPagerController:UIViewController {
         return nil
     }
     
+    /**
+     * Sets the visible view controller with the view controller at provided index.
+     */
+    fileprivate func displayViewController(atIndex index:Int) {
+        
+        let chosenViewController = getPageItemViewController(atIndex: index)!
+        pageViewController!.setViewControllers([chosenViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil)
+    }
     
     
     
@@ -211,6 +282,15 @@ class ViewPagerController:UIViewController {
 }
 
 extension ViewPagerController: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        
+    }
+    
     
 }
 

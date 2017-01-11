@@ -121,6 +121,16 @@ class ViewPagerOptionsNew {
     
     
     
+    /*
+     let r = arc4random_uniform(2) + 1
+     
+     self.backgroundColor = (r == 1) ? UIColor.white : options.tabViewBackgroundDefaultColor
+     
+     print("LOG: TabViewFrame: \(self.frame)")
+     print("LOG: ImageViewFrame: \(imageView?.frame)")
+     print("\n")
+     */
+
     
     
     

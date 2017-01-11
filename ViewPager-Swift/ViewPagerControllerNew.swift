@@ -185,8 +185,8 @@ import UIKit
      
      if options.isTabViewHighlightAvailable!
      {
-     titleLabelArr[previousIndex].backgroundColor = options.tabViewBackgroundDefaultColor
-     titleLabelArr[currentIndex].backgroundColor = options.tabViewBackgroundHighlightColor
+         titleLabelArr[previousIndex].backgroundColor = options.tabViewBackgroundDefaultColor
+         titleLabelArr[currentIndex].backgroundColor = options.tabViewBackgroundHighlightColor
      }
      
      titleLabelArr[previousIndex].textColor = options.tabViewTextDefaultColor
@@ -199,12 +199,11 @@ import UIKit
      //If tabs are evenly distributed
      if options.isEachTabEvenlyDistributed!
      {
-     width = titleLabelWidthArr.max()!
-     
+         width = titleLabelWidthArr.max()!
      }
      else
      {
-     width = titleLabelWidthArr[currentIndex]
+         width = titleLabelWidthArr[currentIndex]
      }
      
      let yPosition = options.tabViewHeight - options.tabIndicatorViewHeight
@@ -212,23 +211,23 @@ import UIKit
      
      for i in 0 ..< currentIndex
      {
-     if !options.isEachTabEvenlyDistributed!
-     {
-     xPosition += titleLabelWidthArr[i]
-     }
-     else
-     {
-     xPosition += width
-     }
+         if !options.isEachTabEvenlyDistributed!
+         {
+             xPosition += titleLabelWidthArr[i]
+         }
+         else
+         {
+             xPosition += width
+         }
      }
      
      if options.isTabIndicatorViewAvailable!
      {
-     tabIndicatorView = UIView()
-     tabIndicatorView?.backgroundColor = options.tabIndicatorViewBackgroundColor
-     tabIndicatorView!.frame = CGRect(x: xPosition, y: yPosition, width: width, height: height!)
-     tabIndicatorView!.backgroundColor = options.tabIndicatorViewBackgroundColor
-     tabView!.addSubview(tabIndicatorView!)
+         tabIndicatorView = UIView()
+         tabIndicatorView?.backgroundColor = options.tabIndicatorViewBackgroundColor
+         tabIndicatorView!.frame = CGRect(x: xPosition, y: yPosition, width: width, height: height!)
+         tabIndicatorView!.backgroundColor = options.tabIndicatorViewBackgroundColor
+         tabView!.addSubview(tabIndicatorView!)
      }
      
      tabView!.scrollRectToVisible(CGRect(x: xPosition, y: yPosition, width: width, height: height!), animated: true)
@@ -237,19 +236,19 @@ import UIKit
  
  func tabViewTapped(_ sender: UITapGestureRecognizer)
  {
- let tapLocation = sender.location(in: self.tabView!)
- 
- let labelViews = tabView!.subviews
- 
- for i in 0 ..< labelViews.count
- {
- if labelViews[i].frame.contains(tapLocation) && i != currentPageIndex
- {
- setupPageIndicator(i, previousIndex: currentPageIndex)
- displayChoosenViewController(i)
- break;
- }
- }
+     let tapLocation = sender.location(in: self.tabView!)
+     
+     let labelViews = tabView!.subviews
+     
+     for i in 0 ..< labelViews.count
+     {
+         if labelViews[i].frame.contains(tapLocation) && i != currentPageIndex
+         {
+             setupPageIndicator(i, previousIndex: currentPageIndex)
+             displayChoosenViewController(i)
+             break;
+         }
+     }
  }
  
  /**

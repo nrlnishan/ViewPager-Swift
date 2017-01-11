@@ -33,7 +33,6 @@ class MainViewController: UIViewController {
         options.isEachTabEvenlyDistributed = true
         options.tabViewImageSize = CGSize(width: 20, height: 20)
         options.tabViewTextFont = UIFont.systemFont(ofSize: 14)
-        //options.isEachTabEvenlyDistributed = true
         
         /*
          3 CASE

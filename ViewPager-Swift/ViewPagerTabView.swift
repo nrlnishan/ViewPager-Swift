@@ -19,15 +19,6 @@ class ViewPagerTabView: UIView {
     var titleLabel:UILabel?
     var imageView:UIImageView?
     
-    let r = arc4random_uniform(2) + 1
-    /*
-     self.backgroundColor = (r == 1) ? UIColor.white : options.tabViewBackgroundDefaultColor
-     
-     print("LOG: TabViewFrame: \(self.frame)")
-     print("LOG: ImageViewFrame: \(imageView?.frame)")
-     print("\n")
-     */
-    
     /*--------------------------
      MARK:- Initialization
      ---------------------------*/
@@ -64,9 +55,9 @@ class ViewPagerTabView: UIView {
     /**
      * Creates tab containing only one label with provided options and add it as subview to this view.
      *
-     * Case FitAllTabs: Creates a tabview of provided width. Do not consider the padding provided from options.
+     * Case FitAllTabs: Creates a tabview of provided width. Does not consider the padding provided from ViewPagerOptions.
      *
-     * Case DistributeNormally: Creates a tabview. Width is calculated from title intrinsic size. Considers the padding
+     * Case DistributeNormally: Creates a tabview. Width is calculated from title intrinsic size. Considers the padding 
      * provided from options too.
      */
     fileprivate func setupBasicTab(condition:SetupCondition, options:ViewPagerOptions, tab:ViewPagerTab) {
@@ -83,23 +74,30 @@ class ViewPagerTabView: UIView {
             buildTitleLabel(withOptions: options, text: tab.title)
             
             // Resetting TabView frame again with the new width
-            var labelWidth = titleLabel!.intrinsicContentSize.width + options.tabViewPaddingLeft + options.tabViewPaddingRight
-            
             let currentFrame = self.frame
+            let labelWidth = titleLabel!.intrinsicContentSize.width + options.tabViewPaddingLeft + options.tabViewPaddingRight
             let newFrame = CGRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: labelWidth, height: currentFrame.height)
             self.frame = newFrame
             
             // Setting TitleLabel frame
             titleLabel?.frame = CGRect(x: 0, y: 0, width: labelWidth, height: currentFrame.height)
-            
         }
         
         self.addSubview(titleLabel!)
     }
     
-    
+    /**
+     * Creates tab containing image or image with text. And adds it as subview to this view.
+     *
+     * Case FitAllTabs: Creates a tabview of provided width. Doesnot consider padding provided from ViewPagerOptions.
+     * ImageView is centered inside tabview if tab type is Image only. Else image margin are used to calculate the position
+     * in case of tab type ImageWithText.
+     *
+     * Case DistributeNormally: Creates a tabView. Width is automatically calculated either from imagesize or text whichever 
+     * is larger. ImageView is centered inside tabview with provided paddings if tab type is Image only. Considers both padding
+     * and image margin incase tab type is ImageWithText.
+     */
     fileprivate func setupImageTab(condition:SetupCondition, withText:Bool, options:ViewPagerOptions, tab:ViewPagerTab) {
-        
         
         let imageSize = options.tabViewImageSize!
         
@@ -122,19 +120,12 @@ class ViewPagerTabView: UIView {
                 let textHeight:CGFloat = options.tabViewHeight - yTextPosition - options.tabIndicatorViewHeight
                 
                 // Creating image view
-                imageView = UIImageView()
-                imageView?.contentMode = .scaleAspectFit
-                imageView?.image = tab.image
+                buildImageView(withOptions: options, image: tab.image)
                 imageView?.frame = CGRect(x: xImagePosition, y: yImagePosition, width: imageSize.width, height: imageSize.height)
                 
                 // Creating text label
-                titleLabel = UILabel()
-                titleLabel?.textAlignment = .center
-                titleLabel?.textColor = options.tabViewTextDefaultColor
-                titleLabel?.font = options.tabViewTextFont
-                titleLabel?.text = tab.title
+                buildTitleLabel(withOptions: options, text: tab.title)
                 titleLabel?.frame = CGRect(x: xTextPosition, y: yTextPosition, width: frame.size.width, height: textHeight)
-              
                 
                 self.addSubview(imageView!)
                 self.addSubview(titleLabel!)
@@ -146,12 +137,8 @@ class ViewPagerTabView: UIView {
                 let yPosition = ( tabHeight - imageSize.height ) / 2
                 
                 // Creating imageview
-                imageView = UIImageView()
-                imageView?.contentMode = .scaleAspectFit
-                imageView?.image = tab.image
+                buildImageView(withOptions: options, image: tab.image)
                 imageView?.frame = CGRect(x: xPosition, y: yPosition, width: imageSize.width, height: imageSize.height)
-                
-                
                 
                 self.addSubview(imageView!)
             }
@@ -161,19 +148,11 @@ class ViewPagerTabView: UIView {
             
             if withText {
                 
-                /* Width depends upon the size of imageView or the title label, whichever is larger. */
-                
                 // Creating image view
-                imageView = UIImageView()
-                imageView?.contentMode = .scaleAspectFit
-                imageView?.image = tab.image
+                buildImageView(withOptions: options, image: tab.image)
                 
                 // Creating text label
-                titleLabel = UILabel()
-                titleLabel?.textAlignment = .center
-                titleLabel?.textColor = options.tabViewTextDefaultColor
-                titleLabel?.font = options.tabViewTextFont
-                titleLabel?.text = tab.title
+                buildTitleLabel(withOptions: options, text: tab.title)
                 
                 // Resetting tabview frame again with the new width
                 let widthFromImage = imageSize.width + options.tabViewPaddingRight + options.tabViewPaddingLeft
@@ -194,29 +173,23 @@ class ViewPagerTabView: UIView {
                 let textHeight:CGFloat = options.tabViewHeight - yTextPosition - options.tabIndicatorViewHeight
                 titleLabel?.frame = CGRect(x: xTextPosition, y: yTextPosition, width: tabWidth, height: textHeight)
                 
-               
-                
                 self.addSubview(imageView!)
                 self.addSubview(titleLabel!)
                 
             } else {
                 
                 // Creating imageview
-                imageView = UIImageView()
-                imageView?.contentMode = .scaleAspectFit
-                imageView?.image = tab.image
+                buildImageView(withOptions: options, image: tab.image)
                 
                 // Resetting TabView frame again with the new width
-                let tabWidth = imageSize.width + options.tabViewPaddingRight + options.tabViewPaddingLeft
-                
                 let currentFrame = self.frame
+                let tabWidth = imageSize.width + options.tabViewPaddingRight + options.tabViewPaddingLeft
                 let newFrame = CGRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: tabWidth, height: currentFrame.height)
                 self.frame = newFrame
                 
                 // Setting ImageView Frame
                 let xPosition = ( tabWidth - imageSize.width ) / 2
                 let yPosition = (options.tabViewHeight - imageSize.height ) / 2
-                
                 imageView?.frame = CGRect(x: xPosition, y: yPosition, width: imageSize.width, height: imageSize.height)
                 
                 self.addSubview(imageView!)
@@ -225,9 +198,30 @@ class ViewPagerTabView: UIView {
         
     }
     
+    /*--------------------------
+     MARK:- Helper Methods
+     ---------------------------*/
+    
+    fileprivate func buildTitleLabel(withOptions options:ViewPagerOptions, text:String) {
+        
+        titleLabel = UILabel()
+        titleLabel?.textAlignment = .center
+        titleLabel?.textColor = options.tabViewTextDefaultColor
+        titleLabel?.font = options.tabViewTextFont
+        titleLabel?.text = text
+    }
+    
+    fileprivate func buildImageView(withOptions options:ViewPagerOptions, image:UIImage?) {
+        
+        imageView = UIImageView()
+        imageView?.contentMode = .scaleAspectFit
+        imageView?.image = image
+    }
+    
+    
     /**
-     Updates the frame of the current tab view incase of EvenlyDistributedCondition. Also propagates those
-     changes to titleLabel and imageView based on ViewPagerTabType.
+     * Updates the frame of the current tab view incase of EvenlyDistributedCondition. Also propagates those
+     * changes to titleLabel and imageView based on ViewPagerTabType.
      */
     func updateFrame(atIndex index:Int, withWidth width:CGFloat, options:ViewPagerOptions) {
         
@@ -243,6 +237,7 @@ class ViewPagerTabView: UIView {
             
             // Updating frame for titleLabel
             titleLabel?.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
+            
             self.setNeedsUpdateConstraints()
             
         case .image:
@@ -267,31 +262,21 @@ class ViewPagerTabView: UIView {
             let textHeight:CGFloat = options.tabViewHeight - yTextPosition - options.tabIndicatorViewHeight
             titleLabel?.frame = CGRect(x: xTextPosition, y: yTextPosition, width: width, height: textHeight)
             
-
             self.setNeedsUpdateConstraints()
         }
-        
     }
     
-    /*--------------------------
-     MARK:- Helper Methods
-     ---------------------------*/
-    
-    func buildTitleLabel(withOptions options:ViewPagerOptions, text:String) {
+    func addHighlight(options:ViewPagerOptions) {
         
-        titleLabel = UILabel()
-        titleLabel?.textAlignment = .center
-        titleLabel?.textColor = options.tabViewTextDefaultColor
-        titleLabel?.font = options.tabViewTextFont
-        titleLabel?.text = text
+        self.backgroundColor = options.tabViewBackgroundHighlightColor
+        self.titleLabel?.textColor = options.tabViewTextHighlightColor
     }
     
-    func buildImageView(withOptions options:ViewPagerOptions, image:UIImage) {
+    func removeHighlight(options:ViewPagerOptions) {
         
-        imageView = UIImageView()
-        imageView?.contentMode = .scaleAspectFit
-        imageView?.image = image
+        self.backgroundColor = options.tabViewBackgroundDefaultColor
+        self.titleLabel?.textColor = options.tabViewTextDefaultColor
     }
-    
+
     
 }
