@@ -90,7 +90,6 @@ class ViewPagerController:UIViewController {
             setupCurrentPageIndicator(currentIndex: tabViewIndex ?? 0, previousIndex: currentPageIndex)
             displayViewController(atIndex: tabViewIndex ?? 0)
         }
-        
     }
     
     
@@ -155,7 +154,6 @@ class ViewPagerController:UIViewController {
             }
             
             tabContainer.contentSize = CGSize(width: totalWidth, height: options.tabViewHeight)
-            
         }
     }
     
@@ -187,7 +185,6 @@ class ViewPagerController:UIViewController {
             
             displayTabIndicator(newFrame: tabIndicatorFrame, oldFrame:dummyFrame)
         }
-        
     }
     
     func displayTabIndicator(newFrame:CGRect, oldFrame:CGRect) {
@@ -285,9 +282,18 @@ extension ViewPagerController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
+        if completed {
+            let pageIndex = pageViewController.viewControllers?.first?.view.tag
+            setupCurrentPageIndicator(currentIndex: pageIndex!, previousIndex: currentPageIndex)
+            delegate?.didMoveToControllerAtIndex?(pageIndex!)
+        }
+        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        
+        let pageIndex = pendingViewControllers.first?.view.tag
+        delegate?.willMoveToControllerAtIndex?(pageIndex!)
         
     }
     
