@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		303F13B61E236BE800DC6CCC /* ViewPagerTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303F13B51E236BE800DC6CCC /* ViewPagerTabView.swift */; };
+		307C49EE1E234559005C4F29 /* ViewPagerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307C49ED1E234559005C4F29 /* ViewPagerTab.swift */; };
+		30D3FEE71E2333800052B350 /* ViewPagerControllerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D3FEE61E2333800052B350 /* ViewPagerControllerNew.swift */; };
+		30D3FEE91E2333AA0052B350 /* ViewPagerOptionsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D3FEE81E2333AA0052B350 /* ViewPagerOptionsNew.swift */; };
 		5F7D16D01C6A1F80006B63C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D16CF1C6A1F80006B63C2 /* AppDelegate.swift */; };
 		5F7D16D51C6A1F80006B63C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F7D16D31C6A1F80006B63C2 /* Main.storyboard */; };
 		5F7D16D71C6A1F80006B63C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F7D16D61C6A1F80006B63C2 /* Assets.xcassets */; };
@@ -18,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		303F13B51E236BE800DC6CCC /* ViewPagerTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerTabView.swift; sourceTree = "<group>"; };
+		307C49ED1E234559005C4F29 /* ViewPagerTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerTab.swift; sourceTree = "<group>"; };
+		30D3FEE61E2333800052B350 /* ViewPagerControllerNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerControllerNew.swift; sourceTree = "<group>"; };
+		30D3FEE81E2333AA0052B350 /* ViewPagerOptionsNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerOptionsNew.swift; sourceTree = "<group>"; };
 		5F7D16CC1C6A1F80006B63C2 /* ViewPager-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ViewPager-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F7D16CF1C6A1F80006B63C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F7D16D41C6A1F80006B63C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -41,6 +49,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		307AB1F11E24CAEE00DA89CD /* ViewPager */ = {
+			isa = PBXGroup;
+			children = (
+				5F7D16E71C6A285C006B63C2 /* ViewPagerController.swift */,
+				5F7D16E91C6A286D006B63C2 /* ViewPagerOptions.swift */,
+				307C49ED1E234559005C4F29 /* ViewPagerTab.swift */,
+				303F13B51E236BE800DC6CCC /* ViewPagerTabView.swift */,
+			);
+			name = ViewPager;
+			sourceTree = "<group>";
+		};
 		5F7D16C31C6A1F80006B63C2 = {
 			isa = PBXGroup;
 			children = (
@@ -60,15 +79,16 @@
 		5F7D16CE1C6A1F80006B63C2 /* ViewPager-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				307AB1F11E24CAEE00DA89CD /* ViewPager */,
 				5F7D16CF1C6A1F80006B63C2 /* AppDelegate.swift */,
 				5F7D16D31C6A1F80006B63C2 /* Main.storyboard */,
 				5F7D16D61C6A1F80006B63C2 /* Assets.xcassets */,
 				5F7D16D81C6A1F80006B63C2 /* LaunchScreen.storyboard */,
 				5F7D16DB1C6A1F80006B63C2 /* Info.plist */,
 				5F7D16E31C6A226C006B63C2 /* MainViewController.swift */,
-				5F7D16E71C6A285C006B63C2 /* ViewPagerController.swift */,
-				5F7D16E91C6A286D006B63C2 /* ViewPagerOptions.swift */,
 				5F7D16EF1C6A3451006B63C2 /* ItemViewController.swift */,
+				30D3FEE61E2333800052B350 /* ViewPagerControllerNew.swift */,
+				30D3FEE81E2333AA0052B350 /* ViewPagerOptionsNew.swift */,
 			);
 			path = "ViewPager-Swift";
 			sourceTree = "<group>";
@@ -105,6 +125,8 @@
 				TargetAttributes = {
 					5F7D16CB1C6A1F80006B63C2 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 55Z2G9C58Y;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -144,10 +166,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30D3FEE91E2333AA0052B350 /* ViewPagerOptionsNew.swift in Sources */,
 				5F7D16F01C6A3451006B63C2 /* ItemViewController.swift in Sources */,
 				5F7D16D01C6A1F80006B63C2 /* AppDelegate.swift in Sources */,
 				5F7D16E41C6A226C006B63C2 /* MainViewController.swift in Sources */,
+				30D3FEE71E2333800052B350 /* ViewPagerControllerNew.swift in Sources */,
 				5F7D16E81C6A285C006B63C2 /* ViewPagerController.swift in Sources */,
+				303F13B61E236BE800DC6CCC /* ViewPagerTabView.swift in Sources */,
+				307C49EE1E234559005C4F29 /* ViewPagerTab.swift in Sources */,
 				5F7D16EA1C6A286D006B63C2 /* ViewPagerOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,10 +288,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				DEVELOPMENT_TEAM = 55Z2G9C58Y;
 				INFOPLIST_FILE = "ViewPager-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nishan.ViewPager-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -274,10 +302,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				DEVELOPMENT_TEAM = 55Z2G9C58Y;
 				INFOPLIST_FILE = "ViewPager-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nishan.ViewPager-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -6,106 +6,124 @@
 //  Copyright © 2016 Nishan. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Foundation
 
-class ViewPagerOptions
-{
-    // MARK: Private Properties
-    private var viewPagerHeight:CGFloat!
-    private var viewPagerWidth:CGFloat!
+class ViewPagerOptions {
     
-    var anchorView:UIView
+    fileprivate var viewPagerHeight:CGFloat!
+    fileprivate var viewPagerWidth:CGFloat!
     
-    //MARK: Booleans
-    var isTabViewHighlightAvailable:Bool!
-    var isTabIndicatorViewAvailable:Bool!
-    var isEachTabEvenlyDistributed: Bool!
-    var fitAllTabsInView:Bool!                              /* Overrides isEachTabEvenlyDistributed */
+    let viewPagerFrame:CGRect!
     
-    //MARK: Tab View Properties
-    var tabViewHeight:CGFloat!
-    var tabViewWidth:CGFloat!
+    // Tabs Customization
+    var tabType:ViewPagerTabType!
+    var isTabHighlightAvailable:Bool!
+    var isTabIndicatorAvailable:Bool!
     var tabViewBackgroundDefaultColor:UIColor!
     var tabViewBackgroundHighlightColor:UIColor!
     var tabViewTextDefaultColor:UIColor!
     var tabViewTextHighlightColor:UIColor!
-    var tabLabelPaddingLeft:CGFloat!
-    var tabLabelPaddingRight:CGFloat!
     
-    //MARK: Tab Indicator Properties
+    // Booleans
+    var isEachTabEvenlyDistributed:Bool!
+    var fitAllTabsInView:Bool!                  /* Overrides isEachTabEvenlyDistributed */
+    
+    // Tab Properties
+    var tabViewHeight:CGFloat!
+    var tabViewWidth:CGFloat!
+    var tabViewPaddingLeft:CGFloat!
+    var tabViewPaddingRight:CGFloat!
+    var tabViewTextFont:UIFont!
+    var tabViewImageSize:CGSize!
+    var tabViewImageMarginTop:CGFloat!
+    var tabViewImageMarginBottom:CGFloat!
+    
+    // Tab Indicator
     var tabIndicatorViewHeight:CGFloat!
     var tabIndicatorViewBackgroundColor:UIColor!
     
-    //MARK: View Pager Properties
+    // ViewPager
     var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle!
-    
+    var viewPagerPosition:CGPoint!
     
     /**
      Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is
      used as reference for ViewPager width and height.
      */
-    init(inView view:UIView)
-    {
-        self.anchorView = view
-        
+    init(viewPagerWithFrame frame:CGRect) {
+        self.viewPagerFrame = frame
         initDefaults()
     }
-   
-    /**
-     Initializes various properties to its default values
-    */
-    private func initDefaults()
-    {
-        //Tab View Defaults
-        self.tabViewHeight = 50
-        self.tabViewWidth = self.anchorView.bounds.size.width
+    
+    
+    fileprivate func initDefaults() {
         
-        //View Pager
-        self.viewPagerWidth = self.anchorView.bounds.size.width
-        self.viewPagerHeight = self.anchorView.bounds.size.height - tabViewHeight
+        // TabView
+        tabType = ViewPagerTabType.basic
+        
+        self.tabViewHeight = 50
+        self.tabViewWidth = viewPagerFrame.size.width
         
         self.tabViewBackgroundDefaultColor = Color.tabViewBackground
         self.tabViewBackgroundHighlightColor = Color.tabViewHighlight
         self.tabViewTextDefaultColor = Color.textDefault
         self.tabViewTextHighlightColor = Color.textHighlight
-            
-        self.isTabViewHighlightAvailable = false
+        
+        self.tabViewPaddingLeft = 10
+        self.tabViewPaddingRight = 10
+        
         self.isEachTabEvenlyDistributed = false
-        self.isTabIndicatorViewAvailable = true
+        self.isTabHighlightAvailable = false
+        self.isTabIndicatorAvailable = true
         self.fitAllTabsInView = false
         
-        //Tab Indicator View Defaults
+        self.tabViewTextFont = UIFont.systemFont(ofSize: 16)
+        self.tabViewImageSize = CGSize(width: 25, height: 25)
+        self.tabViewImageMarginTop = 5                                          // used incase of imageWithText
+        self.tabViewImageMarginBottom = 5                                       // used incase of imageWithText
+        
+        // ViewPager
+        self.viewPagerWidth = viewPagerFrame.size.width
+        self.viewPagerHeight = viewPagerFrame.size.height - tabViewHeight
+        self.viewPagerPosition = viewPagerFrame.origin
+        self.viewPagerTransitionStyle = UIPageViewControllerTransitionStyle.scroll
+        
+        // Tab Indicator
         self.tabIndicatorViewHeight = 3
         self.tabIndicatorViewBackgroundColor = Color.tabIndicator
-        
-        // Tab Label Defaults
-        self.tabLabelPaddingLeft = 10
-        self.tabLabelPaddingRight = 10
-        
-        //View Pager Defaults
-        self.viewPagerTransitionStyle = UIPageViewControllerTransitionStyle.Scroll
     }
     
-    // Getters
     
-    func getViewPagerHeight() -> CGFloat
-    {
+    /*--------------------------
+     MARK:- Helper Getters
+     ---------------------------*/
+    
+    func getViewPagerHeight() -> CGFloat {
         return self.viewPagerHeight
     }
     
-    func getViewPagerWidth() -> CGFloat
-    {
+    func getViewPagerWidth() -> CGFloat {
         return self.viewPagerWidth
     }
     
-    private struct Color
-    {
+    
+    
+    fileprivate struct Color {
+        
         static let tabViewBackground = UIColor(red: CGFloat(63.0/255.0), green: CGFloat(81.0/255), blue: CGFloat(181.0/255), alpha: 1.0)
         static let tabViewHighlight = UIColor(red: CGFloat(92.0/255.0), green: CGFloat(107.0/255.0), blue: CGFloat(192.0/255.0), alpha: 1.0)
         static let textDefault = UIColor(red: CGFloat(197.0/255.0), green: CGFloat(202.0/255.0), blue: CGFloat(233.0/255.0), alpha: 1.0)
-        static let textHighlight = UIColor.whiteColor()
+        static let textHighlight = UIColor.white
         static let tabIndicator = UIColor(red: CGFloat(239.0/255.0), green: CGFloat(83.0/255.0), blue: CGFloat(80.0/255.0), alpha: 1.0)
     }
     
+    /*
+     viewpager - or - y : 0
+     viewpager - ac - y : 0 + tabContainerHeight
+     
+     
+     
+     */
 }
+
