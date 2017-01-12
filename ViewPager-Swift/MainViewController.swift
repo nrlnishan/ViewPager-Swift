@@ -11,39 +11,51 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    //var titles = ["COFFEE", "DONUT"]
-    var titles = ["COFFEE","DONUT","PIZZA","FISH AND CHIPS","FRENCH FRIES"]
+    let tabs1 = [
+        ViewPagerTab(title: "Apple", image: UIImage(named: "apple")),
+        ViewPagerTab(title: "Carrot", image: UIImage(named: "carrot")),
+        ViewPagerTab(title: "Grapes", image: UIImage(named: "grapes")),
+        ViewPagerTab(title: "Lemon", image: UIImage(named: "lemon")),
+        ViewPagerTab(title: "Orange", image: UIImage(named: "orange")),
+        ViewPagerTab(title: "Strawberry", image: UIImage(named: "strawberry")),
+        ViewPagerTab(title: "Watermelon", image: UIImage(named: "watermelon"))
+    ]
+    
+    let tabs2 = [
+        ViewPagerTab(title: "Cheese", image: UIImage(named: "cheese")),
+        ViewPagerTab(title: "Cupcake", image: UIImage(named: "cupcake")),
+        ViewPagerTab(title: "Doughnut", image: UIImage(named: "doughnut")),
+        ViewPagerTab(title: "Fish", image: UIImage(named: "fish")),
+        ViewPagerTab(title: "Meat", image: UIImage(named: "meat")),
+        ViewPagerTab(title: "Milk", image: UIImage(named: "milk")),
+        ViewPagerTab(title: "Water", image: UIImage(named: "water"))
+    ]
     
     let tabs = [
-        ViewPagerTab(title: "COFFEE", image: UIImage(named: "tree1")),
-        ViewPagerTab(title: "DONUT", image: UIImage(named: "tree2")),
-        ViewPagerTab(title: "PIZZA", image: UIImage(named: "tree3")),
-        ViewPagerTab(title: "FISH AND CHIPS", image: UIImage(named: "tree1")),
-        ViewPagerTab(title: "FRENCH FRIES", image: UIImage(named: "tree2"))
+        ViewPagerTab(title: "Fries", image: UIImage(named: "fries")),
+        ViewPagerTab(title: "Hamburger", image: UIImage(named: "hamburger")),
+        ViewPagerTab(title: "Beer", image: UIImage(named: "pint")),
+        ViewPagerTab(title: "Pizza", image: UIImage(named: "pizza")),
+        ViewPagerTab(title: "Orange", image: UIImage(named: "orange")),
+        ViewPagerTab(title: "Sandwich", image: UIImage(named: "sandwich"))
     ]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        edgesForExtendedLayout = UIRectEdge()
+        self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
+        
         self.title = "Awesome View pager"
         
         let options = ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
         options.tabType = ViewPagerTabType.imageWithText
-        
+        //options.isEachTabEvenlyDistributed = true
         options.tabViewImageSize = CGSize(width: 20, height: 20)
-        options.tabViewTextFont = UIFont.systemFont(ofSize: 14)
+        options.tabViewTextFont = UIFont.systemFont(ofSize: 16)
         options.tabViewPaddingLeft = 20
         options.tabViewPaddingRight = 20
-        /*
-         3 CASE
-         
-         1. distributeNormally
-         2. distributeEvenly 
-         3. FitAllTabs
-         */
-        
-        
+        options.isTabHighlightAvailable = true
         
         let viewPager = ViewPagerController()
         viewPager.options = options
@@ -66,7 +78,7 @@ extension MainViewController: ViewPagerControllerDataSource {
     
     func viewControllerAtPosition(_ position:Int) -> UIViewController {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as! ItemViewController
-        vc.itemText = "Page \(titles[position])"
+        vc.itemText = "\(tabs[position].title!)"
         return vc
     }
     
@@ -78,11 +90,10 @@ extension MainViewController: ViewPagerControllerDataSource {
 extension MainViewController: ViewPagerControllerDelegate {
     
     func willMoveToControllerAtIndex(_ index:Int) {
-        print("Will Move To VC: \(index)")
+        print("Moving to page \(index)")
     }
     
     func didMoveToControllerAtIndex(_ index: Int) {
-        print("Did Move to VC: \(index) ")
+        print("Moved to page \(index)")
     }
-    
 }

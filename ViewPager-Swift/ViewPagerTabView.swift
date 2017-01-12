@@ -31,6 +31,9 @@ class ViewPagerTabView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /*--------------------------
+     MARK:- Tab Setup
+     ---------------------------*/
     
     /**
      Sets up tabview for ViewPager. The type of tabview is automatically obtained from
@@ -57,7 +60,7 @@ class ViewPagerTabView: UIView {
      *
      * Case FitAllTabs: Creates a tabview of provided width. Does not consider the padding provided from ViewPagerOptions.
      *
-     * Case DistributeNormally: Creates a tabview. Width is calculated from title intrinsic size. Considers the padding 
+     * Case DistributeNormally: Creates a tabview. Width is calculated from title intrinsic size. Considers the padding
      * provided from options too.
      */
     fileprivate func setupBasicTab(condition:SetupCondition, options:ViewPagerOptions, tab:ViewPagerTab) {
@@ -93,7 +96,7 @@ class ViewPagerTabView: UIView {
      * ImageView is centered inside tabview if tab type is Image only. Else image margin are used to calculate the position
      * in case of tab type ImageWithText.
      *
-     * Case DistributeNormally: Creates a tabView. Width is automatically calculated either from imagesize or text whichever 
+     * Case DistributeNormally: Creates a tabView. Width is automatically calculated either from imagesize or text whichever
      * is larger. ImageView is centered inside tabview with provided paddings if tab type is Image only. Considers both padding
      * and image margin incase tab type is ImageWithText.
      */
@@ -266,6 +269,7 @@ class ViewPagerTabView: UIView {
         }
     }
     
+    
     func addHighlight(options:ViewPagerOptions) {
         
         self.backgroundColor = options.tabViewBackgroundHighlightColor
@@ -277,6 +281,7 @@ class ViewPagerTabView: UIView {
         self.backgroundColor = options.tabViewBackgroundDefaultColor
         self.titleLabel?.textColor = options.tabViewTextDefaultColor
     }
+    
 
     
 }

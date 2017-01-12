@@ -24,5 +24,4 @@ class ViewPagerTab:NSObject {
         self.title = title
         self.image = image
     }
-    
 }

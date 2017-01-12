@@ -17,13 +17,17 @@ import UIKit
 
 @objc protocol ViewPagerControllerDataSource {
     
-    func numberOfPages() -> Int             // Number of pages to be displayed
+    // Number of pages to be displayed
+    func numberOfPages() -> Int
     
-    func viewControllerAtPosition(_ position:Int) -> UIViewController    // ViewController for required page position
+    // ViewController for required page position
+    func viewControllerAtPosition(_ position:Int) -> UIViewController
     
-    func tabsForPages() -> [ViewPagerTab]    // Tab structure of the pages
+    // Tab structure of the pages
+    func tabsForPages() -> [ViewPagerTab]
     
-    @objc optional func startViewPagerAtIndex()->Int        //ViewController to start from
+    //ViewController to start from
+    @objc optional func startViewPagerAtIndex()->Int
 }
 
 class ViewPagerController:UIViewController {
@@ -49,6 +53,7 @@ class ViewPagerController:UIViewController {
         setupTabs()
         createPageViewController()
     }
+    
     
     /*--------------------------
      MARK:- ViewPagerTab setup
@@ -90,6 +95,31 @@ class ViewPagerController:UIViewController {
             setupCurrentPageIndicator(currentIndex: tabViewIndex ?? 0, previousIndex: currentPageIndex)
             displayViewController(atIndex: tabViewIndex ?? 0)
         }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        DispatchQueue.main.async {
+            
+            if self.options.fitAllTabsInView! {
+                
+                let tabContainerWidth = self.tabContainer.frame.size.width
+                let tabViewWidth = tabContainerWidth / CGFloat (self.tabsList.count)
+                
+                if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
+                    
+                    for (index,eachTab ) in self.tabsViewList.enumerated() {
+                        
+                        eachTab.updateFrame(atIndex: index, withWidth: tabViewWidth, options: self.options)
+                    }
+                    
+                    self.tabContainer.contentSize = CGSize(width: tabContainerWidth, height: self.options.tabViewHeight)
+                }
+                
+                self.setupCurrentPageIndicator(currentIndex: self.currentPageIndex, previousIndex: self.currentPageIndex)
+            }
+        }
+        
     }
     
     
@@ -165,8 +195,11 @@ class ViewPagerController:UIViewController {
         
         if options.isTabHighlightAvailable! {
             
-            tabsViewList[previousIndex].removeHighlight(options: options)
-            tabsViewList[currentIndex].addHighlight(options: options)
+            self.tabsViewList[previousIndex].removeHighlight(options: self.options)
+            UIView.animate(withDuration: 0.8, animations: {
+                
+                self.tabsViewList[currentIndex].addHighlight(options: self.options)
+            })
         }
         
         self.currentPageIndex = currentIndex
@@ -183,28 +216,22 @@ class ViewPagerController:UIViewController {
             let dummyFrame = CGRect(x: xPosition, y: yPosition, width: 0, height: indicatorHeight)
             let tabIndicatorFrame = CGRect(x: xPosition, y: yPosition, width: indicatorWidth, height: indicatorHeight)
             
-            displayTabIndicator(newFrame: tabIndicatorFrame, oldFrame:dummyFrame)
+            if !isIndicatorAdded {
+                
+                tabIndicator.frame = dummyFrame
+                tabContainer.addSubview(tabIndicator)
+                isIndicatorAdded = true
+            }
+            
+            UIView.animate(withDuration: 0.5, animations: {
+                
+                self.tabContainer.scrollRectToVisible(tabIndicatorFrame, animated: false)
+                self.tabIndicator.frame = tabIndicatorFrame
+                self.tabIndicator.layoutIfNeeded()
+            })
         }
     }
     
-    func displayTabIndicator(newFrame:CGRect, oldFrame:CGRect) {
-        
-        if !isIndicatorAdded {
-            
-            tabIndicator.frame = oldFrame
-            tabContainer.addSubview(tabIndicator)
-            isIndicatorAdded = true
-        }
-        
-        tabContainer.scrollRectToVisible(newFrame, animated: true)
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            
-            self.tabIndicator.frame = newFrame
-            self.tabIndicator.layoutIfNeeded()
-        })
-        
-    }
     
     
     fileprivate func getMaximumWidth(maxWidth:CGFloat, withWidth currentWidth:CGFloat) -> CGFloat {
@@ -272,10 +299,6 @@ class ViewPagerController:UIViewController {
     }
     
     
-    
-    
-    
-    
 }
 
 extension ViewPagerController: UIPageViewControllerDelegate {
@@ -303,7 +326,7 @@ extension ViewPagerController: UIPageViewControllerDelegate {
 extension ViewPagerController:UIPageViewControllerDataSource {
     
     /**
-     ViewController the suer will navigate to in backward direction
+     ViewController the user will navigate to in backward direction
      */
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         

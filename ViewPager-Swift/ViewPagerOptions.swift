@@ -13,8 +13,7 @@ class ViewPagerOptions {
     
     fileprivate var viewPagerHeight:CGFloat!
     fileprivate var viewPagerWidth:CGFloat!
-    
-    let viewPagerFrame:CGRect!
+    fileprivate let viewPagerFrame:CGRect!
     
     // Tabs Customization
     var tabType:ViewPagerTabType!
@@ -48,14 +47,13 @@ class ViewPagerOptions {
     var viewPagerPosition:CGPoint!
     
     /**
-     Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is
-     used as reference for ViewPager width and height.
+     * Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is
+     * used as reference for ViewPager width and height.
      */
     init(viewPagerWithFrame frame:CGRect) {
         self.viewPagerFrame = frame
         initDefaults()
     }
-    
     
     fileprivate func initDefaults() {
         
@@ -94,7 +92,6 @@ class ViewPagerOptions {
         self.tabIndicatorViewBackgroundColor = Color.tabIndicator
     }
     
-    
     /*--------------------------
      MARK:- Helper Getters
      ---------------------------*/
@@ -107,23 +104,14 @@ class ViewPagerOptions {
         return self.viewPagerWidth
     }
     
-    
-    
     fileprivate struct Color {
         
-        static let tabViewBackground = UIColor(red: CGFloat(63.0/255.0), green: CGFloat(81.0/255), blue: CGFloat(181.0/255), alpha: 1.0)
-        static let tabViewHighlight = UIColor(red: CGFloat(92.0/255.0), green: CGFloat(107.0/255.0), blue: CGFloat(192.0/255.0), alpha: 1.0)
-        static let textDefault = UIColor(red: CGFloat(197.0/255.0), green: CGFloat(202.0/255.0), blue: CGFloat(233.0/255.0), alpha: 1.0)
+        static let tabViewBackground = UIColor(colorLiteralRed: 230.0/255.0, green: 230.0/255.0, blue: 220.0/255.0, alpha: 1.0)
+        static let tabViewHighlight = UIColor(colorLiteralRed: 129.0/255.0, green: 165.0/255.0, blue: 148.0/255.0, alpha: 1.0)
+        static let textDefault = UIColor.black
         static let textHighlight = UIColor.white
-        static let tabIndicator = UIColor(red: CGFloat(239.0/255.0), green: CGFloat(83.0/255.0), blue: CGFloat(80.0/255.0), alpha: 1.0)
+        static let tabIndicator = UIColor(colorLiteralRed: 255.0/255.0, green: 102.0/255.0, blue: 0.0/255.0, alpha: 1.0)
     }
     
-    /*
-     viewpager - or - y : 0
-     viewpager - ac - y : 0 + tabContainerHeight
-     
-     
-     
-     */
 }
 
