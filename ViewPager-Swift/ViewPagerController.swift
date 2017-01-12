@@ -257,9 +257,6 @@ class ViewPagerController:UIViewController {
     }
     
     
-    
-    
-    
     /*--------------------------------
      MARK:- PageViewController Helpers
      --------------------------------*/
@@ -314,7 +311,6 @@ class ViewPagerController:UIViewController {
         let chosenViewController = getPageItemViewController(atIndex: index)!
         pageViewController!.setViewControllers([chosenViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil)
     }
-    
     
 }
 

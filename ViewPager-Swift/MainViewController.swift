@@ -50,7 +50,6 @@ class MainViewController: UIViewController {
         
         let options = ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
         options.tabType = ViewPagerTabType.imageWithText
-        //options.isEachTabEvenlyDistributed = true
         options.tabViewImageSize = CGSize(width: 20, height: 20)
         options.tabViewTextFont = UIFont.systemFont(ofSize: 16)
         options.tabViewPaddingLeft = 20

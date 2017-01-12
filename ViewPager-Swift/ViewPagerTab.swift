@@ -2,7 +2,7 @@
 //  ViewPagerTab.swift
 //  ViewPager-Swift
 //
-//  Created by AndMine on 1/9/17.
+//  Created by Nishan on 1/9/17.
 //  Copyright © 2017 Nishan. All rights reserved.
 //
 

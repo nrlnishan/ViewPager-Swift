@@ -119,7 +119,6 @@
 				TargetAttributes = {
 					5F7D16CB1C6A1F80006B63C2 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 55Z2G9C58Y;
 						LastSwiftMigration = 0810;
 					};
 				};
@@ -280,7 +279,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
-				DEVELOPMENT_TEAM = 55Z2G9C58Y;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "ViewPager-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nishan.ViewPager-Swift";
@@ -294,7 +293,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
-				DEVELOPMENT_TEAM = 55Z2G9C58Y;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "ViewPager-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nishan.ViewPager-Swift";
