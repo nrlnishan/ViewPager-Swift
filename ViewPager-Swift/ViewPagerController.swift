@@ -34,17 +34,17 @@ class ViewPagerController:UIViewController {
     
     fileprivate var pageViewController:UIPageViewController!
     fileprivate var tabContainer:UIScrollView!
+    fileprivate lazy var tabIndicator = UIView()
     
     fileprivate var tabsList = [ViewPagerTab]()
     fileprivate var tabsViewList = [ViewPagerTabView]()
-    fileprivate lazy var tabIndicator = UIView()
+    
+    fileprivate var isIndicatorAdded = false
+    fileprivate var currentPageIndex = 0
     
     var dataSource:ViewPagerControllerDataSource!
     var delegate:ViewPagerControllerDelegate?
     var options:ViewPagerOptions!
-    
-    var isIndicatorAdded = false
-    var currentPageIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +56,12 @@ class ViewPagerController:UIViewController {
     
     
     /*--------------------------
-     MARK:- ViewPagerTab setup
+     MARK:- Viewpager tab setup
      ---------------------------*/
     
+    /**
+     * Prepares the container for holding all the tabviews.
+     */
     fileprivate func setupTabContainerView() {
         
         // Creating container for Tab View
@@ -77,52 +80,16 @@ class ViewPagerController:UIViewController {
         self.view.addSubview(tabContainer)
         
         let viewDict:[String:UIView] = ["v0":self.tabContainer!]
-        let metrics:[String:CGFloat] = ["tabViewHeight":options.tabViewHeight, "tabContainerYPosition":options.viewPagerPosition.y]
+        let metrics:[String:CGFloat] = ["tabViewHeight":options.tabViewHeight, "tabContainerYPosition":options.viewPagerPosition.y,"tabViewWidth":options.tabViewWidth]
         
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewDict))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v0(tabViewWidth)]-(>=0)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: viewDict))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(tabContainerYPosition)-[v0(tabViewHeight)]", options: NSLayoutFormatOptions(), metrics: metrics, views: viewDict))
     }
     
-    func tabContainerTapped(_ recognizer:UITapGestureRecognizer) {
-        
-        let tapLocation = recognizer.location(in: self.tabContainer)
-        let tabViewTapped =  tabContainer.hitTest(tapLocation, with: nil)
-        
-        let tabViewIndex = tabViewTapped?.tag
-        
-        if tabViewIndex != currentPageIndex {
-            
-            setupCurrentPageIndicator(currentIndex: tabViewIndex ?? 0, previousIndex: currentPageIndex)
-            displayViewController(atIndex: tabViewIndex ?? 0)
-        }
-    }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        DispatchQueue.main.async {
-            
-            if self.options.fitAllTabsInView! {
-                
-                let tabContainerWidth = self.tabContainer.frame.size.width
-                let tabViewWidth = tabContainerWidth / CGFloat (self.tabsList.count)
-                
-                if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
-                    
-                    for (index,eachTab ) in self.tabsViewList.enumerated() {
-                        
-                        eachTab.updateFrame(atIndex: index, withWidth: tabViewWidth, options: self.options)
-                    }
-                    
-                    self.tabContainer.contentSize = CGSize(width: tabContainerWidth, height: self.options.tabViewHeight)
-                }
-                
-                self.setupCurrentPageIndicator(currentIndex: self.currentPageIndex, previousIndex: self.currentPageIndex)
-            }
-        }
-        
-    }
-    
-    
+    /**
+     * Creates and adds each tabs according to the options provided in tabcontainer.
+     */
     fileprivate func setupTabs() {
         
         var totalWidth:CGFloat = 0
@@ -232,8 +199,58 @@ class ViewPagerController:UIViewController {
         }
     }
     
+    /*--------------------------
+     MARK:- Tab setup helpers
+     ---------------------------*/
     
+    /**
+     * Gesture recognizer for determining which tabview was tapped
+     */
+    func tabContainerTapped(_ recognizer:UITapGestureRecognizer) {
+        
+        let tapLocation = recognizer.location(in: self.tabContainer)
+        let tabViewTapped =  tabContainer.hitTest(tapLocation, with: nil)
+        
+        let tabViewIndex = tabViewTapped?.tag
+        
+        if tabViewIndex != currentPageIndex {
+            
+            setupCurrentPageIndicator(currentIndex: tabViewIndex ?? 0, previousIndex: currentPageIndex)
+            displayViewController(atIndex: tabViewIndex ?? 0)
+        }
+    }
     
+    /**
+     * Determines the orientation change and sets up the tab size and its indicator size accordingly.
+     */
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        DispatchQueue.main.async {
+            
+            if self.options.fitAllTabsInView! {
+                
+                let tabContainerWidth = self.tabContainer.frame.size.width
+                let tabViewWidth = tabContainerWidth / CGFloat (self.tabsList.count)
+                
+                if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
+                    
+                    for (index,eachTab ) in self.tabsViewList.enumerated() {
+                        
+                        eachTab.updateFrame(atIndex: index, withWidth: tabViewWidth, options: self.options)
+                    }
+                    
+                    self.tabContainer.contentSize = CGSize(width: tabContainerWidth, height: self.options.tabViewHeight)
+                }
+                
+                self.setupCurrentPageIndicator(currentIndex: self.currentPageIndex, previousIndex: self.currentPageIndex)
+            }
+        }
+        
+    }
+    
+    /**
+     * Determines maximum width between two provided value and returns it
+     */
     fileprivate func getMaximumWidth(maxWidth:CGFloat, withWidth currentWidth:CGFloat) -> CGFloat {
         
         return (maxWidth > currentWidth) ? maxWidth : currentWidth
@@ -326,7 +343,7 @@ extension ViewPagerController: UIPageViewControllerDelegate {
 extension ViewPagerController:UIPageViewControllerDataSource {
     
     /**
-     ViewController the user will navigate to in backward direction
+     * ViewController the user will navigate to in backward direction
      */
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
@@ -337,7 +354,7 @@ extension ViewPagerController:UIPageViewControllerDataSource {
     }
     
     /**
-     ViewController the user will navigate to in forward direction
+     * ViewController the user will navigate to in forward direction
      */
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
