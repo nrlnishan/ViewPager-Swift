@@ -75,7 +75,7 @@ extension MainViewController: ViewPagerControllerDataSource {
         return tabs.count
     }
     
-    func viewControllerAtPosition(_ position:Int) -> UIViewController {
+    func viewControllerAtPosition(position:Int) -> UIViewController {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as! ItemViewController
         vc.itemText = "\(tabs[position].title!)"
         return vc
@@ -88,11 +88,11 @@ extension MainViewController: ViewPagerControllerDataSource {
 
 extension MainViewController: ViewPagerControllerDelegate {
     
-    func willMoveToControllerAtIndex(_ index:Int) {
+    func willMoveToControllerAtIndex(index:Int) {
         print("Moving to page \(index)")
     }
     
-    func didMoveToControllerAtIndex(_ index: Int) {
+    func didMoveToControllerAtIndex(index: Int) {
         print("Moved to page \(index)")
     }
 }

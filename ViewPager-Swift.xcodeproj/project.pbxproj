@@ -7,21 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		303F13B61E236BE800DC6CCC /* ViewPagerTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303F13B51E236BE800DC6CCC /* ViewPagerTabView.swift */; };
-		307C49EE1E234559005C4F29 /* ViewPagerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307C49ED1E234559005C4F29 /* ViewPagerTab.swift */; };
+		30CA0C741E286E2000568C25 /* ViewPagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C701E286E2000568C25 /* ViewPagerController.swift */; };
+		30CA0C751E286E2000568C25 /* ViewPagerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */; };
+		30CA0C761E286E2000568C25 /* ViewPagerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C721E286E2000568C25 /* ViewPagerTab.swift */; };
+		30CA0C771E286E2000568C25 /* ViewPagerTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C731E286E2000568C25 /* ViewPagerTabView.swift */; };
 		5F7D16D01C6A1F80006B63C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D16CF1C6A1F80006B63C2 /* AppDelegate.swift */; };
 		5F7D16D51C6A1F80006B63C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F7D16D31C6A1F80006B63C2 /* Main.storyboard */; };
 		5F7D16D71C6A1F80006B63C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F7D16D61C6A1F80006B63C2 /* Assets.xcassets */; };
 		5F7D16DA1C6A1F80006B63C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F7D16D81C6A1F80006B63C2 /* LaunchScreen.storyboard */; };
 		5F7D16E41C6A226C006B63C2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D16E31C6A226C006B63C2 /* MainViewController.swift */; };
-		5F7D16E81C6A285C006B63C2 /* ViewPagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D16E71C6A285C006B63C2 /* ViewPagerController.swift */; };
-		5F7D16EA1C6A286D006B63C2 /* ViewPagerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D16E91C6A286D006B63C2 /* ViewPagerOptions.swift */; };
 		5F7D16F01C6A3451006B63C2 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7D16EF1C6A3451006B63C2 /* ItemViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		303F13B51E236BE800DC6CCC /* ViewPagerTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerTabView.swift; sourceTree = "<group>"; };
-		307C49ED1E234559005C4F29 /* ViewPagerTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerTab.swift; sourceTree = "<group>"; };
+		30CA0C701E286E2000568C25 /* ViewPagerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerController.swift; path = Core/ViewPagerController.swift; sourceTree = "<group>"; };
+		30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerOptions.swift; path = Core/ViewPagerOptions.swift; sourceTree = "<group>"; };
+		30CA0C721E286E2000568C25 /* ViewPagerTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerTab.swift; path = Core/ViewPagerTab.swift; sourceTree = "<group>"; };
+		30CA0C731E286E2000568C25 /* ViewPagerTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerTabView.swift; path = Core/ViewPagerTabView.swift; sourceTree = "<group>"; };
 		5F7D16CC1C6A1F80006B63C2 /* ViewPager-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ViewPager-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F7D16CF1C6A1F80006B63C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F7D16D41C6A1F80006B63C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -29,8 +31,6 @@
 		5F7D16D91C6A1F80006B63C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F7D16DB1C6A1F80006B63C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F7D16E31C6A226C006B63C2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		5F7D16E71C6A285C006B63C2 /* ViewPagerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerController.swift; sourceTree = "<group>"; };
-		5F7D16E91C6A286D006B63C2 /* ViewPagerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPagerOptions.swift; sourceTree = "<group>"; };
 		5F7D16EF1C6A3451006B63C2 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -48,10 +48,10 @@
 		307AB1F11E24CAEE00DA89CD /* ViewPager */ = {
 			isa = PBXGroup;
 			children = (
-				5F7D16E71C6A285C006B63C2 /* ViewPagerController.swift */,
-				5F7D16E91C6A286D006B63C2 /* ViewPagerOptions.swift */,
-				307C49ED1E234559005C4F29 /* ViewPagerTab.swift */,
-				303F13B51E236BE800DC6CCC /* ViewPagerTabView.swift */,
+				30CA0C701E286E2000568C25 /* ViewPagerController.swift */,
+				30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */,
+				30CA0C721E286E2000568C25 /* ViewPagerTab.swift */,
+				30CA0C731E286E2000568C25 /* ViewPagerTabView.swift */,
 			);
 			name = ViewPager;
 			sourceTree = "<group>";
@@ -161,11 +161,11 @@
 			files = (
 				5F7D16F01C6A3451006B63C2 /* ItemViewController.swift in Sources */,
 				5F7D16D01C6A1F80006B63C2 /* AppDelegate.swift in Sources */,
+				30CA0C761E286E2000568C25 /* ViewPagerTab.swift in Sources */,
+				30CA0C741E286E2000568C25 /* ViewPagerController.swift in Sources */,
+				30CA0C751E286E2000568C25 /* ViewPagerOptions.swift in Sources */,
 				5F7D16E41C6A226C006B63C2 /* MainViewController.swift in Sources */,
-				5F7D16E81C6A285C006B63C2 /* ViewPagerController.swift in Sources */,
-				303F13B61E236BE800DC6CCC /* ViewPagerTabView.swift in Sources */,
-				307C49EE1E234559005C4F29 /* ViewPagerTab.swift in Sources */,
-				5F7D16EA1C6A286D006B63C2 /* ViewPagerOptions.swift in Sources */,
+				30CA0C771E286E2000568C25 /* ViewPagerTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

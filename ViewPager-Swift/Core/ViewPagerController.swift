@@ -11,8 +11,8 @@ import UIKit
 
 @objc protocol ViewPagerControllerDelegate {
     
-    @objc optional func willMoveToControllerAtIndex(_ index:Int)
-    @objc optional func didMoveToControllerAtIndex(_ index:Int)
+    @objc optional func willMoveToControllerAtIndex(index:Int)
+    @objc optional func didMoveToControllerAtIndex(index:Int)
 }
 
 @objc protocol ViewPagerControllerDataSource {
@@ -21,7 +21,7 @@ import UIKit
     func numberOfPages() -> Int
     
     // ViewController for required page position
-    func viewControllerAtPosition(_ position:Int) -> UIViewController
+    func viewControllerAtPosition(position:Int) -> UIViewController
     
     // Tab structure of the pages
     func tabsForPages() -> [ViewPagerTab]
@@ -295,7 +295,7 @@ class ViewPagerController:UIViewController {
         
         if index < dataSource.numberOfPages() {
             
-            let pageItemViewController = dataSource.viewControllerAtPosition(index)
+            let pageItemViewController = dataSource.viewControllerAtPosition(position: index)
             pageItemViewController.view.tag = index
             return pageItemViewController
         }
@@ -321,7 +321,7 @@ extension ViewPagerController: UIPageViewControllerDelegate {
         if completed {
             let pageIndex = pageViewController.viewControllers?.first?.view.tag
             setupCurrentPageIndicator(currentIndex: pageIndex!, previousIndex: currentPageIndex)
-            delegate?.didMoveToControllerAtIndex?(pageIndex!)
+            delegate?.didMoveToControllerAtIndex?(index: pageIndex!)
         }
         
     }
@@ -329,8 +329,7 @@ extension ViewPagerController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         
         let pageIndex = pendingViewControllers.first?.view.tag
-        delegate?.willMoveToControllerAtIndex?(pageIndex!)
-        
+        delegate?.willMoveToControllerAtIndex?(index: pageIndex!)        
     }
     
     
