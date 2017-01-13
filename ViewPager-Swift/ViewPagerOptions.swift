@@ -29,8 +29,7 @@ class ViewPagerOptions {
     var fitAllTabsInView:Bool!                  /* Overrides isEachTabEvenlyDistributed */
     
     // Tab Properties
-    var tabViewHeight:CGFloat!
-    var tabViewWidth:CGFloat!
+    var tabViewHeight:CGFloat!    
     var tabViewPaddingLeft:CGFloat!
     var tabViewPaddingRight:CGFloat!
     var tabViewTextFont:UIFont!
@@ -61,7 +60,6 @@ class ViewPagerOptions {
         tabType = ViewPagerTabType.basic
         
         self.tabViewHeight = 50
-        self.tabViewWidth = viewPagerFrame.size.width
         
         self.tabViewBackgroundDefaultColor = Color.tabViewBackground
         self.tabViewBackgroundHighlightColor = Color.tabViewHighlight

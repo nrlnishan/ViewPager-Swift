@@ -65,7 +65,7 @@ class ViewPagerController:UIViewController {
     fileprivate func setupTabContainerView() {
         
         // Creating container for Tab View
-        tabContainer = UIScrollView(frame: CGRect(x: 0, y: options.viewPagerPosition.y, width: options.tabViewWidth, height: options.tabViewHeight))
+        tabContainer = UIScrollView(frame: CGRect(x: 0, y: options.viewPagerPosition.y, width: options.getViewPagerWidth(), height: options.tabViewHeight))
         tabContainer.backgroundColor = options.tabViewBackgroundDefaultColor
         tabContainer.isScrollEnabled = true
         tabContainer.showsVerticalScrollIndicator = false
@@ -80,9 +80,9 @@ class ViewPagerController:UIViewController {
         self.view.addSubview(tabContainer)
         
         let viewDict:[String:UIView] = ["v0":self.tabContainer!]
-        let metrics:[String:CGFloat] = ["tabViewHeight":options.tabViewHeight, "tabContainerYPosition":options.viewPagerPosition.y,"tabViewWidth":options.tabViewWidth]
+        let metrics:[String:CGFloat] = ["tabViewHeight":options.tabViewHeight, "tabContainerYPosition":options.viewPagerPosition.y,"tabViewWidth":options.getViewPagerWidth()]
         
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v0(tabViewWidth)]-(>=0)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: viewDict))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v0]-0-|", options: NSLayoutFormatOptions(), metrics: metrics, views: viewDict))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(tabContainerYPosition)-[v0(tabViewHeight)]", options: NSLayoutFormatOptions(), metrics: metrics, views: viewDict))
     }
     
@@ -98,8 +98,8 @@ class ViewPagerController:UIViewController {
         if options.fitAllTabsInView! {
             
             // Calculating width for each tab
-            let eachLabelWidth = options.tabViewWidth / CGFloat (tabsList.count)
-            totalWidth = options.tabViewWidth * CGFloat(tabsList.count)
+            let eachLabelWidth = options.getViewPagerWidth() / CGFloat (tabsList.count)
+            totalWidth = options.getViewPagerWidth() * CGFloat(tabsList.count)
             
             // Creating view for each tab. Width for each tab is provided.
             for (index,eachTab) in tabsList.enumerated() {
