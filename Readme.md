@@ -5,9 +5,7 @@ An easy to use view pager library for iOS in Swift based on UIPageViewController
 
 ##Installation
 
-```
-**NOTE:** **Master** branch contains project support for Swift 3 with multiple extra features. Please checkout **viewpager-swift2.2** branch if you are looking for previous project.
-```
+>**NOTE:** **Master** branch contains project support for Swift 3 with multiple extra features. Please checkout **viewpager-swift2.2** branch if you are looking for previous project.
 
 Add 
 
