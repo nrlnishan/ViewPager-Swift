@@ -329,7 +329,7 @@ extension ViewPagerController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         
         let pageIndex = pendingViewControllers.first?.view.tag
-        delegate?.willMoveToControllerAtIndex?(index: pageIndex!)        
+        delegate?.willMoveToControllerAtIndex?(index: pageIndex!)
     }
     
     

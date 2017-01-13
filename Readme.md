@@ -21,6 +21,7 @@ files in your project.All files are present inside ViewPager-Swift/Core director
 ![Screenshot-without-basic-tab-view](/Screenshots/Screenshot-1-new.png?raw=true)
 ![Screenshot-with-image-tab-view](/Screenshots/Screenshot-2-new.png?raw=true)
 ![Screenshot-with-image-with-text-tab-view](/Screenshots/Screenshot-3-new.png?raw=true)
+![Screenshot-without-tab-highlight](/Screenshots/Screenshot-4-new.png?raw=true)
 
 ##How to use##
 
@@ -108,21 +109,19 @@ optional func didMoveToControllerAtIndex(index:Int)
 You can perform lots of customization. If you want to look under the hoods, all the **public variables** inside ViewPagerOptions.swift file is customizable.
 
 >**Tab Indicator:** Horizontal bar of small thickness which is displayed under tab for current page
-
 >**TabView:** Horizontal bar shown above viewpager which displays image or name of page.
 
 
 **Booleans:**
 
 Which type of tabs to display
-
 ```
 tabType:ViewPagerTabType
-
+```
 >**basic:** Tab containing only name of the page
 >**image:** Tab containing only image for the page
 >**imageWithText:** Tab showing image and name (below image) for the page
-```
+
 Whether to highlight tab for current page or not, Default is false
 ```
 isTabHighlightAvailable:Bool
