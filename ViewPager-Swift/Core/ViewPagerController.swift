@@ -215,8 +215,9 @@ class ViewPagerController:UIViewController {
         
         if tabViewIndex != currentPageIndex {
             
+            let prev = currentPageIndex
             setupCurrentPageIndicator(currentIndex: tabViewIndex ?? 0, previousIndex: currentPageIndex)
-            displayViewController(atIndex: tabViewIndex ?? 0)
+            displayViewController(atIndex: tabViewIndex ?? 0, inForwardDirection: tabViewIndex ?? 0 > prev)
         }
     }
     
@@ -306,10 +307,10 @@ class ViewPagerController:UIViewController {
     /**
      * Sets the visible view controller with the view controller at provided index.
      */
-    fileprivate func displayViewController(atIndex index:Int) {
+    fileprivate func displayViewController(atIndex index:Int,inForwardDirection:Bool) {
         
         let chosenViewController = getPageItemViewController(atIndex: index)!
-        pageViewController!.setViewControllers([chosenViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil)
+        pageViewController!.setViewControllers([chosenViewController], direction: inForwardDirection ? .forward : .reverse, animated: true, completion: nil)
     }
     
 }
