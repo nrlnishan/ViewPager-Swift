@@ -310,7 +310,15 @@ class ViewPagerController:UIViewController {
     fileprivate func displayViewController(atIndex index:Int,inForwardDirection:Bool) {
         
         let chosenViewController = getPageItemViewController(atIndex: index)!
-        pageViewController!.setViewControllers([chosenViewController], direction: inForwardDirection ? .forward : .reverse, animated: true, completion: nil)
+        delegate?.willMoveToControllerAtIndex?(index: index)
+        pageViewController!.setViewControllers([chosenViewController], direction: inForwardDirection ? .forward : .reverse, animated: true, completion: { (isCompleted) in
+            
+            if isCompleted {
+                self.delegate?.didMoveToControllerAtIndex?(index: index)
+            }
+        })
+        
+        
     }
     
 }
