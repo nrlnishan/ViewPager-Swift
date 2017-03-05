@@ -210,6 +210,8 @@ class ViewPagerTabView: UIView {
         titleLabel = UILabel()
         titleLabel?.textAlignment = .center
         titleLabel?.textColor = options.tabViewTextDefaultColor
+        titleLabel?.numberOfLines = 0
+        titleLabel?.adjustsFontSizeToFitWidth = true
         titleLabel?.font = options.tabViewTextFont
         titleLabel?.text = text
     }
