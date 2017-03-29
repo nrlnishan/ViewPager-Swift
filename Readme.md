@@ -25,13 +25,11 @@ files in your project.All files are present inside ViewPager-Swift/Core director
 
 ## How to use ##
 
-1. Customize your View Pager with the help of ViewPagerOptions class
-2. Pass that options to ViewPagerController and set its datasource
-3. That's it
+>1. Customize your View Pager with the help of ViewPagerOptions class
+>2. Pass that options to ViewPagerController and set its datasource
+>3. That's it
 
-
-1.
-
+1. 
 During its initialization, default options are set for view pager. So just this single line is enough if you want to use default configuration.
 ```
 let myOptions= ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
