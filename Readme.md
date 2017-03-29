@@ -3,7 +3,7 @@ ViewPager-Swift
  
 An easy to use view pager library for iOS in Swift based on UIPageViewController and Scroll View along with multiple customization options and tap as well as swipe gesture for changing between pages.
 
-##Installation
+## Installation ##
 
 >**NOTE:** **Master** branch contains project support for Swift 3 with multiple extra features. Please checkout **viewpager-swift2.2** branch if you are looking for previous project.
 
@@ -16,21 +16,23 @@ Add
 
 files in your project.All files are present inside ViewPager-Swift/Core directory.
 
-##Screenshots
+## Screenshots ##
 
 ![Screenshot-without-basic-tab-view](/Screenshots/Screenshot-1-new.png?raw=true)
 ![Screenshot-with-image-tab-view](/Screenshots/Screenshot-2-new.png?raw=true)
 ![Screenshot-with-image-with-text-tab-view](/Screenshots/Screenshot-3-new.png?raw=true)
 ![Screenshot-without-tab-highlight](/Screenshots/screenshot-4-new.png?raw=true)
 
-##How to use##
+## How to use ##
 
 1. Customize your View Pager with the help of ViewPagerOptions class
 2. Pass that options to ViewPagerController and set its datasource
 3. That's it
 
+
 1.
- During its initialization, default options are set for view pager. So just this single line is enough if you want to use default configuration.
+
+During its initialization, default options are set for view pager. So just this single line is enough if you want to use default configuration.
 ```
 let myOptions= ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
 ```
@@ -66,7 +68,7 @@ self.addChildViewController(viewPager)
 self.view.addSubView(viewPager.view)
 viewPager.didMove(ToParentViewController: self)
 ```
-That's it.  Conform to **ViewPagerControllerDataSource** and you are good to go. If you want you can conform to **ViewPagerControllerDelegate** to receive additional feedbacks.
+That's it.  Conform to **ViewPagerControllerDataSource** and you are good to go. If you want, you can conform to **ViewPagerControllerDelegate** to receive additional feedbacks.
 
 **DataSource**
 
