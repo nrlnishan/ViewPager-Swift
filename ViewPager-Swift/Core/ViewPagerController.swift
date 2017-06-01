@@ -17,16 +17,16 @@ import UIKit
 
 @objc protocol ViewPagerControllerDataSource {
     
-    // Number of pages to be displayed
+    /// Number of pages to be displayed
     func numberOfPages() -> Int
     
-    // ViewController for required page position
+    /// ViewController for required page position
     func viewControllerAtPosition(position:Int) -> UIViewController
     
-    // Tab structure of the pages
+    /// Tab structure of the pages
     func tabsForPages() -> [ViewPagerTab]
     
-    //ViewController to start from
+    /// ViewController to start from
     @objc optional func startViewPagerAtIndex()->Int
 }
 
@@ -59,9 +59,7 @@ class ViewPagerController:UIViewController {
      MARK:- Viewpager tab setup
      ---------------------------*/
     
-    /**
-     * Prepares the container for holding all the tabviews.
-     */
+    /// Prepares the container for holding all the tabviews.
     fileprivate func setupTabContainerView() {
         
         // Creating container for Tab View
@@ -87,9 +85,7 @@ class ViewPagerController:UIViewController {
     }
     
     
-    /**
-     * Creates and adds each tabs according to the options provided in tabcontainer.
-     */
+     ///Creates and adds each tabs according to the options provided in tabcontainer.
     fileprivate func setupTabs() {
         
         var totalWidth:CGFloat = 0
@@ -154,15 +150,14 @@ class ViewPagerController:UIViewController {
         }
     }
     
-    /**
-     * Sets up indicator for the page if enabled in ViewPagerOption. This method shows either tabIndicator
-     * or Highlights current tab or both.
-     */
-    func setupCurrentPageIndicator(currentIndex: Int, previousIndex: Int) {
+    
+    /// Sets up indicator for the page if enabled in ViewPagerOption. This method shows either tabIndicator or Highlights current tab or both.
+    fileprivate func setupCurrentPageIndicator(currentIndex: Int, previousIndex: Int) {
         
         if options.isTabHighlightAvailable! {
             
             self.tabsViewList[previousIndex].removeHighlight(options: self.options)
+            
             UIView.animate(withDuration: 0.8, animations: {
                 
                 self.tabsViewList[currentIndex].addHighlight(options: self.options)
@@ -190,6 +185,8 @@ class ViewPagerController:UIViewController {
                 isIndicatorAdded = true
             }
             
+            self.tabContainer.bringSubview(toFront: tabIndicator)
+            
             UIView.animate(withDuration: 0.5, animations: {
                 
                 self.tabContainer.scrollRectToVisible(tabIndicatorFrame, animated: false)
@@ -203,9 +200,7 @@ class ViewPagerController:UIViewController {
      MARK:- Tab setup helpers
      ---------------------------*/
     
-    /**
-     * Gesture recognizer for determining which tabview was tapped
-     */
+    /// Gesture recognizer for determining which tabview was tapped
     func tabContainerTapped(_ recognizer:UITapGestureRecognizer) {
         
         let tapLocation = recognizer.location(in: self.tabContainer)
@@ -215,15 +210,11 @@ class ViewPagerController:UIViewController {
         
         if tabViewIndex != currentPageIndex {
             
-            let prev = currentPageIndex
-            setupCurrentPageIndicator(currentIndex: tabViewIndex ?? 0, previousIndex: currentPageIndex)
-            displayViewController(atIndex: tabViewIndex ?? 0, inForwardDirection: tabViewIndex ?? 0 > prev)
+            displayViewController(atIndex: tabViewIndex ?? 0)
         }
     }
     
-    /**
-     * Determines the orientation change and sets up the tab size and its indicator size accordingly.
-     */
+    /// Determines the orientation change and sets up the tab size and its indicator size accordingly.
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         DispatchQueue.main.async {
@@ -249,9 +240,7 @@ class ViewPagerController:UIViewController {
         
     }
     
-    /**
-     * Determines maximum width between two provided value and returns it
-     */
+    /// Determines maximum width between two provided value and returns it
     fileprivate func getMaximumWidth(maxWidth:CGFloat, withWidth currentWidth:CGFloat) -> CGFloat {
         
         return (maxWidth > currentWidth) ? maxWidth : currentWidth
@@ -289,12 +278,10 @@ class ViewPagerController:UIViewController {
         
     }
     
-    /**
-     * Returns UIViewController for page at provided index.
-     */
+    /// Returns UIViewController for page at provided index.
     fileprivate func getPageItemViewController(atIndex index:Int) -> UIViewController? {
         
-        if index < dataSource.numberOfPages() {
+        if index >= 0 && index < dataSource.numberOfPages() {
             
             let pageItemViewController = dataSource.viewControllerAtPosition(position: index)
             pageItemViewController.view.tag = index
@@ -304,35 +291,54 @@ class ViewPagerController:UIViewController {
         return nil
     }
     
-    /**
-     * Sets the visible view controller with the view controller at provided index.
-     */
-    fileprivate func displayViewController(atIndex index:Int,inForwardDirection:Bool) {
+    
+    /// Displays the UIViewController provided at given index in datasource.
+    ///
+    /// - Parameter index: position of the view controller to be displayed. 0 is first UIViewController
+    func displayViewController(atIndex index:Int) {
         
         let chosenViewController = getPageItemViewController(atIndex: index)!
         delegate?.willMoveToControllerAtIndex?(index: index)
-        pageViewController!.setViewControllers([chosenViewController], direction: inForwardDirection ? .forward : .reverse, animated: true, completion: { (isCompleted) in
+        
+        let previousIndex = currentPageIndex
+        let direction:UIPageViewControllerNavigationDirection = (index > previousIndex ) ? .forward : .reverse
+        setupCurrentPageIndicator(currentIndex: index, previousIndex: currentPageIndex)
+        
+        pageViewController!.setViewControllers([chosenViewController], direction: direction, animated: true, completion: { (isCompleted) in
             
             if isCompleted {
                 self.delegate?.didMoveToControllerAtIndex?(index: index)
             }
         })
+    }
+    
+    /// Invalidate the current tabs shown and reloads the new tabs provided in datasource.
+    func invalidateTabs() {
         
+        // Removing all the tabs from tabContainer
+        _ = tabsViewList.map({ $0.removeFromSuperview() })
         
+        tabsList.removeAll()
+        tabsViewList.removeAll()
+        
+        setupTabs()
+        setupCurrentPageIndicator(currentIndex: currentPageIndex, previousIndex: currentPageIndex)
     }
     
 }
+
+// MARK:- UIPageViewController Delegates
 
 extension ViewPagerController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
-        if completed {
+        if completed && finished {
+            
             let pageIndex = pageViewController.viewControllers?.first?.view.tag
             setupCurrentPageIndicator(currentIndex: pageIndex!, previousIndex: currentPageIndex)
             delegate?.didMoveToControllerAtIndex?(index: pageIndex!)
         }
-        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
@@ -341,31 +347,22 @@ extension ViewPagerController: UIPageViewControllerDelegate {
         delegate?.willMoveToControllerAtIndex?(index: pageIndex!)
     }
     
-    
 }
+
+// MARK:- UIPageViewController Datasource
 
 extension ViewPagerController:UIPageViewControllerDataSource {
     
-    /**
-     * ViewController the user will navigate to in backward direction
-     */
+    /* ViewController the user will navigate to in backward direction */
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
-        if viewController.view.tag > 0 {
-            return getPageItemViewController(atIndex: viewController.view.tag - 1)
-        }
-        return nil
+        return getPageItemViewController(atIndex: viewController.view.tag - 1)
     }
     
-    /**
-     * ViewController the user will navigate to in forward direction
-     */
+    /* ViewController the user will navigate to in forward direction */
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        if viewController.view.tag + 1 < dataSource.numberOfPages() {
-            return getPageItemViewController(atIndex: viewController.view.tag + 1)
-        }
-        return nil
+        return getPageItemViewController(atIndex: viewController.view.tag + 1)
     }
     
 }

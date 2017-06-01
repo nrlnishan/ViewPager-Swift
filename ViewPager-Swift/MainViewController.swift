@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
         ViewPagerTab(title: "Water", image: UIImage(named: "water"))
     ]
     
-    let tabs = [
+    var tabs = [
         ViewPagerTab(title: "Fries", image: UIImage(named: "fries")),
         ViewPagerTab(title: "Hamburger", image: UIImage(named: "hamburger")),
         ViewPagerTab(title: "Beer", image: UIImage(named: "pint")),
@@ -40,6 +40,7 @@ class MainViewController: UIViewController {
         ViewPagerTab(title: "Sandwich", image: UIImage(named: "sandwich"))
     ]
     
+    var viewPager:ViewPagerController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,7 @@ class MainViewController: UIViewController {
         options.tabViewPaddingRight = 20
         options.isTabHighlightAvailable = true
         
-        let viewPager = ViewPagerController()
+        viewPager = ViewPagerController()
         viewPager.options = options
         viewPager.dataSource = self
         viewPager.delegate = self
@@ -65,7 +66,6 @@ class MainViewController: UIViewController {
         self.view.addSubview(viewPager.view)
         viewPager.didMove(toParentViewController: self)
     }
-    
 }
 
 
@@ -83,6 +83,10 @@ extension MainViewController: ViewPagerControllerDataSource {
     
     func tabsForPages() -> [ViewPagerTab] {
         return tabs
+    }
+    
+    func startViewPagerAtIndex() -> Int {
+        return 0
     }
 }
 

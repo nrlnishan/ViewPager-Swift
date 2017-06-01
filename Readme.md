@@ -105,6 +105,20 @@ called when transiton to another view controller is completed
 ```
 optional func didMoveToControllerAtIndex(index:Int)
 ```
+
+**Additional**
+
+You can also change the page programatically. Suppose you want to display 3rd page.
+```
+viewpager.displayViewController(atIndex: 2)	// Since index starts from 0
+```
+
+Also, you can update any of the viewpager tab. Just update the ViewPagerTab array which you are providing through the datasource. and then call
+```
+viewpager.invalidateTabs()
+```
+
+
 ## Customization ##
 You can perform lots of customization. If you want to look under the hoods, all the **public variables** inside ViewPagerOptions.swift file is customizable.
 
