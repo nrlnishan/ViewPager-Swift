@@ -166,17 +166,20 @@ class ViewPagerController:UIViewController {
         
         self.currentPageIndex = currentIndex
         
+        let currentTabFrame = tabsViewList[currentIndex].frame
+        var tabIndicatorFrame:CGRect!
+        
         if options.isTabIndicatorAvailable! {
             
-            let indicatorWidth = tabsViewList[currentIndex].frame.width
+            let indicatorWidth = currentTabFrame.width
             let indicatorHeight = options.tabIndicatorViewHeight!
-            let xPosition:CGFloat = tabsViewList[currentPageIndex].frame.origin.x
+            let xPosition:CGFloat = currentTabFrame.origin.x
             let yPosition = options.tabViewHeight - options.tabIndicatorViewHeight
             
             tabIndicator.backgroundColor = options.tabIndicatorViewBackgroundColor
             
-            let dummyFrame = CGRect(x: xPosition, y: yPosition, width: 0, height: indicatorHeight)
-            let tabIndicatorFrame = CGRect(x: xPosition, y: yPosition, width: indicatorWidth, height: indicatorHeight)
+            let dummyFrame = CGRect(x: xPosition, y: yPosition, width: 0, height: indicatorHeight)  // for animating purpose
+            tabIndicatorFrame = CGRect(x: xPosition, y: yPosition, width: indicatorWidth, height: indicatorHeight)
             
             if !isIndicatorAdded {
                 
@@ -193,7 +196,16 @@ class ViewPagerController:UIViewController {
                 self.tabIndicator.frame = tabIndicatorFrame
                 self.tabIndicator.layoutIfNeeded()
             })
+            
+            return
         }
+        
+        // Just animate the scrolling if indicator is not available
+        UIView.animate(withDuration: 0.5) { 
+            
+            self.tabContainer.scrollRectToVisible(currentTabFrame, animated: false)
+        }
+        
     }
     
     /*--------------------------
