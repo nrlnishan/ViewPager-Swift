@@ -109,9 +109,13 @@ optional func didMoveToControllerAtIndex(index:Int)
 **Additional**
 
 You can also change the page programatically. Suppose you want to display 3rd page.
+
 ```
 viewpager.displayViewController(atIndex: 2)	// Since index starts from 0
 ```
+
+Note: If you want the viewpager to show specific page when it loads, use ``` func startViewPagerAtIndex()->Int ``` method from datasource.
+
 
 Also, you can update any of the viewpager tab. Just update the ViewPagerTab array which you are providing through the datasource. and then call
 ```

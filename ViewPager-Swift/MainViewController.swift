@@ -65,7 +65,9 @@ class MainViewController: UIViewController {
         self.addChildViewController(viewPager)
         self.view.addSubview(viewPager.view)
         viewPager.didMove(toParentViewController: self)
+        
     }
+    
 }
 
 

@@ -316,11 +316,21 @@ class ViewPagerController:UIViewController {
         let direction:UIPageViewControllerNavigationDirection = (index > previousIndex ) ? .forward : .reverse
         setupCurrentPageIndicator(currentIndex: index, previousIndex: currentPageIndex)
         
+        /* Wierd bug in UIPageViewController. Due to caching, in scroll transition mode, 
+         wrong cached view controller is shown. This is the common workaround */
+        
         pageViewController!.setViewControllers([chosenViewController], direction: direction, animated: true, completion: { (isCompleted) in
             
-            if isCompleted {
-                self.delegate?.didMoveToControllerAtIndex?(index: index)
+            DispatchQueue.main.async { [unowned self] in
+                
+                self.pageViewController.setViewControllers([chosenViewController], direction: direction, animated: false, completion: { (isCompleted) in
+                    
+                    if isCompleted {
+                        self.delegate?.didMoveToControllerAtIndex?(index: index)
+                    }
+                })
             }
+            
         })
     }
     
