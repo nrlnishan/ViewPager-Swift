@@ -42,8 +42,8 @@ class ViewPagerController:UIViewController {
     fileprivate var isIndicatorAdded = false
     fileprivate var currentPageIndex = 0
     
-    var dataSource:ViewPagerControllerDataSource!
-    var delegate:ViewPagerControllerDelegate?
+    weak var dataSource:ViewPagerControllerDataSource!
+    weak var delegate:ViewPagerControllerDelegate?
     var options:ViewPagerOptions!
     
     override func viewDidLoad() {
@@ -367,6 +367,7 @@ extension ViewPagerController: UIPageViewControllerDelegate {
         
         let pageIndex = pendingViewControllers.first?.view.tag
         delegate?.willMoveToControllerAtIndex?(index: pageIndex!)
+        
     }
     
 }

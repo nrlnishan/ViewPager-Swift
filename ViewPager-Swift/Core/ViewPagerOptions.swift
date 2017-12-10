@@ -104,12 +104,18 @@ class ViewPagerOptions {
     
     fileprivate struct Color {
         
-        static let tabViewBackground = UIColor(colorLiteralRed: 230.0/255.0, green: 230.0/255.0, blue: 220.0/255.0, alpha: 1.0)
-        static let tabViewHighlight = UIColor(colorLiteralRed: 129.0/255.0, green: 165.0/255.0, blue: 148.0/255.0, alpha: 1.0)
+        static let tabViewBackground = UIColor.from(r: 230.0, g: 230, b: 220)
+        static let tabViewHighlight = UIColor.from(r: 129, g: 165, b: 148)
         static let textDefault = UIColor.black
         static let textHighlight = UIColor.white
-        static let tabIndicator = UIColor(colorLiteralRed: 255.0/255.0, green: 102.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+        static let tabIndicator = UIColor.from(r: 255, g: 102, b: 0)
     }
     
 }
 
+fileprivate extension UIColor {
+    
+    class func from(r: CGFloat,g:CGFloat,b:CGFloat) -> UIColor {
+        return UIColor(red: r / 255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
+    }
+}
