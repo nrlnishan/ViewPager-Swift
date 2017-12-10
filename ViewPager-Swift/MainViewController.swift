@@ -41,6 +41,7 @@ class MainViewController: UIViewController {
     ]
     
     var viewPager:ViewPagerController!
+    var options:ViewPagerOptions!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +50,7 @@ class MainViewController: UIViewController {
         
         self.title = "Awesome View pager"
         
-        let options = ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
+        options = ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
         options.tabType = ViewPagerTabType.imageWithText
         options.tabViewImageSize = CGSize(width: 20, height: 20)
         options.tabViewTextFont = UIFont.systemFont(ofSize: 16)
@@ -65,7 +66,12 @@ class MainViewController: UIViewController {
         self.addChildViewController(viewPager)
         self.view.addSubview(viewPager.view)
         viewPager.didMove(toParentViewController: self)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
+        options.viewPagerFrame = self.view.bounds
     }
     
 }
@@ -95,10 +101,10 @@ extension MainViewController: ViewPagerControllerDataSource {
 extension MainViewController: ViewPagerControllerDelegate {
     
     func willMoveToControllerAtIndex(index:Int) {
-        print("Moving to page \(index)")
+        //print("Moving to page \(index)")
     }
     
     func didMoveToControllerAtIndex(index: Int) {
-        print("Moved to page \(index)")
+        //print("Moved to page \(index)")
     }
 }

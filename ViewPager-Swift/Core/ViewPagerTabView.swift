@@ -41,7 +41,7 @@ class ViewPagerTabView: UIView {
      */
     func setup(tab:ViewPagerTab, options:ViewPagerOptions , condition:SetupCondition) {
         
-        switch options.tabType! {
+        switch options.tabType {
             
         case ViewPagerTabType.basic:
             setupBasicTab(condition: condition, options: options, tab: tab)
@@ -102,13 +102,13 @@ class ViewPagerTabView: UIView {
      */
     fileprivate func setupImageTab(condition:SetupCondition, withText:Bool, options:ViewPagerOptions, tab:ViewPagerTab) {
         
-        let imageSize = options.tabViewImageSize!
+        let imageSize = options.tabViewImageSize
         
         switch condition {
             
         case .fitAllTabs:
             
-            let tabHeight = options.tabViewHeight!
+            let tabHeight = options.tabViewHeight
             let tabWidth = self.frame.size.width
             
             if withText {
@@ -236,7 +236,7 @@ class ViewPagerTabView: UIView {
         let tabViewNewFrame = CGRect(x: tabViewXPosition, y: tabViewCurrentFrame.origin.y, width: width, height: tabViewCurrentFrame.height)
         self.frame = tabViewNewFrame
         
-        switch options.tabType! {
+        switch options.tabType {
             
         case .basic:
             

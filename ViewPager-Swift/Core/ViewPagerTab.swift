@@ -9,13 +9,16 @@
 import Foundation
 import UIKit
 
-enum ViewPagerTabType {
+public enum ViewPagerTabType {
+    /// Tab contains text only.
     case basic
+    /// Tab contains images only.
     case image
+    /// Tab contains image with text. Text is shown at the bottom of the image
     case imageWithText
 }
 
-class ViewPagerTab:NSObject {
+struct ViewPagerTab {
     
     var title:String!
     var image:UIImage?
