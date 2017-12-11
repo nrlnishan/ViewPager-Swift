@@ -11,45 +11,45 @@ import Foundation
 
 public class ViewPagerOptions {
     
-    internal var viewPagerFrame:CGRect = CGRect.zero
+    public var viewPagerFrame:CGRect = CGRect.zero
     
     // Tabs Customization
-    var tabType:ViewPagerTabType = .basic
-    var isTabHighlightAvailable:Bool = false
-    var isTabIndicatorAvailable:Bool = true
-    var tabViewBackgroundDefaultColor:UIColor = Color.tabViewBackground
-    var tabViewBackgroundHighlightColor:UIColor = Color.tabViewHighlight
-    var tabViewTextDefaultColor:UIColor = Color.textDefault
-    var tabViewTextHighlightColor:UIColor = Color.textHighlight
+    public var tabType:ViewPagerTabType = .basic
+    public var isTabHighlightAvailable:Bool = false
+    public var isTabIndicatorAvailable:Bool = true
+    public var tabViewBackgroundDefaultColor:UIColor = Color.tabViewBackground
+    public var tabViewBackgroundHighlightColor:UIColor = Color.tabViewHighlight
+    public var tabViewTextDefaultColor:UIColor = Color.textDefault
+    public var tabViewTextHighlightColor:UIColor = Color.textHighlight
     
     // Booleans
     
     /// Width of each tab is equal to the width of the largest tab. Tabs are laid out from Left - Right and are scrollable
-    var isEachTabEvenlyDistributed:Bool = false
+    public var isEachTabEvenlyDistributed:Bool = false
     /// All the tabs are squeezed to fit inside the screen width. Tabs are not scrollable. Also it overrides isEachTabEvenlyDistributed
-    var fitAllTabsInView:Bool = false
+    public var fitAllTabsInView:Bool = false
     
     // Tab Properties
-    var tabViewHeight:CGFloat = 50.0
-    var tabViewPaddingLeft:CGFloat = 10.0
-    var tabViewPaddingRight:CGFloat = 10.0
-    var tabViewTextFont:UIFont = UIFont.systemFont(ofSize: 16)
-    var tabViewImageSize:CGSize = CGSize(width: 25, height: 25)
-    var tabViewImageMarginTop:CGFloat = 5
-    var tabViewImageMarginBottom:CGFloat = 5
+    public var tabViewHeight:CGFloat = 50.0
+    public var tabViewPaddingLeft:CGFloat = 10.0
+    public var tabViewPaddingRight:CGFloat = 10.0
+    public var tabViewTextFont:UIFont = UIFont.systemFont(ofSize: 16)
+    public var tabViewImageSize:CGSize = CGSize(width: 25, height: 25)
+    public var tabViewImageMarginTop:CGFloat = 5
+    public var tabViewImageMarginBottom:CGFloat = 5
     
     // Tab Indicator
-    var tabIndicatorViewHeight:CGFloat = 3
-    var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
+    public var tabIndicatorViewHeight:CGFloat = 3
+    public var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
     
     // ViewPager
-    var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle = .scroll
+    public var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle = .scroll
     
     /**
      * Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is
      * used as reference for ViewPager width and height.
      */
-    init(viewPagerWithFrame frame:CGRect) {
+    public init(viewPagerWithFrame frame:CGRect) {
         self.viewPagerFrame = frame
     }
     
