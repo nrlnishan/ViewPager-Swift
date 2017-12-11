@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ViewPager-Swift'
-  s.version          = '1.1.1'
+  s.version          = '1.2.0'
   s.summary          = 'Simple View Pager library for swift using UIPageViewController and Scroll View.'
  
   s.description      = <<-DESC
