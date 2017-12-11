@@ -7,6 +7,17 @@ An easy to use view pager library for iOS in Swift based on UIPageViewController
 
 >**NOTE:** **Master** branch contains project support for Swift 4. If you are looking for Swift 3.* version, Please use release version 1.1.1. Also support for Swift 2.2 is removed.
 
+**Using Cocoapods**
+ 
+1. Add following in your podfile
+```
+pod 'ViewPager-Swift'
+```
+2. Type ```pod install``` in your terminal
+3. After installation, add ```import ViewPager_Swift``` module in your UIViewController, wherever you want to use ViewPager.
+
+**Manual Installation**
+
 Add 
 
 1. ViewPagerController.swift
