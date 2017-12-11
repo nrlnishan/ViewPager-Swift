@@ -213,10 +213,7 @@ Transition style for each page, Default is scroll
 ```
 viewPagerTransitionStyle:UIPageViewControllerTransitionStyle
 ```
-Position for whole viewpager (with tabs). Default is frame origin position
-```
-viewPagerPosition:CGPoint
-```
+
 
 ## License ##
 The MIT License (MIT)
