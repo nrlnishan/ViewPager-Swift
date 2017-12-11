@@ -8,14 +8,13 @@
 
 import UIKit
 
-
-@objc protocol ViewPagerControllerDelegate {
+@objc public protocol ViewPagerControllerDelegate {
     
     @objc optional func willMoveToControllerAtIndex(index:Int)
     @objc optional func didMoveToControllerAtIndex(index:Int)
 }
 
-protocol ViewPagerControllerDataSource: class {
+public protocol ViewPagerControllerDataSource: class {
     
     /// Number of pages to be displayed
     func numberOfPages() -> Int
@@ -30,16 +29,16 @@ protocol ViewPagerControllerDataSource: class {
     func startViewPagerAtIndex()->Int
 }
 
-extension ViewPagerControllerDataSource {
+public extension ViewPagerControllerDataSource {
     
     func startViewPagerAtIndex() -> Int {
         return 0
     }
 }
 
-class ViewPagerController:UIViewController {
+public class ViewPagerController:UIViewController {
     
-    public var dataSource:ViewPagerControllerDataSource!
+    public weak var dataSource:ViewPagerControllerDataSource!
     public weak var delegate:ViewPagerControllerDelegate?
     
     fileprivate var tabContainer:UIScrollView!
@@ -53,9 +52,9 @@ class ViewPagerController:UIViewController {
     fileprivate var isIndicatorAdded = false
     fileprivate var currentPageIndex = 0
     
-    var options:ViewPagerOptions!
+    public var options:ViewPagerOptions!
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.frame = options.viewPagerFrame
@@ -63,10 +62,9 @@ class ViewPagerController:UIViewController {
         setupTabContainerView()
         setupTabs()
         createPageViewController()
-        
     }
     
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         self.view.frame = options.viewPagerFrame
@@ -249,7 +247,7 @@ class ViewPagerController:UIViewController {
     }
     
     /// Determines the orientation change and sets up the tab size and its indicator size accordingly.
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         DispatchQueue.main.async {
             
@@ -271,7 +269,6 @@ class ViewPagerController:UIViewController {
                 self.setupCurrentPageIndicator(currentIndex: self.currentPageIndex, previousIndex: self.currentPageIndex)
             }
         }
-        
     }
     
     /// Determines maximum width between two provided value and returns it
@@ -310,7 +307,7 @@ class ViewPagerController:UIViewController {
     
     // PageViewController Frame Setup
     
-    func setupPageControllerFrame() {
+    fileprivate func setupPageControllerFrame() {
         
         let viewPagerFrame = options.viewPagerFrame
         let viewPagerHeight = options.viewPagerFrame.height - options.tabViewHeight - options.viewPagerFrame.origin.y
@@ -337,7 +334,7 @@ class ViewPagerController:UIViewController {
     /// Displays the UIViewController provided at given index in datasource.
     ///
     /// - Parameter index: position of the view controller to be displayed. 0 is first UIViewController
-    func displayViewController(atIndex index:Int) {
+    public func displayViewController(atIndex index:Int) {
         
         let chosenViewController = getPageItemViewController(atIndex: index)!
         delegate?.willMoveToControllerAtIndex?(index: index)
@@ -364,7 +361,7 @@ class ViewPagerController:UIViewController {
     }
     
     /// Invalidate the current tabs shown and reloads the new tabs provided in datasource.
-    func invalidateTabs() {
+    public func invalidateTabs() {
         
         // Removing all the tabs from tabContainer
         _ = tabsViewList.map({ $0.removeFromSuperview() })
@@ -382,7 +379,7 @@ class ViewPagerController:UIViewController {
 
 extension ViewPagerController: UIPageViewControllerDelegate {
     
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         if completed && finished {
             
@@ -392,12 +389,11 @@ extension ViewPagerController: UIPageViewControllerDelegate {
         }
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+    public func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         
         let pageIndex = pendingViewControllers.first?.view.tag
         delegate?.willMoveToControllerAtIndex?(index: pageIndex!)
-    }
-    
+    }    
 }
 
 // MARK:- UIPageViewController Datasource
@@ -405,13 +401,13 @@ extension ViewPagerController: UIPageViewControllerDelegate {
 extension ViewPagerController:UIPageViewControllerDataSource {
     
     /* ViewController the user will navigate to in backward direction */
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         return getPageItemViewController(atIndex: viewController.view.tag - 1)
     }
     
     /* ViewController the user will navigate to in forward direction */
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         return getPageItemViewController(atIndex: viewController.view.tag + 1)
     }

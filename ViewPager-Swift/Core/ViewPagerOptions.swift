@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class ViewPagerOptions {
+public class ViewPagerOptions {
     
     internal var viewPagerFrame:CGRect = CGRect.zero
     
@@ -23,8 +23,11 @@ class ViewPagerOptions {
     var tabViewTextHighlightColor:UIColor = Color.textHighlight
     
     // Booleans
+    
+    /// Width of each tab is equal to the width of the largest tab. Tabs are laid out from Left - Right and are scrollable
     var isEachTabEvenlyDistributed:Bool = false
-    var fitAllTabsInView:Bool = false   /* Overrides isEachTabEvenlyDistributed */
+    /// All the tabs are squeezed to fit inside the screen width. Tabs are not scrollable. Also it overrides isEachTabEvenlyDistributed
+    var fitAllTabsInView:Bool = false
     
     // Tab Properties
     var tabViewHeight:CGFloat = 50.0
@@ -48,18 +51,6 @@ class ViewPagerOptions {
      */
     init(viewPagerWithFrame frame:CGRect) {
         self.viewPagerFrame = frame
-    }
-    
-    fileprivate func processViewPagerFrame() {
-        
-        // processing the provided frame for viewpager setup
-        let xPosition = viewPagerFrame.origin.x
-        let yPosition = viewPagerFrame.origin.y
-        
-        let actualWidth = viewPagerFrame.width - xPosition
-        let actualHeight = viewPagerFrame.height - yPosition
-        
-        viewPagerFrame = CGRect(x: xPosition, y: yPosition, width: actualWidth, height: actualHeight)
     }
     
     fileprivate struct Color {

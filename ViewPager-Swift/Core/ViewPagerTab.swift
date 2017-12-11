@@ -18,7 +18,7 @@ public enum ViewPagerTabType {
     case imageWithText
 }
 
-struct ViewPagerTab {
+public struct ViewPagerTab {
     
     var title:String!
     var image:UIImage?

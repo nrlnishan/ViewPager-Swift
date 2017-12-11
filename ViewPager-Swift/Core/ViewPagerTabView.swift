@@ -8,16 +8,15 @@
 
 import UIKit
 
-
-class ViewPagerTabView: UIView {
+public final class ViewPagerTabView: UIView {
     
-    enum SetupCondition {
+    internal enum SetupCondition {
         case fitAllTabs
         case distributeNormally
     }
     
-    var titleLabel:UILabel?
-    var imageView:UIImageView?
+    internal var titleLabel:UILabel?
+    internal var imageView:UIImageView?
     
     /*--------------------------
      MARK:- Initialization
@@ -27,7 +26,7 @@ class ViewPagerTabView: UIView {
         super.init(frame: frame)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -39,7 +38,7 @@ class ViewPagerTabView: UIView {
      Sets up tabview for ViewPager. The type of tabview is automatically obtained from
      the options passed in this function.
      */
-    func setup(tab:ViewPagerTab, options:ViewPagerOptions , condition:SetupCondition) {
+    internal func setup(tab:ViewPagerTab, options:ViewPagerOptions , condition:SetupCondition) {
         
         switch options.tabType {
             
@@ -197,8 +196,7 @@ class ViewPagerTabView: UIView {
                 
                 self.addSubview(imageView!)
             }
-        }
-        
+        }        
     }
     
     /*--------------------------
@@ -223,12 +221,11 @@ class ViewPagerTabView: UIView {
         imageView?.image = image
     }
     
-    
     /**
      * Updates the frame of the current tab view incase of EvenlyDistributedCondition. Also propagates those
      * changes to titleLabel and imageView based on ViewPagerTabType.
      */
-    func updateFrame(atIndex index:Int, withWidth width:CGFloat, options:ViewPagerOptions) {
+    internal func updateFrame(atIndex index:Int, withWidth width:CGFloat, options:ViewPagerOptions) {
         
         // Updating frame of the TabView
         let tabViewCurrentFrame = self.frame
@@ -271,19 +268,15 @@ class ViewPagerTabView: UIView {
         }
     }
     
-    
-    func addHighlight(options:ViewPagerOptions) {
+    internal func addHighlight(options:ViewPagerOptions) {
         
         self.backgroundColor = options.tabViewBackgroundHighlightColor
         self.titleLabel?.textColor = options.tabViewTextHighlightColor
     }
     
-    func removeHighlight(options:ViewPagerOptions) {
+    internal func removeHighlight(options:ViewPagerOptions) {
         
         self.backgroundColor = options.tabViewBackgroundDefaultColor
         self.titleLabel?.textColor = options.tabViewTextDefaultColor
     }
-    
-
-    
 }

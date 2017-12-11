@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class MainViewController: UIViewController {
     
     let tabs1 = [
@@ -72,8 +71,7 @@ class MainViewController: UIViewController {
         super.viewWillLayoutSubviews()
         
         options.viewPagerFrame = self.view.bounds
-    }
-    
+    }    
 }
 
 
@@ -101,10 +99,10 @@ extension MainViewController: ViewPagerControllerDataSource {
 extension MainViewController: ViewPagerControllerDelegate {
     
     func willMoveToControllerAtIndex(index:Int) {
-        //print("Moving to page \(index)")
+        print("Moving to page \(index)")
     }
     
     func didMoveToControllerAtIndex(index: Int) {
-        //print("Moved to page \(index)")
+        print("Moved to page \(index)")
     }
 }
