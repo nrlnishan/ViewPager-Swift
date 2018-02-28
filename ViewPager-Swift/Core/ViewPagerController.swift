@@ -69,6 +69,7 @@ public class ViewPagerController:UIViewController {
         
         self.view.frame = options.viewPagerFrame
         setupPageControllerFrame()
+        self.view.bringSubview(toFront: tabContainer) // So the tabContainer is always on top of the content and the shadow or everithing that may overlap viewPager remains visible
     }
     
     /*--------------------------
@@ -87,6 +88,30 @@ public class ViewPagerController:UIViewController {
         tabContainer.isScrollEnabled = true
         tabContainer.showsVerticalScrollIndicator = false
         tabContainer.showsHorizontalScrollIndicator = false
+        
+        tabContainer.clipsToBounds = false // Needed for the shadow to be displayed 'out of bounds'
+        if let shadowOptions = options.tabViewShadowOptions {
+            // Only update data when we have set some
+            if let color = shadowOptions.color {
+                tabContainer.layer.shadowColor = color.cgColor
+            }
+            
+            if let opacity = shadowOptions.opacity {
+                tabContainer.layer.shadowOpacity = opacity
+            }
+            
+            if let radius = shadowOptions.radius {
+                tabContainer.layer.shadowRadius = radius
+            }
+            
+            if let offset = shadowOptions.offset {
+                tabContainer.layer.shadowOffset = offset
+            }
+            
+            if let path = shadowOptions.path {
+                tabContainer.layer.shadowPath = path
+            }
+        }
         
         // Adding Gesture
         let tabViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewPagerController.tabContainerTapped(_:)))

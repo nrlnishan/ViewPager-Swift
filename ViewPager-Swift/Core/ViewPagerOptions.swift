@@ -22,6 +22,10 @@ public class ViewPagerOptions {
     public var tabViewTextDefaultColor:UIColor = Color.textDefault
     public var tabViewTextHighlightColor:UIColor = Color.textHighlight
     
+    // The shadowOptions Struc is Optional so if we don't want a shadow we just let it nil
+    public var tabViewShadowOptions: ShadowOptions?
+    
+    
     // Booleans
     
     /// Width of each tab is equal to the width of the largest tab. Tabs are laid out from Left - Right and are scrollable
@@ -60,6 +64,16 @@ public class ViewPagerOptions {
         static let textDefault = UIColor.black
         static let textHighlight = UIColor.white
         static let tabIndicator = UIColor.from(r: 255, g: 102, b: 0)
+        static let tabViewShadow = UIColor.black
+    }
+    
+    public struct ShadowOptions {
+        // Options value are Optionnals so everithing that is not set will be as UIKit defaults value
+        var color: UIColor?
+        var opacity: Float?
+        var radius: CGFloat?
+        var offset: CGSize?
+        var path: CGPath?
     }
 }
 
