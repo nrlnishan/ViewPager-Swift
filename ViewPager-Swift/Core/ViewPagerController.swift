@@ -108,7 +108,10 @@ public class ViewPagerController:UIViewController {
                 tabContainer.layer.shadowOffset = offset
             }
             
-            if let path = shadowOptions.path {
+            if shadowOptions.useBoundsShadowPath {
+                tabContainer.layer.shadowPath = UIBezierPath(rect: tabContainer.bounds).cgPath
+            }
+            else if let path = shadowOptions.path {
                 tabContainer.layer.shadowPath = path
             }
         }

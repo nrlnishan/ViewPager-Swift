@@ -64,7 +64,6 @@ public class ViewPagerOptions {
         static let textDefault = UIColor.black
         static let textHighlight = UIColor.white
         static let tabIndicator = UIColor.from(r: 255, g: 102, b: 0)
-        static let tabViewShadow = UIColor.black
     }
     
     public struct ShadowOptions {
@@ -73,7 +72,10 @@ public class ViewPagerOptions {
         var opacity: Float?
         var radius: CGFloat?
         var offset: CGSize?
-        var path: CGPath?
+        var path: CGPath? = nil
+        
+        /// if set to true the path property will be ignored
+        var useBoundsShadowPath: Bool = false
     }
 }
 

@@ -56,6 +56,11 @@ class MainViewController: UIViewController {
         options.tabViewPaddingLeft = 20
         options.tabViewPaddingRight = 20
         options.isTabHighlightAvailable = true
+        options.tabViewShadowOptions = ViewPagerOptions.ShadowOptions(color: UIColor.black,
+                                                                      opacity: 0.3,
+                                                                      radius: 1,
+                                                                      offset: CGSize(width: 0, height: 1),
+                                                                      path: nil, useBoundsShadowPath: true)
         
         viewPager = ViewPagerController()
         viewPager.options = options
