@@ -67,11 +67,13 @@ class MainViewController: UIViewController {
         viewPager.didMove(toParentViewController: self)
     }
     
-    override func viewWillLayoutSubviews() {
+     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+        viewPager.tabContainer.setContentOffset(.zero, animated: false)
+        viewPager.tabContainer.bounces = false
         options.viewPagerFrame = self.view.bounds
-    }    
+        options.viewPagerFrame.origin.y = UIApplication.shared.statusBarFrame.size.height
+    }   
 }
 
 
