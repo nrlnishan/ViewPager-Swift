@@ -41,7 +41,7 @@ public class ViewPagerController:UIViewController {
     public weak var dataSource:ViewPagerControllerDataSource!
     public weak var delegate:ViewPagerControllerDelegate?
     
-    fileprivate var tabContainer:UIScrollView!
+    public var tabContainer:UIScrollView!
     
     fileprivate var pageViewController:UIPageViewController!
     fileprivate lazy var tabIndicator = UIView()
