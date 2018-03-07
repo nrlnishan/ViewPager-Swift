@@ -165,8 +165,8 @@ public class ViewPagerController:UIViewController {
                 
                 totalWidth = maxWidth * CGFloat(tabsViewList.count)
             }
+            tabContainer.contentSize = CGSize(width: totalWidth, height: options.tabViewHeight - UIApplication.shared.statusBarFrame.height)
             
-            tabContainer.contentSize = CGSize(width: totalWidth, height: options.tabViewHeight)
         }
     }
     
@@ -268,6 +268,7 @@ public class ViewPagerController:UIViewController {
                 
                 self.setupCurrentPageIndicator(currentIndex: self.currentPageIndex, previousIndex: self.currentPageIndex)
             }
+            self.tabContainer.contentSize = CGSize(width: self.tabContainer.frame.size.width, height: self.options.tabViewHeight)
         }
     }
     
