@@ -28,6 +28,8 @@ public class ViewPagerOptions {
     public var isEachTabEvenlyDistributed:Bool = false
     /// All the tabs are squeezed to fit inside the screen width. Tabs are not scrollable. Also it overrides isEachTabEvenlyDistributed
     public var fitAllTabsInView:Bool = false
+     /// Enable switch pages with swipe
+    public var isSwipeGestureEnable:Bool = true
     
     // Tab Properties
     public var tabViewHeight:CGFloat = 50.0

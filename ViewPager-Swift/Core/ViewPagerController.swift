@@ -308,6 +308,11 @@ public class ViewPagerController:UIViewController {
     // PageViewController Frame Setup
     
     fileprivate func setupPageControllerFrame() {
+        for view in self.pageViewController.view.subviews {
+            if let scrollView = view as? UIScrollView {
+                scrollView.isScrollEnabled = options.isSwipeGestureEnable;
+            }
+        }
         
         let viewPagerFrame = options.viewPagerFrame
         let viewPagerHeight = options.viewPagerFrame.height - options.tabViewHeight - options.viewPagerFrame.origin.y
