@@ -16,15 +16,19 @@ public enum ViewPagerTabType {
     case image
     /// Tab contains image with text. Text is shown at the bottom of the image
     case imageWithText
+    /// Show the highlighted image when the tab is selected.
+    case highlitedImageWithText
 }
 
 public struct ViewPagerTab {
     
     public var title:String!
     public var image:UIImage?
+    public var highlightedImage:UIImage?
     
-    public init(title:String, image:UIImage?) {
+    public init(title:String, image:UIImage?, highlightedImage:UIImage?) {
         self.title = title
         self.image = image
+        self.highlightedImage = highlightedImage
     }
 }
