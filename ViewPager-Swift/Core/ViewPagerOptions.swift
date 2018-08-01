@@ -21,6 +21,8 @@ public class ViewPagerOptions {
     public var tabViewBackgroundHighlightColor:UIColor = Color.tabViewHighlight
     public var tabViewTextDefaultColor:UIColor = Color.textDefault
     public var tabViewTextHighlightColor:UIColor = Color.textHighlight
+    public var tabViewImageHighlightedAlpha:CGFloat = 1.0
+    public var tabViewImageNomalAlpha:CGFloat = 0.3
     
     // Booleans
     
@@ -41,6 +43,7 @@ public class ViewPagerOptions {
     // Tab Indicator
     public var tabIndicatorViewHeight:CGFloat = 3
     public var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
+    public var tabIndicatorAnimationDuration = 0.5
     
     // ViewPager
     public var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle = .scroll

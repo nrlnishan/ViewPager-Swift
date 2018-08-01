@@ -50,12 +50,13 @@ class MainViewController: UIViewController {
         self.title = "Awesome View pager"
         
         options = ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
-        options.tabType = ViewPagerTabType.basic
+        options.tabType = ViewPagerTabType.imageWithText
         options.tabViewImageSize = CGSize(width: 20, height: 20)
         options.tabViewTextFont = UIFont.systemFont(ofSize: 16)
         options.tabViewPaddingLeft = 20
         options.tabViewPaddingRight = 20
         options.isTabHighlightAvailable = true
+        options.tabIndicatorAnimationDuration = 0.25
         
         viewPager = ViewPagerController()
         viewPager.options = options

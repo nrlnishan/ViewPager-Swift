@@ -210,7 +210,7 @@ public class ViewPagerController:UIViewController {
             
             self.tabContainer.bringSubview(toFront: tabIndicator)
             
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: options.tabIndicatorAnimationDuration, animations: {
                 
                 self.tabContainer.scrollRectToVisible(tabIndicatorFrame, animated: false)
                 self.tabIndicator.frame = tabIndicatorFrame

@@ -22,6 +22,7 @@ public struct ViewPagerTab {
     
     public var title:String!
     public var image:UIImage?
+    public var highlightedImage:UIImage?
     
     public init(title:String, image:UIImage?) {
         self.title = title
