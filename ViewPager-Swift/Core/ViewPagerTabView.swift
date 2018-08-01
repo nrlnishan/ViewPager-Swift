@@ -196,7 +196,11 @@ public final class ViewPagerTabView: UIView {
                 
                 self.addSubview(imageView!)
             }
-        }        
+        }
+        
+        if options.isTabHighlightAvailable {
+            imageView?.alpha = options.tabViewImageNomalAlpha
+        }
     }
     
     /*--------------------------
@@ -272,11 +276,13 @@ public final class ViewPagerTabView: UIView {
         
         self.backgroundColor = options.tabViewBackgroundHighlightColor
         self.titleLabel?.textColor = options.tabViewTextHighlightColor
+        self.imageView?.alpha = options.tabViewImageHighlightedAlpha
     }
     
     internal func removeHighlight(options:ViewPagerOptions) {
         
         self.backgroundColor = options.tabViewBackgroundDefaultColor
         self.titleLabel?.textColor = options.tabViewTextDefaultColor
+        self.imageView?.alpha = options.tabViewImageNomalAlpha
     }
 }
