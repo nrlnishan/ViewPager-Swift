@@ -56,6 +56,7 @@ class MainViewController: UIViewController {
         options.tabViewPaddingLeft = 20
         options.tabViewPaddingRight = 20
         options.isTabHighlightAvailable = true
+        options.tabIndicatorAnimationDuration = 0.25
         
         viewPager = ViewPagerController()
         viewPager.options = options

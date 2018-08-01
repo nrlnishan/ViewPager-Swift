@@ -43,6 +43,7 @@ public class ViewPagerOptions {
     // Tab Indicator
     public var tabIndicatorViewHeight:CGFloat = 3
     public var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
+    public var tabIndicatorAnimationDuration = 0.5
     
     // ViewPager
     public var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle = .scroll
