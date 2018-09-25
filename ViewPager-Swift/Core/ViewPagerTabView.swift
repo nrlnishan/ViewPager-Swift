@@ -70,7 +70,6 @@ public final class ViewPagerTabView: UIView {
             
             buildTitleLabel(withOptions: options, text: tab.title)
             titleLabel?.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
-            titleLabel?.backgroundColor = tab.color
             
         case .distributeNormally:
             
