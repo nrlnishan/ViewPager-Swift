@@ -11,6 +11,10 @@ import Foundation
 
 public class ViewPagerOptions {
     
+    
+    
+    
+    
     public var viewPagerFrame:CGRect = CGRect.zero
     
     // Tabs Customization
@@ -43,7 +47,7 @@ public class ViewPagerOptions {
     public var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
     
     // ViewPager
-    public var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle = .scroll
+    public var viewPagerTransitionStyle:UIPageViewController.TransitionStyle = .scroll
     
     /**
      * Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is
@@ -51,6 +55,10 @@ public class ViewPagerOptions {
      */
     public init(viewPagerWithFrame frame:CGRect) {
         self.viewPagerFrame = frame
+    }
+    
+    public init() {
+        
     }
     
     fileprivate struct Color {
