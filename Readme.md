@@ -5,7 +5,7 @@ An easy to use view pager library for iOS in Swift based on UIPageViewController
 
 ## Installation ##
 
->**NOTE:** **Master** branch contains project support for Swift 4. If you are looking for Swift 3.* version, Please use release version 1.1.1. Also support for Swift 2.2 is removed.
+>**NOTE:** **Master** branch contains project support for Swift 4. If you are looking for Swift 3.* version, Please use release version 1.1.1. 
 
 **Using Cocoapods**
  
@@ -33,6 +33,9 @@ files in your project.All files are present inside ViewPager-Swift/Core director
 ![Screenshot-with-image-tab-view](/Screenshots/Screenshot-2-new.png?raw=true)
 ![Screenshot-with-image-with-text-tab-view](/Screenshots/Screenshot-3-new.png?raw=true)
 ![Screenshot-without-tab-highlight](/Screenshots/screenshot-4-new.png?raw=true)
+
+## Contribution
+You can always contribute to the project by creating a PR to development branch.
 
 ## How to use ##
 
