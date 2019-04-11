@@ -11,6 +11,10 @@ import Foundation
 
 public class ViewPagerOptions {
     
+    
+    
+    
+    
     public var viewPagerFrame:CGRect = CGRect.zero
     
     // Tabs Customization
@@ -43,7 +47,7 @@ public class ViewPagerOptions {
     public var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
     
     // ViewPager
-    public var viewPagerTransitionStyle:UIPageViewControllerTransitionStyle = .scroll
+    public var viewPagerTransitionStyle:UIPageViewController.TransitionStyle = .scroll
     
     /**
      * Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is
@@ -53,9 +57,13 @@ public class ViewPagerOptions {
         self.viewPagerFrame = frame
     }
     
+    public init() {
+        
+    }
+    
     fileprivate struct Color {
         
-        static let tabViewBackground = UIColor.from(r: 230.0, g: 230, b: 220)
+        static let tabViewBackground = UIColor.groupTableViewBackground
         static let tabViewHighlight = UIColor.from(r: 129, g: 165, b: 148)
         static let textDefault = UIColor.black
         static let textHighlight = UIColor.white
@@ -67,5 +75,13 @@ fileprivate extension UIColor {
     
     class func from(r: CGFloat,g:CGFloat,b:CGFloat) -> UIColor {
         return UIColor(red: r / 255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
+    }
+}
+
+extension UIView {
+    
+    func setupForAutolayout(inView view: UIView) {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(self)
     }
 }

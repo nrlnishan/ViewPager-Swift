@@ -50,7 +50,7 @@ class MainViewController: UIViewController {
         self.title = "Awesome View pager"
         
         options = ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
-        options.tabType = ViewPagerTabType.basic
+        options.tabType = ViewPagerTabType.imageWithText
         options.tabViewImageSize = CGSize(width: 20, height: 20)
         options.tabViewTextFont = UIFont.systemFont(ofSize: 16)
         options.tabViewPaddingLeft = 20
@@ -62,9 +62,9 @@ class MainViewController: UIViewController {
         viewPager.dataSource = self
         viewPager.delegate = self
         
-        self.addChildViewController(viewPager)
+        self.addChild(viewPager)
         self.view.addSubview(viewPager.view)
-        viewPager.didMove(toParentViewController: self)
+        viewPager.didMove(toParent: self)
     }
     
     override func viewWillLayoutSubviews() {
@@ -83,7 +83,7 @@ extension MainViewController: ViewPagerControllerDataSource {
     
     func viewControllerAtPosition(position:Int) -> UIViewController {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as! ItemViewController
-        vc.itemText = "\(tabs[position].title!)"
+        vc.itemText = "\(tabs[position].title)"
         return vc
     }
     

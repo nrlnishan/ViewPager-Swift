@@ -12,6 +12,7 @@ class ItemViewController: UIViewController {
 
     
     @IBOutlet weak var itemLabel: UILabel!
+    
     var itemText: String?
     
     override func viewDidLoad() {
@@ -25,4 +26,24 @@ class ItemViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /*
+     
+     Changelog:
+     
+     1. Use autolayout instead of frame based layout
+     2. 
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     */
+    
 }
+
