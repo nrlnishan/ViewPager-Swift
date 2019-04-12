@@ -41,9 +41,8 @@ public class ViewPagerController:UIViewController {
     public weak var dataSource:ViewPagerControllerDataSource!
     public weak var delegate:ViewPagerControllerDelegate?
     
-    fileprivate var tabContainer = UIScrollView()
-    
-    fileprivate var pageViewController:UIPageViewController!
+    fileprivate var tabContainer: UIScrollView = UIScrollView()
+    fileprivate var pageController: UIPageViewController?
     fileprivate lazy var tabIndicator = UIView()
     
     fileprivate var tabsList = [ViewPagerTab]()
@@ -57,18 +56,18 @@ public class ViewPagerController:UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.frame = options.viewPagerFrame
+        //self.view.frame = options.viewPagerFrame
         
         setupTabContainerView()
-        setupTabs()
-        createPageViewController()
+        //setupTabs()
+        //createPageViewController()
     }
     
     override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.view.frame = options.viewPagerFrame
-        setupPageControllerFrame()
+        //self.view.frame = options.viewPagerFrame
+        //setupPageControllerFrame()
     }
     
     /*--------------------------
@@ -81,7 +80,7 @@ public class ViewPagerController:UIViewController {
         tabContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tabContainer)
         
-        tabContainer.backgroundColor = options.tabViewBackgroundDefaultColor
+        tabContainer.backgroundColor = UIColor.groupTableViewBackground
         tabContainer.isScrollEnabled = true
         tabContainer.showsVerticalScrollIndicator = false
         tabContainer.showsHorizontalScrollIndicator = false
@@ -102,27 +101,6 @@ public class ViewPagerController:UIViewController {
         // Adding Gesture
         let tabViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewPagerController.tabContainerTapped(_:)))
         tabContainer.addGestureRecognizer(tabViewTapGesture)
-        
-        
-//
-//        let viewPagerFrame = options.viewPagerFrame
-//
-//        // Creating container for Tab View
-//        tabContainer = UIScrollView(frame: CGRect(x: 0, y:0, width: viewPagerFrame.width, height: options.tabViewHeight))
-//        tabContainer.backgroundColor = options.tabViewBackgroundDefaultColor
-//        tabContainer.isScrollEnabled = true
-//        tabContainer.showsVerticalScrollIndicator = false
-//        tabContainer.showsHorizontalScrollIndicator = false
-//
-//
-//        // For Landscape mode, Setting up VFL
-//        tabContainer.translatesAutoresizingMaskIntoConstraints = false
-//        self.view.addSubview(tabContainer)
-//
-//        let viewDict:[String:UIView] = ["v0":self.tabContainer]
-//        let metrics:[String:CGFloat] = ["tabViewHeight":options.tabViewHeight]
-//        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v0]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: viewDict))
-//        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v0(tabViewHeight)]", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: viewDict))
     }
     
     
@@ -134,24 +112,59 @@ public class ViewPagerController:UIViewController {
         
         if options.fitAllTabsInView {
             
-            let viewPagerFrame = options.viewPagerFrame
+            //totalWidth = tabContainer.frame.width
             
-            // Calculating width for each tab
-            let eachLabelWidth = viewPagerFrame.width / CGFloat (tabsList.count)
-            totalWidth = viewPagerFrame.width * CGFloat(tabsList.count)
+            var lastTab: UIView?
             
-            // Creating view for each tab. Width for each tab is provided.
             for (index,eachTab) in tabsList.enumerated() {
                 
-                let xPosition = CGFloat(index) * eachLabelWidth
-                let tabView = ViewPagerTabView()
-                tabView.frame = CGRect(x: xPosition, y: 0, width: eachLabelWidth, height: options.tabViewHeight)
-                tabView.setup(tab: eachTab, options: options, condition: ViewPagerTabView.SetupCondition.fitAllTabs)
-                
-                tabView.tag = index
-                tabsViewList.append(tabView)
+                let tabView = UIView()
+                tabView.translatesAutoresizingMaskIntoConstraints = false
                 tabContainer.addSubview(tabView)
+                tabContainer.bringSubviewToFront(tabView)
+                
+                if let tab = lastTab {
+                    print("Yes Previous Tab")
+                    //tabView.widthAnchor.constraint(equalTo: tab.widthAnchor).isActive = true
+                    tabView.leadingAnchor.constraint(equalTo: tab.trailingAnchor).isActive = true
+                } else {
+                    print("No Previous Tab")
+                    tabView.leadingAnchor.constraint(equalTo: tabContainer.leadingAnchor).isActive = true
+                }
+                
+                tabView.topAnchor.constraint(equalTo: tabContainer.topAnchor).isActive = true
+                tabView.bottomAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
+                
+                tabView.backgroundColor = UIColor.green
+                //tabView.setup(tab: eachTab, options: options, condition: .fitAllTabs)
+                tabView.tag = index
+                
+                lastTab = tabView
             }
+            
+            //lastTab?.trailingAnchor.constraint(equalTo: tabContainer.trailingAnchor).isActive = true
+            
+            
+            
+            
+//            let viewPagerFrame = options.viewPagerFrame
+//
+//            // Calculating width for each tab
+//            let eachLabelWidth = viewPagerFrame.width / CGFloat (tabsList.count)
+//            totalWidth = viewPagerFrame.width * CGFloat(tabsList.count)
+//
+//            // Creating view for each tab. Width for each tab is provided.
+//            for (index,eachTab) in tabsList.enumerated() {
+//
+//                let xPosition = CGFloat(index) * eachLabelWidth
+//                let tabView = ViewPagerTabView()
+//                tabView.frame = CGRect(x: xPosition, y: 0, width: eachLabelWidth, height: options.tabViewHeight)
+//                tabView.setup(tab: eachTab, options: options, condition: ViewPagerTabView.SetupCondition.fitAllTabs)
+//
+//                tabView.tag = index
+//                tabsViewList.append(tabView)
+//                tabContainer.addSubview(tabView)
+//            }
             
         } else {
             
@@ -307,36 +320,36 @@ public class ViewPagerController:UIViewController {
     
     fileprivate func createPageViewController() {
         
-        pageViewController = UIPageViewController(transitionStyle: options.viewPagerTransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation.horizontal, options: nil)
+        let controller = UIPageViewController(transitionStyle: options.viewPagerTransitionStyle, navigationOrientation: .horizontal, options: nil)
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
         
-        setupPageControllerFrame()
+        self.addChild(controller)
+        self.view.addSubview(controller.view)
+        controller.didMove(toParent: self)
         
-        pageViewController.dataSource = self
-        pageViewController.delegate = self
+        controller.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        controller.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        controller.view.topAnchor.constraint(equalTo: view.topAnchor, constant: options.tabViewHeight).isActive = true
+        controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        self.pageController = controller
         
         if dataSource.numberOfPages() > 0 {
             
             currentPageIndex = dataSource.startViewPagerAtIndex()
             let firstController = getPageItemViewController(atIndex: currentPageIndex)!
-            pageViewController.setViewControllers([firstController], direction: UIPageViewController.NavigationDirection.forward, animated: false, completion: nil)
+            controller.setViewControllers([firstController], direction: UIPageViewController.NavigationDirection.forward, animated: false, completion: nil)
         }
         
-        self.addChild(pageViewController)
-        self.view.addSubview(pageViewController.view)
-        self.pageViewController.didMove(toParent: self)
+        pageController?.dataSource = self
+        pageController?.delegate = self
+        
+        
+        //self.addChild(pageViewController)
+        //self.view.addSubview(pageViewController.view)
+        //self.pageViewController.didMove(toParent: self)
        
-        setupCurrentPageIndicator(currentIndex: currentPageIndex, previousIndex: currentPageIndex)
-    }
-    
-    // PageViewController Frame Setup
-    
-    fileprivate func setupPageControllerFrame() {
-        
-        let viewPagerFrame = options.viewPagerFrame
-        let viewPagerHeight = options.viewPagerFrame.height - options.tabViewHeight - options.viewPagerFrame.origin.y
-        
-        let pageControllerFrame = CGRect(x: viewPagerFrame.origin.x, y: options.tabViewHeight, width: viewPagerFrame.width, height: viewPagerHeight)
-        pageViewController.view.frame = pageControllerFrame
+        //setupCurrentPageIndicator(currentIndex: currentPageIndex, previousIndex: currentPageIndex)
     }
     
     /// Returns UIViewController for page at provided index.
@@ -369,10 +382,10 @@ public class ViewPagerController:UIViewController {
         /* Wierd bug in UIPageViewController. Due to caching, in scroll transition mode, 
          wrong cached view controller is shown. This is the common workaround */
         
-        pageViewController.setViewControllers([chosenViewController], direction: direction, animated: true, completion: { (isCompleted) in
+        pageController?.setViewControllers([chosenViewController], direction: direction, animated: true, completion: { (isCompleted) in
             
             DispatchQueue.main.async { [unowned self] in
-                self.pageViewController.setViewControllers([chosenViewController], direction: direction, animated: false, completion: { (isCompleted) in
+                self.pageController?.setViewControllers([chosenViewController], direction: direction, animated: false, completion: { (isCompleted) in
                     
                     if isCompleted {
                         self.delegate?.didMoveToControllerAtIndex?(index: index)
