@@ -18,6 +18,9 @@ public final class ViewPagerTabView: UIView {
     internal var titleLabel:UILabel?
     internal var imageView:UIImageView?
     
+    
+    public var width: CGFloat = 0
+    
     /*--------------------------
      MARK:- Initialization
      ---------------------------*/
@@ -69,23 +72,20 @@ public final class ViewPagerTabView: UIView {
         case .fitAllTabs:
             
             buildTitleLabel(withOptions: options, text: tab.title)
-            titleLabel?.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
+            
+            titleLabel?.setupForAutolayout(inView: self)
+            titleLabel?.pinSides(inView: self)
             
         case .distributeNormally:
             
             buildTitleLabel(withOptions: options, text: tab.title)
             
-            // Resetting TabView frame again with the new width
-            let currentFrame = self.frame
             let labelWidth = titleLabel!.intrinsicContentSize.width + options.tabViewPaddingLeft + options.tabViewPaddingRight
-            let newFrame = CGRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: labelWidth, height: currentFrame.height)
-            self.frame = newFrame
+            self.width = labelWidth
             
-            // Setting TitleLabel frame
-            titleLabel?.frame = CGRect(x: 0, y: 0, width: labelWidth, height: currentFrame.height)
+            titleLabel?.setupForAutolayout(inView: self)
+            titleLabel?.pinSides(inView: self)
         }
-        
-        self.addSubview(titleLabel!)
     }
     
     /**
@@ -107,42 +107,32 @@ public final class ViewPagerTabView: UIView {
             
         case .fitAllTabs:
             
-            let tabHeight = options.tabViewHeight
-            let tabWidth = self.frame.size.width
-            
             if withText {
                 
-                // Calculate image position
-                let xImagePosition:CGFloat = (tabWidth - imageSize.width) / 2
-                let yImagePosition:CGFloat = options.tabViewImageMarginTop
-                
-                // calculating text position
-                let xTextPosition:CGFloat = 0
-                let yTextPosition:CGFloat = yImagePosition + options.tabViewImageMarginBottom + imageSize.height
-                let textHeight:CGFloat = options.tabViewHeight - yTextPosition - options.tabIndicatorViewHeight
-                
-                // Creating image view
                 buildImageView(withOptions: options, image: tab.image)
-                imageView?.frame = CGRect(x: xImagePosition, y: yImagePosition, width: imageSize.width, height: imageSize.height)
-                
-                // Creating text label
                 buildTitleLabel(withOptions: options, text: tab.title)
-                titleLabel?.frame = CGRect(x: xTextPosition, y: yTextPosition, width: frame.size.width, height: textHeight)
                 
-                self.addSubview(imageView!)
-                self.addSubview(titleLabel!)
+                imageView?.setupForAutolayout(inView: self)
+                imageView?.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
+                imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
+                imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+                imageView?.topAnchor.constraint(equalTo: self.topAnchor, constant: options.tabViewImageMarginTop).isActive = true
+                
+                titleLabel?.setupForAutolayout(inView: self)
+                titleLabel?.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+                titleLabel?.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+                titleLabel?.topAnchor.constraint(equalTo: imageView!.bottomAnchor, constant: options.tabViewImageMarginBottom).isActive = true
+                titleLabel?.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
                 
             } else {
                 
-                // Calculate image position
-                let xPosition = ( tabWidth - imageSize.width ) / 2
-                let yPosition = ( tabHeight - imageSize.height ) / 2
-                
-                // Creating imageview
                 buildImageView(withOptions: options, image: tab.image)
-                imageView?.frame = CGRect(x: xPosition, y: yPosition, width: imageSize.width, height: imageSize.height)
                 
-                self.addSubview(imageView!)
+                imageView?.setupForAutolayout(inView: self)
+                imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+                imageView?.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+                imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
+                imageView?.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
             }
             
             
@@ -150,51 +140,41 @@ public final class ViewPagerTabView: UIView {
             
             if withText {
                 
-                // Creating image view
                 buildImageView(withOptions: options, image: tab.image)
-                
-                // Creating text label
                 buildTitleLabel(withOptions: options, text: tab.title)
+                
+                imageView?.setupForAutolayout(inView: self)
+                imageView?.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
+                imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
+                imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+                imageView?.topAnchor.constraint(equalTo: self.topAnchor, constant: options.tabViewImageMarginTop).isActive = true
+                
+                titleLabel?.setupForAutolayout(inView: self)
+                titleLabel?.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+                titleLabel?.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+                titleLabel?.topAnchor.constraint(equalTo: imageView!.bottomAnchor, constant: options.tabViewImageMarginBottom).isActive = true
+                titleLabel?.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
                 
                 // Resetting tabview frame again with the new width
                 let widthFromImage = imageSize.width + options.tabViewPaddingRight + options.tabViewPaddingLeft
                 let widthFromText = titleLabel!.intrinsicContentSize.width + options.tabViewPaddingLeft + options.tabViewPaddingRight
                 let tabWidth = (widthFromImage > widthFromText ) ? widthFromImage : widthFromText
-                let currentFrame = self.frame
-                let newFrame = CGRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: tabWidth, height: currentFrame.height)
-                self.frame = newFrame
-                
-                // Setting imageview frame
-                let xImagePosition:CGFloat  = (tabWidth - imageSize.width) / 2
-                let yImagePosition:CGFloat = options.tabViewImageMarginTop
-                imageView?.frame = CGRect(x: xImagePosition, y: yImagePosition , width: imageSize.width, height: imageSize.height)
-                
-                // Setting titleLabel frame
-                let xTextPosition:CGFloat = 0
-                let yTextPosition = yImagePosition + options.tabViewImageMarginBottom + imageSize.height
-                let textHeight:CGFloat = options.tabViewHeight - yTextPosition - options.tabIndicatorViewHeight
-                titleLabel?.frame = CGRect(x: xTextPosition, y: yTextPosition, width: tabWidth, height: textHeight)
-                
-                self.addSubview(imageView!)
-                self.addSubview(titleLabel!)
+                self.width = tabWidth
                 
             } else {
                 
                 // Creating imageview
                 buildImageView(withOptions: options, image: tab.image)
                 
-                // Resetting TabView frame again with the new width
-                let currentFrame = self.frame
+                imageView?.setupForAutolayout(inView: self)
+                imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+                imageView?.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+                imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
+                imageView?.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
+                
+                // Determining the max width this tab should use
                 let tabWidth = imageSize.width + options.tabViewPaddingRight + options.tabViewPaddingLeft
-                let newFrame = CGRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: tabWidth, height: currentFrame.height)
-                self.frame = newFrame
-                
-                // Setting ImageView Frame
-                let xPosition = ( tabWidth - imageSize.width ) / 2
-                let yPosition = (options.tabViewHeight - imageSize.height ) / 2
-                imageView?.frame = CGRect(x: xPosition, y: yPosition, width: imageSize.width, height: imageSize.height)
-                
-                self.addSubview(imageView!)
+                self.width = tabWidth
             }
         }        
     }
@@ -208,7 +188,7 @@ public final class ViewPagerTabView: UIView {
         titleLabel = UILabel()
         titleLabel?.textAlignment = .center
         titleLabel?.textColor = options.tabViewTextDefaultColor
-        titleLabel?.numberOfLines = 0
+        titleLabel?.numberOfLines = 2
         titleLabel?.adjustsFontSizeToFitWidth = true
         titleLabel?.font = options.tabViewTextFont
         titleLabel?.text = text

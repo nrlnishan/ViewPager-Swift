@@ -10,40 +10,26 @@ import UIKit
 
 class ItemViewController: UIViewController {
 
-    
-    @IBOutlet weak var itemLabel: UILabel!
-    
+    override func loadView() {
+        
+        let newView = UIView()
+        newView.backgroundColor = UIColor.orange
+        
+        view = newView
+    }
+
     var itemText: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        itemLabel.text = itemText!
+        let itemLabel = UILabel()
+        itemLabel.setupForAutolayout(inView: self.view)
+        itemLabel.textAlignment = .center
+        itemLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        itemLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        itemLabel.text = itemText
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    /*
-     
-     Changelog:
-     
-     1. Use autolayout instead of frame based layout
-     2. 
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     */
-    
 }
 

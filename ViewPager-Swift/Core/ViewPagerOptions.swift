@@ -11,11 +11,22 @@ import Foundation
 
 public class ViewPagerOptions {
     
-    
-    
-    
-    
     public var viewPagerFrame:CGRect = CGRect.zero
+
+    public enum Distribution {
+        
+        // 1. Normal, According to the width of each individual tabs
+        // 2. Equal, Each tab is of same size i.e size = size of largest tab
+        // 3. Segment, All the tabs are sized to fit within view width
+        
+        case normal
+        case equal
+        case segmented
+    }
+    
+    
+    public var distribution: ViewPagerOptions.Distribution = .segmented
+    
     
     // Tabs Customization
     public var tabType:ViewPagerTabType = .basic
@@ -38,7 +49,8 @@ public class ViewPagerOptions {
     public var tabViewPaddingLeft:CGFloat = 10.0
     public var tabViewPaddingRight:CGFloat = 10.0
     public var tabViewTextFont:UIFont = UIFont.systemFont(ofSize: 16)
-    public var tabViewImageSize:CGSize = CGSize(width: 25, height: 25)
+    
+    public var tabViewImageSize:CGSize = CGSize(width: 22, height: 22)
     public var tabViewImageMarginTop:CGFloat = 5
     public var tabViewImageMarginBottom:CGFloat = 5
     
@@ -75,13 +87,5 @@ fileprivate extension UIColor {
     
     class func from(r: CGFloat,g:CGFloat,b:CGFloat) -> UIColor {
         return UIColor(red: r / 255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
-    }
-}
-
-extension UIView {
-    
-    func setupForAutolayout(inView view: UIView) {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(self)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A3C5E56225FB6C000963291 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C5E55225FB6C000963291 /* ViewPager.swift */; };
 		30CA0C741E286E2000568C25 /* ViewPagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C701E286E2000568C25 /* ViewPagerController.swift */; };
 		30CA0C751E286E2000568C25 /* ViewPagerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */; };
 		30CA0C761E286E2000568C25 /* ViewPagerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C721E286E2000568C25 /* ViewPagerTab.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A3C5E55225FB6C000963291 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		30CA0C701E286E2000568C25 /* ViewPagerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerController.swift; path = Core/ViewPagerController.swift; sourceTree = "<group>"; };
 		30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerOptions.swift; path = Core/ViewPagerOptions.swift; sourceTree = "<group>"; };
 		30CA0C721E286E2000568C25 /* ViewPagerTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerTab.swift; path = Core/ViewPagerTab.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 				30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */,
 				30CA0C721E286E2000568C25 /* ViewPagerTab.swift */,
 				30CA0C731E286E2000568C25 /* ViewPagerTabView.swift */,
+				1A3C5E55225FB6C000963291 /* ViewPager.swift */,
 			);
 			name = ViewPager;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 				5F7D16D01C6A1F80006B63C2 /* AppDelegate.swift in Sources */,
 				30CA0C761E286E2000568C25 /* ViewPagerTab.swift in Sources */,
 				30CA0C741E286E2000568C25 /* ViewPagerController.swift in Sources */,
+				1A3C5E56225FB6C000963291 /* ViewPager.swift in Sources */,
 				30CA0C751E286E2000568C25 /* ViewPagerOptions.swift in Sources */,
 				5F7D16E41C6A226C006B63C2 /* MainViewController.swift in Sources */,
 				30CA0C771E286E2000568C25 /* ViewPagerTabView.swift in Sources */,

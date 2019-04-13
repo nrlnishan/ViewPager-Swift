@@ -42,48 +42,43 @@ class MainViewController: UIViewController {
     var viewPager:ViewPagerController!
     var options:ViewPagerOptions!
     
+    var pager: ViewPager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        let options = ViewPagerOptions()
+        options.tabType = .imageWithText
+        options.distribution = .equal
+
         
-        self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
-        
-        self.title = "Awesome View pager"
-        
-        options = ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
-        options.tabType = ViewPagerTabType.imageWithText
-        options.tabViewImageSize = CGSize(width: 20, height: 20)
-        options.tabViewTextFont = UIFont.systemFont(ofSize: 16)
-        options.tabViewPaddingLeft = 20
-        options.tabViewPaddingRight = 20
-        options.isTabHighlightAvailable = true
-        
-        viewPager = ViewPagerController()
-        viewPager.options = options
-        viewPager.dataSource = self
-        viewPager.delegate = self
-        
-        self.addChild(viewPager)
-        self.view.addSubview(viewPager.view)
-        viewPager.didMove(toParent: self)
+        pager = ViewPager(viewController: self)
+        pager.setOptions(options: options)
+        pager.setDataSource(dataSource: self)
+        pager.setDelegate(delegate: self)
+        pager.build()
     }
+    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        options.viewPagerFrame = self.view.bounds
+        //options.viewPagerFrame = self.view.bounds
     }    
 }
 
 
-extension MainViewController: ViewPagerControllerDataSource {
+extension MainViewController: ViewPagerDataSource {
     
     func numberOfPages() -> Int {
         return tabs.count
     }
     
     func viewControllerAtPosition(position:Int) -> UIViewController {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as! ItemViewController
+
+        let vc = ItemViewController()
         vc.itemText = "\(tabs[position].title)"
+
         return vc
     }
     
@@ -96,7 +91,7 @@ extension MainViewController: ViewPagerControllerDataSource {
     }
 }
 
-extension MainViewController: ViewPagerControllerDelegate {
+extension MainViewController: ViewPagerDelegate {
     
     func willMoveToControllerAtIndex(index:Int) {
         print("Moving to page \(index)")

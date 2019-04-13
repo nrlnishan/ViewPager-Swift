@@ -5,7 +5,6 @@
 //  Created by Nishan on 2/9/16.
 //  Copyright © 2016 Nishan. All rights reserved.
 //
-
 import UIKit
 
 @objc public protocol ViewPagerControllerDelegate {
@@ -100,6 +99,17 @@ public class ViewPagerController:UIViewController {
         // Adding Gesture
         let tabViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewPagerController.tabContainerTapped(_:)))
         tabContainer.addGestureRecognizer(tabViewTapGesture)
+
+        
+        // For Landscape mode, Setting up VFL
+        tabContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(tabContainer)
+        
+        let viewDict:[String:UIView] = ["v0":self.tabContainer]
+        let metrics:[String:CGFloat] = ["tabViewHeight":options.tabViewHeight]
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v0]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: viewDict))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v0(tabViewHeight)]", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: viewDict))
+
     }
     
     
@@ -150,6 +160,7 @@ public class ViewPagerController:UIViewController {
                 
                 tabView.tag = index
                 tabsViewList.append(tabView)
+                
                 totalWidth += tabView.frame.width
                 maxWidth = getMaximumWidth(maxWidth: maxWidth, withWidth: tabView.frame.width)
             }
@@ -221,7 +232,7 @@ public class ViewPagerController:UIViewController {
         }
         
         // Just animate the scrolling if indicator is not available
-        UIView.animate(withDuration: 0.5) { 
+        UIView.animate(withDuration: 0.5) {
             
             self.tabContainer.scrollRectToVisible(currentTabFrame, animated: false)
         }
@@ -301,7 +312,7 @@ public class ViewPagerController:UIViewController {
         self.addChild(pageViewController)
         self.view.addSubview(pageViewController.view)
         self.pageViewController.didMove(toParent: self)
-       
+
         setupCurrentPageIndicator(currentIndex: currentPageIndex, previousIndex: currentPageIndex)
     }
     
@@ -343,7 +354,7 @@ public class ViewPagerController:UIViewController {
         let direction:UIPageViewController.NavigationDirection = (index > previousIndex ) ? .forward : .reverse
         setupCurrentPageIndicator(currentIndex: index, previousIndex: currentPageIndex)
         
-        /* Wierd bug in UIPageViewController. Due to caching, in scroll transition mode, 
+        /* Wierd bug in UIPageViewController. Due to caching, in scroll transition mode,
          wrong cached view controller is shown. This is the common workaround */
         
         pageViewController.setViewControllers([chosenViewController], direction: direction, animated: true, completion: { (isCompleted) in
@@ -376,7 +387,6 @@ public class ViewPagerController:UIViewController {
 }
 
 // MARK:- UIPageViewController Delegates
-
 extension ViewPagerController: UIPageViewControllerDelegate {
     
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
@@ -393,11 +403,10 @@ extension ViewPagerController: UIPageViewControllerDelegate {
         
         let pageIndex = pendingViewControllers.first?.view.tag
         delegate?.willMoveToControllerAtIndex?(index: pageIndex!)
-    }    
+    }
 }
 
 // MARK:- UIPageViewController Datasource
-
 extension ViewPagerController:UIPageViewControllerDataSource {
     
     /* ViewController the user will navigate to in backward direction */
@@ -413,4 +422,3 @@ extension ViewPagerController:UIPageViewControllerDataSource {
     }
     
 }
-
