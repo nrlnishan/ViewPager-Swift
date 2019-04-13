@@ -11,46 +11,40 @@ import Foundation
 
 public class ViewPagerOptions {
     
-    public var viewPagerFrame:CGRect = CGRect.zero
-
     public enum Distribution {
         
-        // 1. Normal, According to the width of each individual tabs
-        // 2. Equal, Each tab is of same size i.e size = size of largest tab
-        // 3. Segment, All the tabs are sized to fit within view width
-        
+        /// Tabs are laid out from Left to Right and can be scrolled if the size of all tabs combined exceeds the width of the container view
+        /// Width of each tabs is equal to its content width + paddings set in options.
         case normal
+        
+        /// Tabs are laid out from Left to Right and can be scrolled similar to Normal Distribution. Size of all the tabs are equal.
+        /// Width of each tab is equal to the width of the largest tab. Width of largest tab is determined similar to Normal Distribution.
         case equal
+        
+        /// Tabs are laid out from Left to Right in such a way that it doesnot exceeds the width of its container. So its not scrollable.
+        /// Container is divided into equal parts. Number of parts is determined by the number of tabs. Paddings are ignored.
         case segmented
     }
     
-    
-    public var distribution: ViewPagerOptions.Distribution = .segmented
-    
-    
-    // Tabs Customization
+    public var distribution: ViewPagerOptions.Distribution = .normal
     public var tabType:ViewPagerTabType = .basic
+    
     public var isTabHighlightAvailable:Bool = true
     public var isTabIndicatorAvailable:Bool = true
+    
     public var tabViewBackgroundDefaultColor:UIColor = Color.tabViewBackground
     public var tabViewBackgroundHighlightColor:UIColor = Color.tabViewHighlight
+    
     public var tabViewTextDefaultColor:UIColor = Color.textDefault
     public var tabViewTextHighlightColor:UIColor = Color.textHighlight
     
-    // Booleans
-    
-    /// Width of each tab is equal to the width of the largest tab. Tabs are laid out from Left - Right and are scrollable
-    public var isEachTabEvenlyDistributed:Bool = false
-    /// All the tabs are squeezed to fit inside the screen width. Tabs are not scrollable. Also it overrides isEachTabEvenlyDistributed
-    public var fitAllTabsInView:Bool = false
-    
     // Tab Properties
-    public var tabViewHeight:CGFloat = 50.0
+    public var tabViewHeight:CGFloat = 60
     public var tabViewPaddingLeft:CGFloat = 10.0
     public var tabViewPaddingRight:CGFloat = 10.0
-    public var tabViewTextFont:UIFont = UIFont.systemFont(ofSize: 16)
+    public var tabViewTextFont:UIFont = UIFont.systemFont(ofSize: 14, weight: .medium)
     
-    public var tabViewImageSize:CGSize = CGSize(width: 22, height: 22)
+    public var tabViewImageSize:CGSize = CGSize(width: 20, height: 20)
     public var tabViewImageMarginTop:CGFloat = 5
     public var tabViewImageMarginBottom:CGFloat = 5
     
@@ -61,31 +55,18 @@ public class ViewPagerOptions {
     // ViewPager
     public var viewPagerTransitionStyle:UIPageViewController.TransitionStyle = .scroll
     
-    /**
-     * Initializes Options for ViewPager. The frame of the supplied UIView in view parameter is
-     * used as reference for ViewPager width and height.
-     */
-    public init(viewPagerWithFrame frame:CGRect) {
-        self.viewPagerFrame = frame
-    }
-    
     public init() {
-        
+        // Initialization
     }
     
     fileprivate struct Color {
         
         static let tabViewBackground = UIColor.white
-        static let tabViewHighlight = UIColor.from(r: 129, g: 165, b: 148)
-        static let textDefault = UIColor.black
-        static let textHighlight = UIColor.white
-        static let tabIndicator = UIColor.from(r: 255, g: 102, b: 0)
-    }
-}
-
-fileprivate extension UIColor {
-    
-    class func from(r: CGFloat,g:CGFloat,b:CGFloat) -> UIColor {
-        return UIColor(red: r / 255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
+        static let tabViewHighlight = UIColor.groupTableViewBackground
+        
+        static let textDefault = UIColor.darkText
+        static let textHighlight = UIColor.darkText
+        
+        static let tabIndicator =  UIColor(red: 36 / 255.0, green: 90/255.0, blue: 153/255.0, alpha: 1.0)
     }
 }

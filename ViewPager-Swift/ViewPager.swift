@@ -101,7 +101,7 @@ public class ViewPager: NSObject {
         }
         
         // Adding Gesture
-        let tabViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewPagerController.tabContainerTapped(_:)))
+        let tabViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(tabContainerTapped(_:)))
         tabContainer.addGestureRecognizer(tabViewTapGesture)
     }
     
