@@ -34,6 +34,10 @@ class TestViewController: UIViewController {
         pager?.setDelegate(delegate: self)
         pager?.build()
     }
+    
+    deinit {
+        print("Memory Deallocation")
+    }
 }
 
 extension TestViewController: ViewPagerDataSource {

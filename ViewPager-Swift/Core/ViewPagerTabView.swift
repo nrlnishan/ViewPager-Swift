@@ -12,8 +12,7 @@ public final class ViewPagerTabView: UIView {
     
     internal var titleLabel:UILabel?
     internal var imageView:UIImageView?
-    
-    public var width: CGFloat = 0
+    internal var width: CGFloat = 0
     
     /*--------------------------
      MARK:- Initialization
@@ -156,7 +155,7 @@ public final class ViewPagerTabView: UIView {
                 // Resetting tabview frame again with the new width
                 let widthFromImage = imageSize.width + options.tabViewPaddingRight + options.tabViewPaddingLeft
                 let widthFromText = titleLabel!.intrinsicContentSize.width + options.tabViewPaddingLeft + options.tabViewPaddingRight
-                let tabWidth = (widthFromImage > widthFromText ) ? widthFromImage : widthFromText
+                let tabWidth = max(widthFromImage, widthFromText)
                 self.width = tabWidth
                 
             } else {

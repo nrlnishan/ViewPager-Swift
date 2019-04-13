@@ -44,22 +44,12 @@ class MainViewController: UIViewController {
         ViewPagerTab(title: "Sandwich", image: UIImage(named: "sandwich"))
     ]
     
-    var viewPager:ViewPagerController!
-    var options:ViewPagerOptions!
-    
-    var pager: ViewPager!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "BasicCell")
         tableView.dataSource = self
         tableView.delegate = self
-       
-        let options = ViewPagerOptions()
-        options.tabType = .basic
-        options.distribution = .normal
-        
     }
     
     func displayViewPager(indexPath: IndexPath) {

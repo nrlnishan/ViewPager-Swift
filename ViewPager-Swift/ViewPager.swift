@@ -32,10 +32,9 @@ public protocol ViewPagerDelegate: class {
 
 public class ViewPager: NSObject {
     
-    public weak var dataSource:ViewPagerDataSource?
-    public weak var delegate:ViewPagerDelegate?
-    
-    fileprivate var controller: UIViewController
+    fileprivate weak var dataSource:ViewPagerDataSource?
+    fileprivate weak var delegate:ViewPagerDelegate?
+    fileprivate weak var controller: UIViewController?
     fileprivate var view: UIView
     
     fileprivate var tabContainer = UIScrollView()
@@ -110,7 +109,7 @@ public class ViewPager: NSObject {
         
         let pageController = UIPageViewController(transitionStyle: options.viewPagerTransitionStyle, navigationOrientation: .horizontal, options: nil)
         
-        self.controller.addChild(pageController)
+        self.controller?.addChild(pageController)
         pageController.view.setupForAutolayout(inView: view)
         pageController.didMove(toParent: controller)
         self.pageController = pageController
