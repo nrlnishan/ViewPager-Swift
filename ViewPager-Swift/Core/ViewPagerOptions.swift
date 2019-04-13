@@ -11,11 +11,22 @@ import Foundation
 
 public class ViewPagerOptions {
     
+    public enum Distribution {
+        
+        // 1. Normal, According to the width of each individual tabs
+        // 2. Equal, Each tab is of same size i.e size = size of largest tab
+        // 3. Segment, All the tabs are sized to fit within view width
+        
+        case normal
+        case equal
+        case segmented
+    }
     
     
+    public var distribution: ViewPagerOptions.Distribution = .segmented
     
     
-    public var viewPagerFrame:CGRect = CGRect.zero
+    public var viewPagerFrame:CGRect = CGRect.zero // [R]
     
     // Tabs Customization
     public var tabType:ViewPagerTabType = .basic
@@ -38,6 +49,7 @@ public class ViewPagerOptions {
     public var tabViewPaddingLeft:CGFloat = 10.0
     public var tabViewPaddingRight:CGFloat = 10.0
     public var tabViewTextFont:UIFont = UIFont.systemFont(ofSize: 16)
+    
     public var tabViewImageSize:CGSize = CGSize(width: 25, height: 25)
     public var tabViewImageMarginTop:CGFloat = 5
     public var tabViewImageMarginBottom:CGFloat = 5

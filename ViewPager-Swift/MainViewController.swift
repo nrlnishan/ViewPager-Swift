@@ -47,8 +47,12 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let options = ViewPagerOptions()
+        options.tabType = .imageWithText
+        options.distribution = .equal
+        
         pager = ViewPager(viewController: self)
-        pager.setOptions(options: ViewPagerOptions())
+        pager.setOptions(options: options)
         pager.setDataSource(dataSource: self)
         pager.setDelegate(delegate: self)
         pager.build()

@@ -71,6 +71,7 @@ class ViewPager: NSObject {
     public func build() {
         setupTabContainerView()
         setupPageViewController()
+        setupTabViews()
     }
     
     // MARK:- Private Helpers
@@ -88,6 +89,7 @@ class ViewPager: NSObject {
         tabContainer.heightAnchor.constraint(equalToConstant: options.tabViewHeight).isActive = true
         tabContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tabContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tabContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         
         if #available(iOS 11.0, *) {
             let safeArea = view.safeAreaLayoutGuide
@@ -102,7 +104,7 @@ class ViewPager: NSObject {
         tabContainer.addGestureRecognizer(tabViewTapGesture)
     }
     
-    func setupPageViewController() {
+    fileprivate func setupPageViewController() {
         
         let pageController = UIPageViewController(transitionStyle: options.viewPagerTransitionStyle, navigationOrientation: .horizontal, options: nil)
         
@@ -113,7 +115,7 @@ class ViewPager: NSObject {
         
         self.pageController?.dataSource = self
         self.pageController?.delegate = self
-        
+
         self.pageController?.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         self.pageController?.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         self.pageController?.view.topAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
@@ -130,6 +132,105 @@ class ViewPager: NSObject {
         }
     }
     
+    fileprivate func setupTabViews() {
+        
+        guard let tabs = dataSource?.tabsForPages() else { return }
+        self.tabsList = tabs
+        
+        switch options.distribution {
+        case .segmented:
+            setupTabsForSegmentedDistribution()
+            
+        case .normal:
+            setupTabsForNormalAndEqualDistribution(distribution: .normal)
+            
+        case .equal:
+            setupTabsForNormalAndEqualDistribution(distribution: .equal)
+        }
+    }
+    
+    fileprivate func setupTabsForNormalAndEqualDistribution(distribution: ViewPagerOptions.Distribution) {
+        
+        var maxWidth: CGFloat = 0
+        
+        var lastTab: ViewPagerTabView?
+        
+        for (index, eachTab) in tabsList.enumerated() {
+            
+            let tabView = ViewPagerTabView()
+            tabView.setupForAutolayout(inView: tabContainer)
+            tabView.setup(tab: eachTab, options: options, condition: .distributeNormally)
+            
+            if let previousTab = lastTab {
+                tabView.leadingAnchor.constraint(equalTo: previousTab.trailingAnchor).isActive = true
+            } else {
+                tabView.leadingAnchor.constraint(equalTo: tabContainer.leadingAnchor).isActive = true
+            }
+            
+            tabView.topAnchor.constraint(equalTo: tabContainer.topAnchor).isActive = true
+            tabView.bottomAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
+            tabView.heightAnchor.constraint(equalToConstant: options.tabViewHeight).isActive = true
+            
+            tabView.tag = index
+            tabsViewList.append(tabView)
+            
+            maxWidth = getMaximumWidth(maxWidth: maxWidth, withWidth: tabView.width)
+            lastTab = tabView
+        }
+        
+        lastTab?.trailingAnchor.constraint(equalTo: tabContainer.trailingAnchor).isActive = true
+        
+        // Second pass to set Width for all tabs
+        tabsViewList.forEach { tabView in
+            
+            switch distribution {
+                
+            case .normal:
+                tabView.widthAnchor.constraint(equalToConstant: tabView.width).isActive = true
+            case .equal:
+                tabView.widthAnchor.constraint(equalToConstant: maxWidth).isActive = true
+            default:
+                break
+            }
+        }
+    }
+    
+    fileprivate func setupTabsForSegmentedDistribution() {
+        
+        var lastTab: ViewPagerTabView?
+        
+        let tabCount = CGFloat(self.tabsList.count)
+        let distribution = CGFloat(1.0 / tabCount)
+        
+        for (index, eachTab) in self.tabsList.enumerated() {
+            
+            let tabView = ViewPagerTabView()
+            tabView.setupForAutolayout(inView: tabContainer)
+            
+            if let previousTab = lastTab {
+                tabView.leadingAnchor.constraint(equalTo: previousTab.trailingAnchor).isActive = true
+            } else {
+                tabView.leadingAnchor.constraint(equalTo: tabContainer.leadingAnchor).isActive = true
+            }
+            
+            tabView.topAnchor.constraint(equalTo: tabContainer.topAnchor).isActive = true
+            tabView.bottomAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
+            
+            tabView.heightAnchor.constraint(equalToConstant: options.tabViewHeight).isActive = true
+            tabView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: distribution).isActive = true
+            
+            tabView.setup(tab: eachTab, options: options, condition: .fitAllTabs)
+            
+            tabView.tag = index
+            tabsViewList.append(tabView)
+            
+            lastTab = tabView
+        }
+        
+        lastTab?.trailingAnchor.constraint(equalTo: tabContainer.trailingAnchor).isActive = true
+    }
+    
+    
     /// Returns UIViewController for page at provided index.
     fileprivate func getPageItemViewController(atIndex index:Int) -> UIViewController? {
         
@@ -143,6 +244,12 @@ class ViewPager: NSObject {
         return pageItemViewController
     }
     
+    /// Determines maximum width between two provided value and returns it
+    fileprivate func getMaximumWidth(maxWidth:CGFloat, withWidth currentWidth:CGFloat) -> CGFloat {
+        
+        return (maxWidth > currentWidth) ? maxWidth : currentWidth
+    }
+    
     
     // MARK:- Actions
     @objc func tabContainerTapped(_ recognizer:UITapGestureRecognizer) {
@@ -151,6 +258,8 @@ class ViewPager: NSObject {
         let tabViewTapped =  tabContainer.hitTest(tapLocation, with: nil)
         
         let tabViewIndex = tabViewTapped?.tag
+        
+        print("Tab Tapped: \(tabViewIndex)")
         
         if tabViewIndex != currentPageIndex {
             
@@ -199,7 +308,15 @@ extension ViewPager: UIPageViewControllerDelegate {
 extension UIView {
     
     func setupForAutolayout(inView v: UIView) {
-        self.translatesAutoresizingMaskIntoConstraints = false
         v.addSubview(self)
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func pinSides(inView v: UIView) {
+        
+        self.leadingAnchor.constraint(equalTo: v.leadingAnchor).isActive = true
+        self.trailingAnchor.constraint(equalTo: v.trailingAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: v.bottomAnchor).isActive = true
+        self.topAnchor.constraint(equalTo: v.topAnchor).isActive = true
     }
 }
