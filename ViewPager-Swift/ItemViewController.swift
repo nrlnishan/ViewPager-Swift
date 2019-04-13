@@ -13,7 +13,7 @@ class ItemViewController: UIViewController {
     override func loadView() {
         
         let newView = UIView()
-        newView.backgroundColor = UIColor.orange
+        newView.backgroundColor = UIColor.groupTableViewBackground
         
         view = newView
     }

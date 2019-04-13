@@ -10,6 +10,11 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    var sections = ["Basic Tab","Image Tab","Image And Text Tab"]
+    var distributions = ["Distribution: Normal","Distribution: Equal","Distribution: Segmented"]
+    
     let tabs1 = [
         ViewPagerTab(title: "Apple", image: UIImage(named: "apple")),
         ViewPagerTab(title: "Carrot", image: UIImage(named: "carrot")),
@@ -30,7 +35,7 @@ class MainViewController: UIViewController {
         ViewPagerTab(title: "Water", image: UIImage(named: "water"))
     ]
     
-    var tabs = [
+    var tabs3 = [
         ViewPagerTab(title: "Fries", image: UIImage(named: "fries")),
         ViewPagerTab(title: "Hamburger", image: UIImage(named: "hamburger")),
         ViewPagerTab(title: "Beer", image: UIImage(named: "pint")),
@@ -46,58 +51,122 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "BasicCell")
+        tableView.dataSource = self
+        tableView.delegate = self
        
         let options = ViewPagerOptions()
-        options.tabType = .imageWithText
-        options.distribution = .equal
-
+        options.tabType = .basic
+        options.distribution = .normal
         
-        pager = ViewPager(viewController: self)
-        pager.setOptions(options: options)
-        pager.setDataSource(dataSource: self)
-        pager.setDelegate(delegate: self)
-        pager.build()
     }
     
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    func displayViewPager(indexPath: IndexPath) {
         
-        //options.viewPagerFrame = self.view.bounds
-    }    
+        let options = ViewPagerOptions()
+        var tabs = [ViewPagerTab]()
+        
+        switch (indexPath.section,indexPath.row) {
+        case (0,0):
+            // Basic Tab
+            
+            tabs = tabs1
+            options.tabType = .basic
+            options.distribution = .normal
+            
+            
+        case (0,1):
+            
+            tabs = tabs1
+            options.tabType = .basic
+            options.distribution = .equal
+            
+        case (0,2):
+            
+            tabs = tabs1
+            options.tabType = .basic
+            options.distribution = .segmented
+            
+        case (1,0):
+            
+            tabs = tabs2
+            options.tabType = .image
+            options.distribution = .normal
+            
+            
+        case (1,1):
+            
+            tabs = tabs2
+            options.tabType = .image
+            options.distribution = .equal
+            
+        case (1,2):
+            
+            tabs = tabs2
+            options.tabType = .image
+            options.distribution = .segmented
+        
+        case (2,0):
+            
+            tabs = tabs3
+            options.tabType = .imageWithText
+            options.distribution = .normal
+            
+            
+        case (2,1):
+            
+            tabs = tabs3
+            options.tabType = .imageWithText
+            options.distribution = .equal
+            
+        case (2,2):
+            
+            tabs = tabs3
+            options.tabType = .imageWithText
+            options.distribution = .segmented
+            
+        default:
+            break
+        }
+        
+        let controller = TestViewController()
+        controller.options = options
+        controller.tabs = tabs
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
 }
 
-
-extension MainViewController: ViewPagerDataSource {
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfPages() -> Int {
-        return tabs.count
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
     }
     
-    func viewControllerAtPosition(position:Int) -> UIViewController {
-
-        let vc = ItemViewController()
-        vc.itemText = "\(tabs[position].title)"
-
-        return vc
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
     }
     
-    func tabsForPages() -> [ViewPagerTab] {
-        return tabs
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section]
     }
     
-    func startViewPagerAtIndex() -> Int {
-        return 0
-    }
-}
-
-extension MainViewController: ViewPagerDelegate {
-    
-    func willMoveToControllerAtIndex(index:Int) {
-        print("Moving to page \(index)")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCell")!
+        cell.textLabel?.text = distributions[indexPath.row]
+        return cell
     }
     
-    func didMoveToControllerAtIndex(index: Int) {
-        print("Moved to page \(index)")
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        self.displayViewPager(indexPath: indexPath)
     }
 }
+

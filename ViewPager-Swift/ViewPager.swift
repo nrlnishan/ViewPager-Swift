@@ -30,7 +30,7 @@ public protocol ViewPagerDelegate: class {
     func didMoveToControllerAtIndex(index:Int)
 }
 
-class ViewPager: NSObject {
+public class ViewPager: NSObject {
     
     public weak var dataSource:ViewPagerDataSource?
     public weak var delegate:ViewPagerDelegate?
@@ -39,19 +39,21 @@ class ViewPager: NSObject {
     fileprivate var view: UIView
     
     fileprivate var tabContainer = UIScrollView()
-    fileprivate var tabIndicator = UIView()
     fileprivate var pageController: UIPageViewController?
+    
+    fileprivate var tabIndicator = UIView()
+    fileprivate var tabIndicatorLeadingConstraint: NSLayoutConstraint?
+    fileprivate var tabIndicatorWidthConstraint: NSLayoutConstraint?
     
     fileprivate var tabsList = [ViewPagerTab]()
     fileprivate var tabsViewList = [ViewPagerTabView]()
     
     fileprivate var options = ViewPagerOptions()
     fileprivate var currentPageIndex = 0
-    fileprivate var isIndicatorAdded = false
     
     
     // MARK:- Public Helpers
-    init(viewController: UIViewController, containerView: UIView? = nil) {
+    public init(viewController: UIViewController, containerView: UIView? = nil) {
         self.controller = viewController
         self.view = containerView ?? viewController.view
     }
@@ -71,21 +73,21 @@ class ViewPager: NSObject {
     public func build() {
         setupTabContainerView()
         setupPageViewController()
-        setupTabViews()
+        setupTabAndIndicator()
     }
     
     // MARK:- Private Helpers
+    
     fileprivate func setupTabContainerView() {
         
         tabContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tabContainer)
         
-        tabContainer.backgroundColor = UIColor.groupTableViewBackground
+        tabContainer.backgroundColor = UIColor.white
         tabContainer.isScrollEnabled = true
         tabContainer.showsVerticalScrollIndicator = false
         tabContainer.showsHorizontalScrollIndicator = false
         
-        // Constraint
         tabContainer.heightAnchor.constraint(equalToConstant: options.tabViewHeight).isActive = true
         tabContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tabContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -115,7 +117,7 @@ class ViewPager: NSObject {
         
         self.pageController?.dataSource = self
         self.pageController?.delegate = self
-
+        
         self.pageController?.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         self.pageController?.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         self.pageController?.view.topAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
@@ -132,7 +134,9 @@ class ViewPager: NSObject {
         }
     }
     
-    fileprivate func setupTabViews() {
+    // MARK:- ViewPager Tab Setup
+    
+    fileprivate func setupTabAndIndicator() {
         
         guard let tabs = dataSource?.tabsForPages() else { return }
         self.tabsList = tabs
@@ -147,6 +151,26 @@ class ViewPager: NSObject {
         case .equal:
             setupTabsForNormalAndEqualDistribution(distribution: .equal)
         }
+        
+        if options.isTabIndicatorAvailable {
+            
+            tabIndicator.setupForAutolayout(inView: self.tabContainer)
+            tabIndicator.backgroundColor = options.tabIndicatorViewBackgroundColor
+            tabIndicator.heightAnchor.constraint(equalToConstant: options.tabIndicatorViewHeight).isActive = true
+            tabIndicator.bottomAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
+            
+            let activeTab = self.tabsViewList[currentPageIndex]
+            
+            tabIndicatorLeadingConstraint = tabIndicator.leadingAnchor.constraint(equalTo: activeTab.leadingAnchor)
+            tabIndicatorWidthConstraint = tabIndicator.widthAnchor.constraint(equalTo: activeTab.widthAnchor)
+            
+            tabIndicatorLeadingConstraint?.isActive = true
+            tabIndicatorWidthConstraint?.isActive = true
+        }
+        
+        if options.isTabHighlightAvailable {
+            self.tabsViewList[currentPageIndex].addHighlight(options: self.options)
+        }
     }
     
     fileprivate func setupTabsForNormalAndEqualDistribution(distribution: ViewPagerOptions.Distribution) {
@@ -159,7 +183,9 @@ class ViewPager: NSObject {
             
             let tabView = ViewPagerTabView()
             tabView.setupForAutolayout(inView: tabContainer)
-            tabView.setup(tab: eachTab, options: options, condition: .distributeNormally)
+            
+            tabView.backgroundColor = options.tabViewBackgroundDefaultColor
+            tabView.setup(tab: eachTab, options: options)
             
             if let previousTab = lastTab {
                 tabView.leadingAnchor.constraint(equalTo: previousTab.trailingAnchor).isActive = true
@@ -174,7 +200,7 @@ class ViewPager: NSObject {
             tabView.tag = index
             tabsViewList.append(tabView)
             
-            maxWidth = getMaximumWidth(maxWidth: maxWidth, withWidth: tabView.width)
+            maxWidth = max(maxWidth, tabView.width)
             lastTab = tabView
         }
         
@@ -195,6 +221,7 @@ class ViewPager: NSObject {
         }
     }
     
+    
     fileprivate func setupTabsForSegmentedDistribution() {
         
         var lastTab: ViewPagerTabView?
@@ -206,6 +233,7 @@ class ViewPager: NSObject {
             
             let tabView = ViewPagerTabView()
             tabView.setupForAutolayout(inView: tabContainer)
+            tabView.backgroundColor = options.tabViewBackgroundDefaultColor
             
             if let previousTab = lastTab {
                 tabView.leadingAnchor.constraint(equalTo: previousTab.trailingAnchor).isActive = true
@@ -215,11 +243,10 @@ class ViewPager: NSObject {
             
             tabView.topAnchor.constraint(equalTo: tabContainer.topAnchor).isActive = true
             tabView.bottomAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
-            
             tabView.heightAnchor.constraint(equalToConstant: options.tabViewHeight).isActive = true
             tabView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: distribution).isActive = true
             
-            tabView.setup(tab: eachTab, options: options, condition: .fitAllTabs)
+            tabView.setup(tab: eachTab, options: options)
             
             tabView.tag = index
             tabsViewList.append(tabView)
@@ -229,6 +256,51 @@ class ViewPager: NSObject {
         
         lastTab?.trailingAnchor.constraint(equalTo: tabContainer.trailingAnchor).isActive = true
     }
+    
+    /// Sets up indicator for the page if enabled in ViewPagerOption. This method shows either tabIndicator or Highlights current tab or both.
+    fileprivate func setupCurrentPageIndicator(currentIndex: Int, previousIndex: Int) {
+        
+        self.currentPageIndex = currentIndex
+        
+        let activeTab = tabsViewList[currentIndex]
+        let activeFrame = activeTab.frame
+        
+        // Setup Tab Highlight
+        if options.isTabHighlightAvailable {
+            
+            self.tabsViewList[previousIndex].removeHighlight(options: self.options)
+            
+            UIView.animate(withDuration: 0.4, animations: {
+                self.tabsViewList[currentIndex].addHighlight(options: self.options)
+            })
+        }
+        
+        if options.isTabIndicatorAvailable {
+            
+            // Deactivate previous contstraint
+            tabIndicatorLeadingConstraint?.isActive = false
+            tabIndicatorWidthConstraint?.isActive = false
+            
+            // Create new ones to activate within animation block
+            tabIndicatorLeadingConstraint = tabIndicator.leadingAnchor.constraint(equalTo: activeTab.leadingAnchor)
+            tabIndicatorWidthConstraint = tabIndicator.widthAnchor.constraint(equalTo: activeTab.widthAnchor)
+            
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.5) {
+                
+                self.tabIndicatorWidthConstraint?.isActive = true
+                self.tabIndicatorLeadingConstraint?.isActive = true
+                
+                self.tabContainer.scrollRectToVisible(activeFrame, animated: false)
+                self.tabContainer.layoutIfNeeded()
+            }
+            
+            return
+        }
+        
+        self.tabContainer.scrollRectToVisible(activeFrame, animated: true)
+    }
+    
     
     
     /// Returns UIViewController for page at provided index.
@@ -244,10 +316,54 @@ class ViewPager: NSObject {
         return pageItemViewController
     }
     
-    /// Determines maximum width between two provided value and returns it
-    fileprivate func getMaximumWidth(maxWidth:CGFloat, withWidth currentWidth:CGFloat) -> CGFloat {
+    
+    /// Displays the UIViewController provided at given index in datasource.
+    ///
+    /// - Parameter index: position of the view controller to be displayed. 0 is first UIViewController
+    public func displayViewController(atIndex index:Int) {
         
-        return (maxWidth > currentWidth) ? maxWidth : currentWidth
+        guard let chosenViewController = getPageItemViewController(atIndex: index) else {
+            fatalError("There is no view controller for tab at index: \(index)")
+        }
+        
+        let previousIndex = currentPageIndex
+        let direction:UIPageViewController.NavigationDirection = (index > previousIndex ) ? .forward : .reverse
+        
+        
+        delegate?.willMoveToControllerAtIndex(index: index)
+        setupCurrentPageIndicator(currentIndex: index, previousIndex: currentPageIndex)
+        
+        /* Wierd bug in UIPageViewController. Due to caching, in scroll transition mode,
+         wrong cached view controller is shown. This is the common workaround */
+        pageController?.setViewControllers([chosenViewController], direction: direction, animated: true, completion: { (isCompleted) in
+            
+            DispatchQueue.main.async { [unowned self] in
+                
+                self.pageController?.setViewControllers([chosenViewController], direction: direction, animated: false, completion: { (isComplete) in
+                    
+                    guard isComplete else { return }
+                    
+                    self.delegate?.didMoveToControllerAtIndex(index: index)
+                    
+                })
+            }
+        })
+    }
+    
+    /// Invalidate the current tab layout and causes the layout to be drawn again.
+    public func invalidateTabs() {
+        
+        // Removing all the tabs from tabContainer
+        _ = tabsViewList.map({ $0.removeFromSuperview() })
+        
+        tabIndicator = UIView()
+        tabIndicatorLeadingConstraint?.isActive = false
+        tabIndicatorWidthConstraint?.isActive = false
+        
+        tabsList.removeAll()
+        tabsViewList.removeAll()
+        
+        setupTabAndIndicator()
     }
     
     
@@ -257,13 +373,8 @@ class ViewPager: NSObject {
         let tapLocation = recognizer.location(in: self.tabContainer)
         let tabViewTapped =  tabContainer.hitTest(tapLocation, with: nil)
         
-        let tabViewIndex = tabViewTapped?.tag
-        
-        print("Tab Tapped: \(tabViewIndex)")
-        
-        if tabViewIndex != currentPageIndex {
-            
-            //displayViewController(atIndex: tabViewIndex ?? 0)
+        if let tabIndex = tabViewTapped?.tag, tabIndex != currentPageIndex {
+            displayViewController(atIndex: tabIndex)
         }
     }
 }
@@ -290,11 +401,12 @@ extension ViewPager: UIPageViewControllerDelegate {
     
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
+        guard let pageIndex = pageViewController.viewControllers?.first?.view.tag else { return }
+        
         if completed && finished {
             
-            let pageIndex = pageViewController.viewControllers?.first?.view.tag
-            //setupCurrentPageIndicator(currentIndex: pageIndex!, previousIndex: currentPageIndex)
-            delegate?.didMoveToControllerAtIndex(index: pageIndex!)
+            setupCurrentPageIndicator(currentIndex: pageIndex, previousIndex: currentPageIndex)
+            delegate?.didMoveToControllerAtIndex(index: pageIndex)
         }
     }
     

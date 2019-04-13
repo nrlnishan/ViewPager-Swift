@@ -30,7 +30,7 @@ public class ViewPagerOptions {
     
     // Tabs Customization
     public var tabType:ViewPagerTabType = .basic
-    public var isTabHighlightAvailable:Bool = false
+    public var isTabHighlightAvailable:Bool = true
     public var isTabIndicatorAvailable:Bool = true
     public var tabViewBackgroundDefaultColor:UIColor = Color.tabViewBackground
     public var tabViewBackgroundHighlightColor:UIColor = Color.tabViewHighlight
@@ -75,7 +75,7 @@ public class ViewPagerOptions {
     
     fileprivate struct Color {
         
-        static let tabViewBackground = UIColor.groupTableViewBackground
+        static let tabViewBackground = UIColor.white
         static let tabViewHighlight = UIColor.from(r: 129, g: 165, b: 148)
         static let textDefault = UIColor.black
         static let textHighlight = UIColor.white

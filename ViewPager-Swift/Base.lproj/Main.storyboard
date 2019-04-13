@@ -20,9 +20,24 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5Oi-3m-458">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5Oi-3m-458" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="BE4-W3-hTj"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5Oi-3m-458" secondAttribute="bottom" id="Dok-sA-33c"/>
+                            <constraint firstAttribute="trailing" secondItem="5Oi-3m-458" secondAttribute="trailing" id="GEW-5Z-VKq"/>
+                            <constraint firstItem="5Oi-3m-458" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="y8J-p8-2R3"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DJ2-0R-fVN"/>
+                    <connections>
+                        <outlet property="tableView" destination="5Oi-3m-458" id="P60-OF-OBA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

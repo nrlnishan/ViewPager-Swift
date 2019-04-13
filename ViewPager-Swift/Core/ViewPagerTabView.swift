@@ -10,14 +10,8 @@ import UIKit
 
 public final class ViewPagerTabView: UIView {
     
-    internal enum SetupCondition {
-        case fitAllTabs
-        case distributeNormally
-    }
-    
     internal var titleLabel:UILabel?
     internal var imageView:UIImageView?
-    
     
     public var width: CGFloat = 0
     
@@ -41,18 +35,18 @@ public final class ViewPagerTabView: UIView {
      Sets up tabview for ViewPager. The type of tabview is automatically obtained from
      the options passed in this function.
      */
-    internal func setup(tab:ViewPagerTab, options:ViewPagerOptions , condition:SetupCondition) {
+    internal func setup(tab:ViewPagerTab, options:ViewPagerOptions) {
         
         switch options.tabType {
             
         case ViewPagerTabType.basic:
-            setupBasicTab(condition: condition, options: options, tab: tab)
+            setupBasicTab(options: options, tab: tab)
             
         case ViewPagerTabType.image:
-            setupImageTab(condition: condition, withText: false,options: options, tab:tab)
+            setupImageTab(withText: false,options: options, tab:tab)
             
         case ViewPagerTabType.imageWithText:
-            setupImageTab(condition: condition, withText: true, options: options, tab:tab)
+            setupImageTab(withText: true, options: options, tab:tab)
         }
     }
     
@@ -65,18 +59,20 @@ public final class ViewPagerTabView: UIView {
      * Case DistributeNormally: Creates a tabview. Width is calculated from title intrinsic size. Considers the padding
      * provided from options too.
      */
-    fileprivate func setupBasicTab(condition:SetupCondition, options:ViewPagerOptions, tab:ViewPagerTab) {
+    fileprivate func setupBasicTab(options:ViewPagerOptions, tab:ViewPagerTab) {
         
-        switch condition {
-            
-        case .fitAllTabs:
+        
+        let distribution = options.distribution
+        
+        switch distribution {
+        case .segmented:
             
             buildTitleLabel(withOptions: options, text: tab.title)
             
             titleLabel?.setupForAutolayout(inView: self)
             titleLabel?.pinSides(inView: self)
             
-        case .distributeNormally:
+        case .equal, .normal:
             
             buildTitleLabel(withOptions: options, text: tab.title)
             
@@ -99,13 +95,15 @@ public final class ViewPagerTabView: UIView {
      * is larger. ImageView is centered inside tabview with provided paddings if tab type is Image only. Considers both padding
      * and image margin incase tab type is ImageWithText.
      */
-    fileprivate func setupImageTab(condition:SetupCondition, withText:Bool, options:ViewPagerOptions, tab:ViewPagerTab) {
+    fileprivate func setupImageTab(withText:Bool, options:ViewPagerOptions, tab:ViewPagerTab) {
+        
+        let distribution = options.distribution
         
         let imageSize = options.tabViewImageSize
         
-        switch condition {
+        switch distribution {
             
-        case .fitAllTabs:
+        case .segmented:
             
             if withText {
                 
@@ -136,7 +134,7 @@ public final class ViewPagerTabView: UIView {
             }
             
             
-        case .distributeNormally:
+        case .normal,.equal:
             
             if withText {
                 
@@ -199,53 +197,6 @@ public final class ViewPagerTabView: UIView {
         imageView = UIImageView()
         imageView?.contentMode = .scaleAspectFit
         imageView?.image = image
-    }
-    
-    /**
-     * Updates the frame of the current tab view incase of EvenlyDistributedCondition. Also propagates those
-     * changes to titleLabel and imageView based on ViewPagerTabType.
-     */
-    internal func updateFrame(atIndex index:Int, withWidth width:CGFloat, options:ViewPagerOptions) {
-        
-        // Updating frame of the TabView
-        let tabViewCurrentFrame = self.frame
-        let tabViewXPosition = CGFloat(index) * width
-        let tabViewNewFrame = CGRect(x: tabViewXPosition, y: tabViewCurrentFrame.origin.y, width: width, height: tabViewCurrentFrame.height)
-        self.frame = tabViewNewFrame
-        
-        switch options.tabType {
-            
-        case .basic:
-            
-            // Updating frame for titleLabel
-            titleLabel?.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
-            
-            self.setNeedsUpdateConstraints()
-            
-        case .image:
-            
-            // Updating frame for ImageView
-            let xPosition = ( width - options.tabViewImageSize.width ) / 2
-            let yPosition = (options.tabViewHeight - options.tabViewImageSize.height ) / 2
-            imageView?.frame = CGRect(x: xPosition, y: yPosition, width: options.tabViewImageSize.width, height: options.tabViewImageSize.height)
-            
-            self.setNeedsUpdateConstraints()
-            
-        case .imageWithText:
-            
-            // Setting imageview frame
-            let xImagePosition:CGFloat  = (width - options.tabViewImageSize.width) / 2
-            let yImagePosition:CGFloat = options.tabViewImageMarginTop
-            imageView?.frame = CGRect(x: xImagePosition, y: yImagePosition , width: options.tabViewImageSize.width, height: options.tabViewImageSize.height)
-            
-            // Setting titleLabel frame
-            let xTextPosition:CGFloat = 0
-            let yTextPosition = yImagePosition + options.tabViewImageMarginBottom + options.tabViewImageSize.height
-            let textHeight:CGFloat = options.tabViewHeight - yTextPosition - options.tabIndicatorViewHeight
-            titleLabel?.frame = CGRect(x: xTextPosition, y: yTextPosition, width: width, height: textHeight)
-            
-            self.setNeedsUpdateConstraints()
-        }
     }
     
     internal func addHighlight(options:ViewPagerOptions) {

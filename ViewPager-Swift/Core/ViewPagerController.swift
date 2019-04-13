@@ -133,7 +133,7 @@ public class ViewPagerController:UIViewController {
                 let xPosition = CGFloat(index) * eachLabelWidth
                 let tabView = ViewPagerTabView()
                 tabView.frame = CGRect(x: xPosition, y: 0, width: eachLabelWidth, height: options.tabViewHeight)
-                tabView.setup(tab: eachTab, options: options, condition: ViewPagerTabView.SetupCondition.fitAllTabs)
+                //tabView.setup(tab: eachTab, options: options, condition: ViewPagerTabView.SetupCondition.fitAllTabs)
                 
                 tabView.tag = index
                 tabsViewList.append(tabView)
@@ -151,7 +151,7 @@ public class ViewPagerController:UIViewController {
                 tabView.frame = dummyFrame
                 
                 // Creating tabs using their intrinsic content size.
-                tabView.setup(tab: eachTab, options: options, condition: ViewPagerTabView.SetupCondition.distributeNormally)
+                //tabView.setup(tab: eachTab, options: options, condition: ViewPagerTabView.SetupCondition.distributeNormally)
                 
                 if !options.isEachTabEvenlyDistributed {
                     
@@ -170,7 +170,7 @@ public class ViewPagerController:UIViewController {
                 
                 for (index,eachTabView) in tabsViewList.enumerated() {
                     
-                    eachTabView.updateFrame(atIndex: index, withWidth: maxWidth, options: options)
+                    //eachTabView.updateFrame(atIndex: index, withWidth: maxWidth, options: options)
                     tabContainer.addSubview(eachTabView)
                 }
                 
@@ -271,7 +271,7 @@ public class ViewPagerController:UIViewController {
                     
                     for (index,eachTab ) in self.tabsViewList.enumerated() {
                         
-                        eachTab.updateFrame(atIndex: index, withWidth: tabViewWidth, options: self.options)
+                        //eachTab.updateFrame(atIndex: index, withWidth: tabViewWidth, options: self.options)
                     }
                     
                     self.tabContainer.contentSize = CGSize(width: tabContainerWidth, height: self.options.tabViewHeight)
