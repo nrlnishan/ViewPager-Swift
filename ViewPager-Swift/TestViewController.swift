@@ -10,6 +10,16 @@ import UIKit
 
 class TestViewController: UIViewController {
 
+    let tabs2 = [
+        ViewPagerTab(title: "Cheese", image: UIImage(named: "cheese")),
+        ViewPagerTab(title: "Cupcake", image: UIImage(named: "cupcake")),
+        ViewPagerTab(title: "Doughnut", image: UIImage(named: "doughnut")),
+        ViewPagerTab(title: "Fish", image: UIImage(named: "fish")),
+        ViewPagerTab(title: "Meat", image: UIImage(named: "meat")),
+        ViewPagerTab(title: "Milk", image: UIImage(named: "milk")),
+        ViewPagerTab(title: "Water", image: UIImage(named: "water"))
+    ]
+    
     var tabs = [ViewPagerTab]()
     
     var options: ViewPagerOptions?
@@ -33,7 +43,9 @@ class TestViewController: UIViewController {
         pager?.setDataSource(dataSource: self)
         pager?.setDelegate(delegate: self)
         pager?.build()
+        
     }
+    
     
     deinit {
         print("Memory Deallocation")

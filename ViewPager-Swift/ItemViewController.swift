@@ -31,5 +31,14 @@ class ItemViewController: UIViewController {
         
         itemLabel.text = itemText
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Access the navigation controller if you want from child
+        if let parentPageViewController = self.parent {
+            parentPageViewController.parent?.navigationItem.title = itemText
+        }
+    }
 }
 

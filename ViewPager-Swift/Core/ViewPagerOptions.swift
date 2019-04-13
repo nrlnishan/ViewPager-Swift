@@ -45,7 +45,7 @@ public class ViewPagerOptions {
     public var tabViewTextFont:UIFont = UIFont.systemFont(ofSize: 14, weight: .medium)
     
     public var tabViewImageSize:CGSize = CGSize(width: 20, height: 20)
-    public var tabViewImageMarginTop:CGFloat = 5
+    public var tabViewImageMarginTop:CGFloat = 10
     public var tabViewImageMarginBottom:CGFloat = 5
     
     public var shadowColor: UIColor = UIColor.black
@@ -57,10 +57,8 @@ public class ViewPagerOptions {
     public var tabIndicatorViewHeight:CGFloat = 3
     public var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
     
-    
     // ViewPager
     public var viewPagerTransitionStyle:UIPageViewController.TransitionStyle = .scroll
-    
     
     public init() {
         // Initialization
@@ -68,12 +66,12 @@ public class ViewPagerOptions {
     
     fileprivate struct Color {
         
-        static let tabViewBackground = UIColor.white
-        static let tabViewHighlight = UIColor.groupTableViewBackground
+        static let tabViewBackground = UIColor(red: 23 / 255.0, green: 26/255.0, blue: 33/255.0, alpha: 1.0)
+        static let tabViewHighlight = tabViewBackground.withAlphaComponent(0.8)
         
-        static let textDefault = UIColor.darkText
-        static let textHighlight = UIColor.darkText
+        static let textDefault = UIColor.white
+        static let textHighlight = UIColor.white
         
-        static let tabIndicator =  UIColor(red: 36 / 255.0, green: 90/255.0, blue: 153/255.0, alpha: 1.0)
+        static let tabIndicator =  UIColor(red: 214 / 255.0, green: 73/255.0, blue: 51/255.0, alpha: 1.0)
     }
 }

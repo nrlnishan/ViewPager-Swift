@@ -82,7 +82,7 @@ public class ViewPager: NSObject {
         tabContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tabContainer)
         
-        tabContainer.backgroundColor = UIColor.white
+        tabContainer.backgroundColor = options.tabViewBackgroundDefaultColor
         tabContainer.isScrollEnabled = true
         tabContainer.showsVerticalScrollIndicator = false
         tabContainer.showsHorizontalScrollIndicator = false
@@ -312,7 +312,6 @@ public class ViewPager: NSObject {
     }
     
     
-    
     /// Returns UIViewController for page at provided index.
     fileprivate func getPageItemViewController(atIndex index:Int) -> UIViewController? {
         
@@ -361,7 +360,7 @@ public class ViewPager: NSObject {
     }
     
     /// Invalidate the current tab layout and causes the layout to be drawn again.
-    public func invalidateTabs() {
+    public func invalidateCurrentTabs() {
         
         // Removing all the tabs from tabContainer
         _ = tabsViewList.map({ $0.removeFromSuperview() })
