@@ -31,6 +31,7 @@ public class ViewPagerOptions {
     
     public var isTabHighlightAvailable:Bool = true
     public var isTabIndicatorAvailable:Bool = true
+    public var isTabBarShadowAvailable:Bool = true
     
     public var tabViewBackgroundDefaultColor:UIColor = Color.tabViewBackground
     public var tabViewBackgroundHighlightColor:UIColor = Color.tabViewHighlight
@@ -38,7 +39,6 @@ public class ViewPagerOptions {
     public var tabViewTextDefaultColor:UIColor = Color.textDefault
     public var tabViewTextHighlightColor:UIColor = Color.textHighlight
     
-    // Tab Properties
     public var tabViewHeight:CGFloat = 60
     public var tabViewPaddingLeft:CGFloat = 10.0
     public var tabViewPaddingRight:CGFloat = 10.0
@@ -48,12 +48,19 @@ public class ViewPagerOptions {
     public var tabViewImageMarginTop:CGFloat = 5
     public var tabViewImageMarginBottom:CGFloat = 5
     
+    public var shadowColor: UIColor = UIColor.black
+    public var shadowOpacity: Float = 0.3
+    public var shadowOffset: CGSize = CGSize(width: 0, height: 3)
+    public var shadowRadius: CGFloat = 3
+    
     // Tab Indicator
     public var tabIndicatorViewHeight:CGFloat = 3
     public var tabIndicatorViewBackgroundColor:UIColor = Color.tabIndicator
     
+    
     // ViewPager
     public var viewPagerTransitionStyle:UIPageViewController.TransitionStyle = .scroll
+    
     
     public init() {
         // Initialization

@@ -170,6 +170,17 @@ public class ViewPager: NSObject {
         if options.isTabHighlightAvailable {
             self.tabsViewList[currentPageIndex].addHighlight(options: self.options)
         }
+        
+        if options.isTabBarShadowAvailable {
+            
+            tabContainer.layer.masksToBounds = false
+            tabContainer.layer.shadowColor = options.shadowColor.cgColor
+            tabContainer.layer.shadowOpacity = options.shadowOpacity
+            tabContainer.layer.shadowOffset = options.shadowOffset
+            tabContainer.layer.shadowRadius = options.shadowRadius
+            
+            view.bringSubviewToFront(tabContainer)
+        }
     }
     
     fileprivate func setupTabsForNormalAndEqualDistribution(distribution: ViewPagerOptions.Distribution) {
