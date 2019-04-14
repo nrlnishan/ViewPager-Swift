@@ -51,24 +51,46 @@ public class ViewPager: NSObject {
     fileprivate var currentPageIndex = 0
     
     
-    // MARK:- Public Helpers
+    
+    /// Initializes the ViewPager class.
+    ///
+    /// - Parameters:
+    ///   - viewController: UIViewController in which this view pager is to be initialized
+    ///   - containerView: Container view on which viewpager is to be shown. If its nil, default view of UIViewController is used
     public init(viewController: UIViewController, containerView: UIView? = nil) {
         self.controller = viewController
         self.view = containerView ?? viewController.view
     }
     
+    
+    /// Sets the customization options for ViewPager. This should be called before the build method.
+    /// Setting of options is mandatory.
+    ///
+    /// - Parameter options: Customization options instance
     public func setOptions(options: ViewPagerOptions) {
         self.options = options
     }
     
+    
+    /// Sets the datasource of the viewpager. This should be called before the build method.
+    /// Setting of data source is mandatory.
+    ///
+    /// - Parameter dataSource: DataSource for this viewpager
     public func setDataSource(dataSource: ViewPagerDataSource) {
         self.dataSource = dataSource
     }
     
+    
+    /// Sets the delegates of the viewpager. This method is optional
+    ///
+    /// - Parameter delegate: Delegate for this viewpager.
     public func setDelegate(delegate: ViewPagerDelegate?) {
         self.delegate = delegate
     }
     
+    
+    /// Initiates the ViewPager creation process. It creates tabs, viewController pages, and tab indicator
+    /// Make sure Options & ViewPagerDataSource is set before calling this method.
     public func build() {
         setupTabContainerView()
         setupPageViewController()

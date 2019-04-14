@@ -1,14 +1,30 @@
-ViewPager-Swift
-===================
- 
+
+# ViewPager-Swift
+
 An easy to use view pager library for iOS in Swift based on UIPageViewController and Scroll View along with multiple customization options and tap as well as swipe gesture for changing between pages.
 
-## Installation ##
+## What's New
+This release 2.0.0 provides support for swift 4.2 & onwards. Use previous releases if you want to support older versions of swift.
 
->**NOTE:** **Master** branch contains project support for Swift 4. If you are looking for Swift 3.* version, Please use release version 1.1.1. 
+This release contains changes which are not compatible with previous releases. I have tried to minimize the changes as much as possible to support backward compatibility.
+
+Changelog:
+
+- Renamed ViewPagerControllerDataSource to ViewPagerDataSource
+- Renamed ViewPagerControllerDelegate to ViewPagerDelegate
+- Simplified the way to create ViewPager & its Options. See How to use section
+- Introduced property to show shadow below tab bar 
+
+
+## Installation
+
+>**NOTE:** 
+> Release 2.0.0 provides support for Swift 4.2 & onwards . If you are using older versions of Swift, use previous releases.
+> 
+> This documentation is for Release 2.0.0. It slightly differs from previous releases. If you are looking for previous documentation, refer to **swift4.0** branch.
 
 **Using Cocoapods**
- 
+
 1. Add following in your podfile
 ```
 pod 'ViewPager-Swift'
@@ -20,33 +36,35 @@ pod 'ViewPager-Swift'
 
 Add 
 
-1. ViewPagerController.swift
+1. ViewPager.swift
 2. ViewPagerOptions.swift 
 3. ViewPagerTab.swift
 4. ViewPagerTabView.swift 
 
 files in your project.All files are present inside ViewPager-Swift/Core directory.
 
-## Screenshots ##
+## Screenshots 
 
-![Screenshot-without-basic-tab-view](/Screenshots/Screenshot-1-new.png?raw=true)
-![Screenshot-with-image-tab-view](/Screenshots/Screenshot-2-new.png?raw=true)
-![Screenshot-with-image-with-text-tab-view](/Screenshots/Screenshot-3-new.png?raw=true)
-![Screenshot-without-tab-highlight](/Screenshots/screenshot-4-new.png?raw=true)
+![Screenshot-with-image-and-text](/Screenshots/Screenshot-1.png?raw=true)
+![Screenshot-with-text-only](/Screenshots/Screenshot-2.png?raw=true)
+![Screenshot-with-image-text-segmented](/Screenshots/Screenshot-3.png?raw=true)
 
 ## Contribution
-You can always contribute to the project by creating a PR to development branch.
+You can always contribute to the project by creating a PR to **development** branch.
 
-## How to use ##
+## How to use 
 
 >1. Customize your View Pager with the help of ViewPagerOptions class
->2. Pass that options to ViewPagerController and set its datasource
->3. That's it
+>2. Create ViewPager instance and set its options, datasource & delegates. That's it
 
-1. 
+> You can find the implementation example on  MainViewController.swift & TestViewController.swift files.
+
+
+
+**Step 1:**
 During its initialization, default options are set for view pager. So just this single line is enough if you want to use default configuration.
 ```
-let myOptions= ViewPagerOptions(viewPagerWithFrame: self.view.bounds)
+let myOptions= ViewPagerOptions()
 ```
 
 For further customization,
@@ -55,7 +73,7 @@ For further customization,
 myOptions.tabType = ViewPagerTabType.imageWithText
 
 // If I want all my tabs to be of equal width
-myOptions.isEachTabEvenlyDistributed = true
+myOptions.distribution = ViewPagerOptions.Distribution.equal
 
 // If I don't want my tab to get highlighted for page
 myOptions.isTabHighlightAvailable = false
@@ -69,55 +87,42 @@ myOptions.tabViewBackgroundDefaultColor = UIColor.redColor()
 // and many more...
 ```
 
-2.
+**Step 2:**
 ```
-let viewPager = ViewPagerController()
-viewPager.options = myOptions
-viewPager.dataSource = self
-
-//Now let me add this to my viewcontroller
-self.addChildViewController(viewPager)
-self.view.addSubView(viewPager.view)
-viewPager.didMove(ToParentViewController: self)
+let viewPager = ViewPager(viewController: self)
+viewPager.setOptions(options: options)
+viewPager.setDataSource(dataSource: self)
+viewPager.setDelegate(delegate: self)
+viewPager.build()
 ```
-That's it.  Conform to **ViewPagerControllerDataSource** and you are good to go. If you want, you can conform to **ViewPagerControllerDelegate** to receive additional feedbacks.
 
-**DataSource**
+That's it. You need to conform to **ViewPagerDataSource** protocol to provide necessary data such as number of tabs, ViewController to display etc. If you want , you can conform to **ViewPagerDelegate** protocol to receive additional feedbacks.
 
-let's set datasource
+**ViewPagerDataSource:**
+
 ```
-viewPager.dataSource= self
-
-// Okay let me provide it with number of pages required
-
+// Provide number of pages required
 func numberOfPages() -> Int
 
-// I can provide different view controller for different page 
-
+// Provide ViewController for each page 
 func viewControllerAtPosition(position:Int) -> UIViewController
 
-// let me provide tabs info for all page
-
+// Provide info for each tab
 func tabsForPages() -> [ViewPagerTab]
 
 // Yayy! I can start from any page
-
 optional func startViewPagerAtIndex()->Int
 ```
 
-**Delegate**
+**ViewPagerDelegate:**
 
-Let's set delegate
-```
-viewPager.delegate = self
-```
 Called when transition to another view controller starts but is not completed
 ```
-optional func willMoveToControllerAtIndex(index:Int)
+func willMoveToControllerAtIndex(index:Int)
 ```
-called when transiton to another view controller is completed
+Called when transiton to another view controller is completed
 ```
-optional func didMoveToControllerAtIndex(index:Int)
+func didMoveToControllerAtIndex(index:Int)
 ```
 
 **Additional**
@@ -125,7 +130,7 @@ optional func didMoveToControllerAtIndex(index:Int)
 You can also change the page programatically. Suppose you want to display 3rd page.
 
 ```
-viewpager.displayViewController(atIndex: 2)	// Since index starts from 0
+viewpager.displayViewController(atIndex: 2)    // Since index starts from 0
 ```
 
 Note: If you want the viewpager to show specific page when it loads, use ``` func startViewPagerAtIndex()->Int ``` method from datasource.
@@ -133,29 +138,51 @@ Note: If you want the viewpager to show specific page when it loads, use ``` fun
 
 Also, you can update any of the viewpager tab. Just update the ViewPagerTab array which you are providing through the datasource. and then call
 ```
-viewpager.invalidateTabs()
+viewpager.invalidateCurrentTabs()
 ```
 
 
-## Customization ##
-You can perform lots of customization. If you want to look under the hoods, all the **public variables** inside ViewPagerOptions.swift file is customizable.
+## Customization 
+You can perform lots of customization. If you want to look under the hoods, all the **public variables** inside **ViewPagerOptions.swift** file is customizable.
 
+>**Notes:**
+>
 >**Tab Indicator:** Horizontal bar of small thickness which is displayed under tab for current page
 
 >**TabView:** Horizontal bar shown above viewpager which displays image or name of page.
+>
+>**Distribution:** Enum which defines how the tabs should be laid out
 
 
-**Booleans:**
+**Enums:**
 
-Which type of tabs to display
 ```
 tabType:ViewPagerTabType
 ```
+Determines which type of tab should be displayed.
+
 >**basic:** Tab containing only name of the page
 
 >**image:** Tab containing only image for the page
 
 >**imageWithText:** Tab showing image and name (below image) for the page
+
+```
+distribution: ViewPagerOptions.Distribution
+```
+Determines how the tabs should be laid out
+
+>**normal**: 
+>Tabs are laid out from Left to Right and is scrollable 
+> Width of each tab is equal to its content width + paddings set in options.
+
+>**equal**:
+>Tabs are laid out from Left to Right and is scrollable. Width of all the tabs are equal. The width of all the tabs is equal to that of the largest ones.
+
+>**segmented**:
+>Tabs are laid out from Left to Right in such a way that it doesnot exceeds the width of its container. So its not scrollable. i.e All the tabs fits within a view. Paddings are ignored.
+
+**Tab View and Tab Indicator:**
 
 Whether to highlight tab for current page or not, Default is false
 ```
@@ -165,17 +192,8 @@ Whether to display tab indicator or not, Default is true
 ```
 isTabIndicatorAvailable:Bool
 ```
-Whether to distribute tabs of even width, If set to true, each tabs width will be equal to largest tab. Default is false.
-```
-isEachTabEvenlyDistributed:Bool
-```
-Whether to fit all tabs in Screen or not. If set to true, all tabs are squeezed to fit inside frame of view pager.Default is false
-```
-fitAllTabsInView:Bool
-```
-**Tab View and Tab Indicator:**
 
-Height for tab, Default is 50
+Height for tab, Default is 60
 ```
 tabViewHeight:CGFloat
 ```
@@ -214,13 +232,28 @@ tabViewTextFont: UIFont
 ```
 Size of the image inside tab. Used incase tabtype is image or imageWithText.
 ```
-tabViewImageSize:CGSize
+tabViewImageSize: CGSize
 ```
 Top and Bottom margin for the image inside tab. Used incase tabtype is imageWithText. Else image is automatically centered inside tab.
 ```
-tabViewImageMarginTop:CGFloat
-tabViewImageMarginBottom:CGFloat
+tabViewImageMarginTop: CGFloat
+tabViewImageMarginBottom: CGFloat
 ```
+
+Displays shadow below the tab bar.
+```
+isTabBarShadowAvailable: Bool
+```
+
+Shadow Customization. Works only if ```isTabBarShadowAvailable``` is set to true.
+```
+shadowColor: UIColor
+shadowOpacity: Float
+shadowOffset: CGSize
+shadowRadius: CGFloat
+```
+
+
 **View Pager**
 
 Transition style for each page, Default is scroll
@@ -229,7 +262,7 @@ viewPagerTransitionStyle:UIPageViewControllerTransitionStyle
 ```
 
 
-## License ##
+## License 
 The MIT License (MIT)
 
 Copyright (c) 2016 nrlnishan
@@ -251,4 +284,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
