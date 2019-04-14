@@ -60,27 +60,20 @@ public final class ViewPagerTabView: UIView {
      */
     fileprivate func setupBasicTab(options:ViewPagerOptions, tab:ViewPagerTab) {
         
+        buildTitleLabel(withOptions: options, text: tab.title)
+        
+        setupForAutolayout(view: titleLabel)
+        titleLabel?.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        titleLabel?.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        titleLabel?.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        titleLabel?.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         
         let distribution = options.distribution
         
-        switch distribution {
-        case .segmented:
-            
-            buildTitleLabel(withOptions: options, text: tab.title)
-            
-            titleLabel?.setupForAutolayout(inView: self)
-            titleLabel?.pinSides(inView: self)
-            
-        case .equal, .normal:
-            
-            buildTitleLabel(withOptions: options, text: tab.title)
-            
-            let labelWidth = titleLabel!.intrinsicContentSize.width + options.tabViewPaddingLeft + options.tabViewPaddingRight
-            self.width = labelWidth
-            
-            titleLabel?.setupForAutolayout(inView: self)
-            titleLabel?.pinSides(inView: self)
-        }
+        guard distribution == .equal || distribution == .normal else { return }
+        
+        let labelWidth = titleLabel!.intrinsicContentSize.width + options.tabViewPaddingLeft + options.tabViewPaddingRight
+        self.width = labelWidth
     }
     
     /**
@@ -109,13 +102,13 @@ public final class ViewPagerTabView: UIView {
                 buildImageView(withOptions: options, image: tab.image)
                 buildTitleLabel(withOptions: options, text: tab.title)
                 
-                imageView?.setupForAutolayout(inView: self)
+                setupForAutolayout(view: imageView)
                 imageView?.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
                 imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
                 imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
                 imageView?.topAnchor.constraint(equalTo: self.topAnchor, constant: options.tabViewImageMarginTop).isActive = true
                 
-                titleLabel?.setupForAutolayout(inView: self)
+                setupForAutolayout(view: titleLabel)
                 titleLabel?.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
                 titleLabel?.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
                 titleLabel?.topAnchor.constraint(equalTo: imageView!.bottomAnchor, constant: options.tabViewImageMarginBottom).isActive = true
@@ -125,7 +118,7 @@ public final class ViewPagerTabView: UIView {
                 
                 buildImageView(withOptions: options, image: tab.image)
                 
-                imageView?.setupForAutolayout(inView: self)
+                setupForAutolayout(view: imageView)
                 imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
                 imageView?.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
                 imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
@@ -140,13 +133,13 @@ public final class ViewPagerTabView: UIView {
                 buildImageView(withOptions: options, image: tab.image)
                 buildTitleLabel(withOptions: options, text: tab.title)
                 
-                imageView?.setupForAutolayout(inView: self)
+                setupForAutolayout(view: imageView)
                 imageView?.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
                 imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
                 imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
                 imageView?.topAnchor.constraint(equalTo: self.topAnchor, constant: options.tabViewImageMarginTop).isActive = true
                 
-                titleLabel?.setupForAutolayout(inView: self)
+                setupForAutolayout(view: titleLabel)
                 titleLabel?.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
                 titleLabel?.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
                 titleLabel?.topAnchor.constraint(equalTo: imageView!.bottomAnchor, constant: options.tabViewImageMarginBottom).isActive = true
@@ -163,7 +156,7 @@ public final class ViewPagerTabView: UIView {
                 // Creating imageview
                 buildImageView(withOptions: options, image: tab.image)
                 
-                imageView?.setupForAutolayout(inView: self)
+                setupForAutolayout(view: imageView)
                 imageView?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
                 imageView?.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
                 imageView?.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
@@ -208,5 +201,13 @@ public final class ViewPagerTabView: UIView {
         
         self.backgroundColor = options.tabViewBackgroundDefaultColor
         self.titleLabel?.textColor = options.tabViewTextDefaultColor
+    }
+    
+    internal func setupForAutolayout(view: UIView?) {
+        
+        guard let v = view else { return }
+        
+        v.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(v)
     }
 }

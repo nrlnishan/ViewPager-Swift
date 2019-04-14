@@ -132,7 +132,7 @@ public class ViewPager: NSObject {
         let pageController = UIPageViewController(transitionStyle: options.viewPagerTransitionStyle, navigationOrientation: .horizontal, options: nil)
         
         self.controller?.addChild(pageController)
-        pageController.view.setupForAutolayout(inView: view)
+        setupForAutolayout(view: pageController.view, inView: view)
         pageController.didMove(toParent: controller)
         self.pageController = pageController
         
@@ -175,7 +175,7 @@ public class ViewPager: NSObject {
         
         if options.isTabIndicatorAvailable {
             
-            tabIndicator.setupForAutolayout(inView: self.tabContainer)
+            setupForAutolayout(view: tabIndicator, inView: tabContainer)
             tabIndicator.backgroundColor = options.tabIndicatorViewBackgroundColor
             tabIndicator.heightAnchor.constraint(equalToConstant: options.tabIndicatorViewHeight).isActive = true
             tabIndicator.bottomAnchor.constraint(equalTo: tabContainer.bottomAnchor).isActive = true
@@ -214,7 +214,7 @@ public class ViewPager: NSObject {
         for (index, eachTab) in tabsList.enumerated() {
             
             let tabView = ViewPagerTabView()
-            tabView.setupForAutolayout(inView: tabContainer)
+            setupForAutolayout(view: tabView, inView: tabContainer)
             
             tabView.backgroundColor = options.tabViewBackgroundDefaultColor
             tabView.setup(tab: eachTab, options: options)
@@ -264,7 +264,7 @@ public class ViewPager: NSObject {
         for (index, eachTab) in self.tabsList.enumerated() {
             
             let tabView = ViewPagerTabView()
-            tabView.setupForAutolayout(inView: tabContainer)
+            setupForAutolayout(view: tabView, inView: tabContainer)
             tabView.backgroundColor = options.tabViewBackgroundDefaultColor
             
             if let previousTab = lastTab {
@@ -446,20 +446,13 @@ extension ViewPager: UIPageViewControllerDelegate {
         let pageIndex = pendingViewControllers.first?.view.tag
         delegate?.willMoveToControllerAtIndex(index: pageIndex!)
     }
-}
-
-extension UIView {
     
-    func setupForAutolayout(inView v: UIView) {
-        v.addSubview(self)
-        self.translatesAutoresizingMaskIntoConstraints = false
-    }
     
-    func pinSides(inView v: UIView) {
+    internal func setupForAutolayout(view: UIView?, inView parentView: UIView) {
         
-        self.leadingAnchor.constraint(equalTo: v.leadingAnchor).isActive = true
-        self.trailingAnchor.constraint(equalTo: v.trailingAnchor).isActive = true
-        self.bottomAnchor.constraint(equalTo: v.bottomAnchor).isActive = true
-        self.topAnchor.constraint(equalTo: v.topAnchor).isActive = true
+        guard let v = view else { return }
+        
+        v.translatesAutoresizingMaskIntoConstraints = false
+        parentView.addSubview(v)
     }
 }

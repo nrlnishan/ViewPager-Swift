@@ -24,7 +24,9 @@ class ItemViewController: UIViewController {
         super.viewDidLoad()
 
         let itemLabel = UILabel()
-        itemLabel.setupForAutolayout(inView: self.view)
+        itemLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(itemLabel)
+        
         itemLabel.textAlignment = .center
         itemLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         itemLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
