@@ -4,7 +4,7 @@
 An easy to use view pager library for iOS in Swift based on UIPageViewController and Scroll View along with multiple customization options and tap as well as swipe gesture for changing between pages.
 
 ## What's New
-This release 2.0.0 provides support for swift 4.2 & onwards. Use previous releases if you want to support older versions of swift.
+This release 2.0.1 provides support for swift 4.2 & onwards. Use previous releases if you want to support older versions of swift.
 
 This release contains changes which are not compatible with previous releases. I have tried to minimize the changes as much as possible to support backward compatibility.
 
@@ -19,9 +19,9 @@ Changelog:
 ## Installation
 
 >**NOTE:** 
-> Release 2.0.0 provides support for Swift 4.2 & onwards . If you are using older versions of Swift, use previous releases.
+> Release 2.0.1 provides support for Swift 4.2 & onwards . If you are using older versions of Swift, use previous releases.
 > 
-> This documentation is for Release 2.0.0. It slightly differs from previous releases. If you are looking for previous documentation, refer to **swift4.0** branch.
+> This documentation is for Release 2.0.1. It slightly differs from previous releases. If you are looking for previous documentation, refer to **swift4.0** branch.
 
 **Using Cocoapods**
 
