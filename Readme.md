@@ -6,6 +6,7 @@ An easy to use view pager library for iOS in Swift based on UIPageViewController
 ## Installation ##
 
 >**IMPORTANT**
+>
 > New version 2.0.1 of this library has been released which suppors swift 4.2 & 5 above. This version (2.0.1) contains many fixes and also introduces easier way to implement this library. Therefore, all the versions below 2.0.1 is depreciated and will be no longer supported. Please update the pod to latest version. I am sorry for any inconvenience caused.
 >**Master** branch contains project support for Swift 4. If you are looking for Swift 3.* version, Please use release version 1.1.1. 
 
