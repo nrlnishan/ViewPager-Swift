@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A2BA3702262317000F4F468 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2BA36F2262317000F4F468 /* TestViewController.swift */; };
-		1A3C5E56225FB6C000963291 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C5E55225FB6C000963291 /* ViewPager.swift */; };
+		1ADE2276264B79880037F580 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE2275264B79880037F580 /* ViewPager.swift */; };
 		30CA0C751E286E2000568C25 /* ViewPagerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */; };
 		30CA0C761E286E2000568C25 /* ViewPagerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C721E286E2000568C25 /* ViewPagerTab.swift */; };
 		30CA0C771E286E2000568C25 /* ViewPagerTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA0C731E286E2000568C25 /* ViewPagerTabView.swift */; };
@@ -22,7 +22,7 @@
 
 /* Begin PBXFileReference section */
 		1A2BA36F2262317000F4F468 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		1A3C5E55225FB6C000963291 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
+		1ADE2275264B79880037F580 /* ViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPager.swift; path = Core/ViewPager.swift; sourceTree = "<group>"; };
 		30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerOptions.swift; path = Core/ViewPagerOptions.swift; sourceTree = "<group>"; };
 		30CA0C721E286E2000568C25 /* ViewPagerTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerTab.swift; path = Core/ViewPagerTab.swift; sourceTree = "<group>"; };
 		30CA0C731E286E2000568C25 /* ViewPagerTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewPagerTabView.swift; path = Core/ViewPagerTabView.swift; sourceTree = "<group>"; };
@@ -50,10 +50,10 @@
 		307AB1F11E24CAEE00DA89CD /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1ADE2275264B79880037F580 /* ViewPager.swift */,
 				30CA0C711E286E2000568C25 /* ViewPagerOptions.swift */,
 				30CA0C721E286E2000568C25 /* ViewPagerTab.swift */,
 				30CA0C731E286E2000568C25 /* ViewPagerTabView.swift */,
-				1A3C5E55225FB6C000963291 /* ViewPager.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = Nishan;
 				TargetAttributes = {
 					5F7D16CB1C6A1F80006B63C2 = {
@@ -166,8 +166,8 @@
 				5F7D16F01C6A3451006B63C2 /* ItemViewController.swift in Sources */,
 				5F7D16D01C6A1F80006B63C2 /* AppDelegate.swift in Sources */,
 				30CA0C761E286E2000568C25 /* ViewPagerTab.swift in Sources */,
-				1A3C5E56225FB6C000963291 /* ViewPager.swift in Sources */,
 				30CA0C751E286E2000568C25 /* ViewPagerOptions.swift in Sources */,
+				1ADE2276264B79880037F580 /* ViewPager.swift in Sources */,
 				5F7D16E41C6A226C006B63C2 /* MainViewController.swift in Sources */,
 				1A2BA3702262317000F4F468 /* TestViewController.swift in Sources */,
 				30CA0C771E286E2000568C25 /* ViewPagerTabView.swift in Sources */,
@@ -219,6 +219,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -243,7 +244,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -276,6 +277,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -294,7 +296,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

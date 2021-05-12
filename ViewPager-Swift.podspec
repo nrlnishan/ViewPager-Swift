@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ViewPager-Swift'
-  s.version          = '2.0.1'
+  s.version          = '2.0.2'
   s.summary          = 'Simple View Pager library for swift using UIPageViewController and Scroll View.'
  
   s.description      = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.author           = { 'Nishan Niraula' => 'githubnrlnishan@gmail.com' }
   s.source           = { :git => 'https://github.com/nrlnishan/ViewPager-Swift.git', :tag => s.version.to_s }
  
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '12.0'
   s.source_files = 'ViewPager-Swift/Core/*.swift'
  
 end

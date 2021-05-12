@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public protocol ViewPagerDataSource: class {
+public protocol ViewPagerDataSource: AnyObject {
     
     /// Number of pages to be displayed
     func numberOfPages() -> Int
@@ -24,7 +24,7 @@ public protocol ViewPagerDataSource: class {
     func startViewPagerAtIndex()->Int
 }
 
-public protocol ViewPagerDelegate: class {
+public protocol ViewPagerDelegate: AnyObject {
     
     func willMoveToControllerAtIndex(index:Int)
     func didMoveToControllerAtIndex(index:Int)
