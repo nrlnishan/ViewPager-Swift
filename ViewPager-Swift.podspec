@@ -14,5 +14,6 @@ Pod::Spec.new do |s|
  
   s.ios.deployment_target = '12.0'
   s.source_files = 'ViewPager-Swift/Core/*.swift'
+  s.swift_version = '5.4'
  
 end
